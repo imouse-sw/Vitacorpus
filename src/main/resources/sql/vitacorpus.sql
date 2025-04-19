@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS vitacorpus.TBL_USUARIO
     usuario VARCHAR(45) NOT NULL,
     email VARCHAR(45) NOT NULL,
     contrasena VARCHAR(20) NOT NULL,
-    fechaRegistro DATE
+    fechaRegistro TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 # ----------------------------

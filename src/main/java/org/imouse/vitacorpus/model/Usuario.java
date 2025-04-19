@@ -2,7 +2,7 @@ package org.imouse.vitacorpus.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import java.sql.Date;
+import java.sql.Timestamp;
 
 @Data
 @NoArgsConstructor
@@ -23,6 +23,6 @@ public class Usuario extends Entidad
     @Column(name = "contrasena", nullable = false)
     private String password;
 
-    @Column(name = "fechaRegistro", nullable = false)
-    private Date fechaRegistro;
+    @Column(name = "fechaRegistro", nullable = false, updatable = false, insertable = false)
+    private Timestamp fechaRegistro;
 }

@@ -9,7 +9,6 @@
 		<property name="hibernate.connection.username">root</property>
 		<property name="hibernate.connection.password">n0m3l0</property>
 		<property name="hibernate.default_schema">vitacorpus</property>
-		<property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
 		<!-- JDBC connection pool (use the built-in) -->
 		<property name="connection.pool.size">1</property>
 		<property name="current_session_context_class">thread</property>

@@ -1,15 +1,13 @@
 package org.imouse.vitacorpus.ui;
 
-import org.imouse.vitacorpus.util.Login;
-import org.imouse.vitacorpus.util.SignUp;
+import lombok.NoArgsConstructor;
+import org.imouse.vitacorpus.funciones.login.Login;
+import org.imouse.vitacorpus.funciones.login.SignUp;
 
+@NoArgsConstructor
 public class Consola extends ManejoMenus
 {
     private static Consola consola;
-
-    private Consola()
-    {
-    }
 
     public static Consola getInstance()
     {

@@ -57,8 +57,11 @@ CREATE TABLE IF NOT EXISTS vitacorpus.TBL_REGISTRO_DATOS
     edad INT NOT NULL,
     peso DECIMAL(5,2) NOT NULL,
     estatura DECIMAL(5,2) NOT NULL,
-    fechaActualizacion TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    imc DECIMAL(5,2) NOT NULL
+    fechaActualizacion TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    imc DECIMAL(5,2) NOT NULL,
+    TBL_USUARIO_idUsuario INT NOT NULL,
+    
+    FOREIGN KEY (TBL_USUARIO_idUsuario) REFERENCES vitacorpus.TBL_USUARIO(idUsuario)
 );
 
 # ----------------------------

@@ -1,12 +1,12 @@
 package org.imouse.vitacorpus.ui;
 
+import lombok.NoArgsConstructor;
+import org.imouse.vitacorpus.funciones.data.Datos;
+
+@NoArgsConstructor
 public class MenuPrincipal extends ManejoMenus
 {
     private static MenuPrincipal menuPrincipal;
-
-    private MenuPrincipal()
-    {
-    }
 
     public static MenuPrincipal getInstance()
     {
@@ -20,8 +20,9 @@ public class MenuPrincipal extends ManejoMenus
     @Override
     public void despliegaMenu()
     {
-        System.out.println("En proceso... :P");
-        System.out.println("1. Salir");
+        System.out.println("\n\t-> Bienvenido al menú principal de Vitacorpus <-");
+        System.out.println("1. Registrar mis datos");
+        System.out.println("2. Salir");
         System.out.print("> Ingresa tu opción: ");
     }
 
@@ -34,11 +35,25 @@ public class MenuPrincipal extends ManejoMenus
     @Override
     public int valorMaxMenu()
     {
-        return 1;
+        return 2;
     }
 
     @Override
     public void manejoOpcion()
     {
+        Ejecutable ejecutable = null;
+        switch (opcion)
+        {
+            case 1:
+                ejecutable = Datos.getInstance();
+                break;
+            default:
+                break;
+        }
+        if(ejecutable!=null)
+        {
+            ejecutable.setFlag(true);
+            ejecutable.run();
+        }
     }
 }

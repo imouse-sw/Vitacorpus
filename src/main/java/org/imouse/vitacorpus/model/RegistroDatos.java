@@ -17,6 +17,10 @@ public class RegistroDatos extends Entidad
     @Column(name = "numero", nullable = false)
     private int numero;
 
+    @ManyToOne
+    @JoinColumn(name = "TBL_USUARIO_idUsuario", nullable = false)
+    private Usuario usuario;
+
     @Column(name = "edad", nullable = false)
     private int edad;
 

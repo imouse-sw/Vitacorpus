@@ -1,6 +1,7 @@
 package org.imouse.vitacorpus.util;
 
 import org.imouse.vitacorpus.model.Usuario;
+import org.imouse.vitacorpus.funciones.login.SignUp;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

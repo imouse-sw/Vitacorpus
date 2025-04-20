@@ -3,31 +3,33 @@ package org.imouse.vitacorpus.sql.hiberimpl;
 import lombok.NoArgsConstructor;
 import org.hibernate.Session;
 import org.imouse.vitacorpus.hibernate.HibernateUtil;
-import org.imouse.vitacorpus.model.Usuario;
+import org.imouse.vitacorpus.model.RegistroDatos;
+import org.imouse.vitacorpus.model.RegistroDatos;
 import org.imouse.vitacorpus.sql.Sql;
+
 import java.util.List;
 
 @NoArgsConstructor
-public class UsuarioHiberImpl implements Sql<Usuario>
+public class RegistroHiberImpl implements Sql<RegistroDatos>
 {
-    private static UsuarioHiberImpl usuarioHiber;
+    private static RegistroHiberImpl registroHiber;
 
-    public static UsuarioHiberImpl getInstance()
+    public static RegistroHiberImpl getInstance()
     {
-        if(usuarioHiber==null)
+        if(registroHiber==null)
         {
-            usuarioHiber = new UsuarioHiberImpl();
+            registroHiber = new RegistroHiberImpl();
         }
-        return usuarioHiber;
+        return registroHiber;
     }
 
     @Override
-    public List<Usuario> findAll()
+    public List<RegistroDatos> findAll()
     {
         Session session = HibernateUtil.getSession();
         assert session != null;
-        List<Usuario> list = session
-                .createQuery("FROM Usuario", Usuario.class)
+        List<RegistroDatos> list = session
+                .createQuery("FROM RegistroDatos", RegistroDatos.class)
                 .getResultList();
 
         session.close();
@@ -35,13 +37,13 @@ public class UsuarioHiberImpl implements Sql<Usuario>
     }
 
     @Override
-    public boolean save(Usuario usuario)
+    public boolean save(RegistroDatos registroDatos)
     {
         Session session = HibernateUtil.getSession();
         assert session != null;
         session.beginTransaction();
 
-        session.persist(usuario);
+        session.persist(registroDatos);
         session.getTransaction().commit();
 
         session.close();
@@ -49,13 +51,13 @@ public class UsuarioHiberImpl implements Sql<Usuario>
     }
 
     @Override
-    public boolean update(Usuario usuario)
+    public boolean update(RegistroDatos registroDatos)
     {
         Session session = HibernateUtil.getSession();
         assert session != null;
         session.beginTransaction();
 
-        session.merge(usuario);
+        session.merge(registroDatos);
         session.getTransaction().commit();
 
         session.close();
@@ -63,13 +65,13 @@ public class UsuarioHiberImpl implements Sql<Usuario>
     }
 
     @Override
-    public boolean delete(Usuario usuario)
+    public boolean delete(RegistroDatos registroDatos)
     {
         Session session = HibernateUtil.getSession();
         assert session != null;
         session.beginTransaction();
 
-        session.remove(usuario);
+        session.remove(registroDatos);
         session.getTransaction().commit();
 
         session.close();
@@ -77,15 +79,15 @@ public class UsuarioHiberImpl implements Sql<Usuario>
     }
 
     @Override
-    public Usuario findById(Integer id)
+    public RegistroDatos findById(Integer id)
     {
         Session session = HibernateUtil.getSession();
         assert session != null;
 
-        Usuario usuario = session
-                .get(Usuario.class, id);
+        RegistroDatos registroDatos = session
+                .get(RegistroDatos.class, id);
 
         session.close();
-        return usuario;
+        return registroDatos;
     }
 }

@@ -1,8 +1,9 @@
-package org.imouse.vitacorpus.util;
+package org.imouse.vitacorpus.funciones.login;
 
 import org.imouse.vitacorpus.model.Usuario;
 import org.imouse.vitacorpus.sql.hiberimpl.UsuarioHiberImpl;
 import org.imouse.vitacorpus.ui.Ejecutable;
+import org.imouse.vitacorpus.util.ReadUtil;
 
 import java.util.List;
 

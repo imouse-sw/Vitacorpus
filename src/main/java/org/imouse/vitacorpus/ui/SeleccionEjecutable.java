@@ -1,5 +1,7 @@
 package org.imouse.vitacorpus.ui;
 
+import org.imouse.vitacorpus.ui.Ventanas.VentanaPrincipal;
+
 public class SeleccionEjecutable extends ManejoMenus
 {
     private static SeleccionEjecutable seleccionEjecutable;
@@ -50,7 +52,7 @@ public class SeleccionEjecutable extends ManejoMenus
                 ejecutable = Consola.getInstance();
                 break;
             case 2:
-                ejecutable = Ventana.getInstance();
+                ejecutable = VentanaPrincipal.getInstance();
                 break;
             default:
                 break;

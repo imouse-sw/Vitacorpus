@@ -1,0 +1,131 @@
+package org.imouse.vitacorpus.ui.Ventanas;
+
+import org.imouse.vitacorpus.model.Usuario;
+import org.imouse.vitacorpus.sql.hiberimpl.UsuarioHiberImpl;
+import org.imouse.vitacorpus.ui.MenuPrincipal;
+
+import javax.swing.*;
+import java.awt.*;
+import java.util.List;
+
+public class VentanaLoginSignUp extends JFrame {
+    private JTextField emailField;
+    private JPasswordField passwordField;
+    private JTextField usernameField;
+    private boolean esRegistro = false;
+
+    public VentanaLoginSignUp() {
+        setTitle("Vitacorpus - Iniciar sesión / Registrarse");
+        setSize(400, 300);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setLocationRelativeTo(null);
+        setResizable(false);
+
+        JPanel panel = new JPanel(new GridBagLayout());
+        panel.setBackground(new Color(230, 255, 240));
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(5, 10, 5, 10);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+
+        JLabel labelModo = new JLabel("Iniciar sesión");
+        labelModo.setFont(new Font("Arial", Font.BOLD, 18));
+        labelModo.setHorizontalAlignment(SwingConstants.CENTER);
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.gridwidth = 2;
+        panel.add(labelModo, gbc);
+
+        gbc.gridwidth = 1;
+
+        usernameField = new JTextField();
+        usernameField.setVisible(false);
+        gbc.gridy = 1;
+        panel.add(new JLabel("Usuario:"), gbc);
+        gbc.gridx = 1;
+        panel.add(usernameField, gbc);
+        gbc.gridx = 0;
+
+        emailField = new JTextField();
+        gbc.gridy = 2;
+        panel.add(new JLabel("Correo:"), gbc);
+        gbc.gridx = 1;
+        panel.add(emailField, gbc);
+        gbc.gridx = 0;
+
+        passwordField = new JPasswordField();
+        gbc.gridy = 3;
+        panel.add(new JLabel("Contraseña:"), gbc);
+        gbc.gridx = 1;
+        panel.add(passwordField, gbc);
+        gbc.gridx = 0;
+
+        JButton accionButton = new JButton("Iniciar sesión");
+        gbc.gridy = 4;
+        gbc.gridwidth = 2;
+        panel.add(accionButton, gbc);
+
+        JButton cambiarModo = new JButton("¿No tienes cuenta? Regístrate");
+        cambiarModo.setBorderPainted(false);
+        cambiarModo.setFocusPainted(false);
+        cambiarModo.setContentAreaFilled(false);
+        cambiarModo.setForeground(Color.BLUE);
+        cambiarModo.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        gbc.gridy = 5;
+        panel.add(cambiarModo, gbc);
+
+        accionButton.addActionListener(e -> {
+            String email = emailField.getText().trim();
+            String password = new String(passwordField.getPassword()).trim();
+
+            if (esRegistro) {
+                String username = usernameField.getText().trim();
+                if (username.isEmpty() || email.isEmpty() || password.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Completa todos los campos.");
+                    return;
+                }
+
+                List<Usuario> usuarios = UsuarioHiberImpl.getInstance().findAll();
+                boolean userExists = usuarios.stream().anyMatch(u -> u.getUsuario().equals(username));
+                boolean emailExists = usuarios.stream().anyMatch(u -> u.getEmail().equals(email));
+
+                if (userExists || emailExists) {
+                    JOptionPane.showMessageDialog(this, "Usuario o correo ya en uso.");
+                    return;
+                }
+
+                Usuario nuevo = new Usuario();
+                nuevo.setUsuario(username);
+                nuevo.setEmail(email);
+                nuevo.setPassword(password);
+                UsuarioHiberImpl.getInstance().save(nuevo);
+                JOptionPane.showMessageDialog(this, "Usuario registrado con éxito.");
+                cambiarModo.doClick();
+            } else {
+                Usuario usuario = UsuarioHiberImpl.getInstance().findAll().stream()
+                        .filter(u -> u.getEmail().equals(email) && u.getPassword().equals(password))
+                        .findFirst()
+                        .orElse(null);
+
+                if (usuario != null) {
+                    JOptionPane.showMessageDialog(this, "Bienvenido, " + usuario.getUsuario() + "!");
+                    dispose();
+                    MenuPrincipal.getInstance().run();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Correo o contraseña incorrectos.");
+                }
+            }
+        });
+
+        cambiarModo.addActionListener(e -> {
+            esRegistro = !esRegistro;
+            usernameField.setVisible(esRegistro);
+            labelModo.setText(esRegistro ? "Registrarse" : "Iniciar sesión");
+            accionButton.setText(esRegistro ? "Registrarse" : "Iniciar sesión");
+            cambiarModo.setText(esRegistro ? "¿Ya tienes cuenta? Inicia sesión" : "¿No tienes cuenta? Regístrate");
+            pack();
+        });
+
+        add(panel);
+        setVisible(true);
+    }
+}

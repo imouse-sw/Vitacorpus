@@ -23,7 +23,6 @@
 		<mapping class="org.imouse.vitacorpus.model.RegistroDatos"/>
 		<mapping class="org.imouse.vitacorpus.model.Objetivo"/>
 		<mapping class="org.imouse.vitacorpus.model.Preferencia"/>
-		<mapping class="org.imouse.vitacorpus.model.Calculadora"/>
 
     </session-factory>
 </hibernate-configuration>

@@ -2,7 +2,7 @@ package org.imouse.vitacorpus.ui;
 
 import lombok.NoArgsConstructor;
 import org.imouse.vitacorpus.ui.Ventanas.VentanaPrincipal;
-    
+
 @NoArgsConstructor
 public class SeleccionEjecutable extends ManejoMenus
 {

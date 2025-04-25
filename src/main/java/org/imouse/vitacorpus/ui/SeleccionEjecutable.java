@@ -1,12 +1,11 @@
 package org.imouse.vitacorpus.ui;
 
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor
 public class SeleccionEjecutable extends ManejoMenus
 {
     private static SeleccionEjecutable seleccionEjecutable;
-
-    private SeleccionEjecutable()
-    {
-    }
 
     public static SeleccionEjecutable getInstance()
     {

@@ -10,12 +10,11 @@ import org.imouse.vitacorpus.util.ReadUtil;
 
 import java.util.List;
 
-
 @NoArgsConstructor
 public class Datos extends ManejoMenus
 {
     private static Datos datos;
-    Usuario usuarioActual;
+    private Usuario usuarioActual;
 
     public static Datos getInstance()
     {
@@ -174,7 +173,7 @@ public class Datos extends ManejoMenus
         }
     }
 
-    public void explicacionIMC()
+    public void explicacionImc()
     {
         String flag = null;
 
@@ -244,7 +243,7 @@ public class Datos extends ManejoMenus
                 remove();
                 break;
             case 5:
-                explicacionIMC();
+                explicacionImc();
                 break;
             default:
                 break;

@@ -1,5 +1,6 @@
 package org.imouse.vitacorpus.funciones.login;
 
+import lombok.NoArgsConstructor;
 import org.imouse.vitacorpus.model.Usuario;
 import org.imouse.vitacorpus.sql.hiberimpl.UsuarioHiberImpl;
 import org.imouse.vitacorpus.ui.Ejecutable;
@@ -7,14 +8,11 @@ import org.imouse.vitacorpus.util.ReadUtil;
 
 import java.util.List;
 
+@NoArgsConstructor
 public class SignUp implements Ejecutable
 {
     private static SignUp signUp;
     private boolean flag;
-
-    private SignUp()
-    {
-    }
 
     public static SignUp getInstance()
     {

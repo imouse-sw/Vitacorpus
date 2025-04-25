@@ -9,5 +9,4 @@ public class SessionManager
     @Setter
     @Getter
     private static Usuario usuarioActual;
-
 }

@@ -41,7 +41,7 @@ public class MenuPrincipal extends ManejoMenus
     @Override
     public int valorMaxMenu()
     {
-        return 2;
+        return 3;
     }
 
     @Override

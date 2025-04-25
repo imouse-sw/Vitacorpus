@@ -3,6 +3,7 @@ package org.imouse.vitacorpus.ui;
 import lombok.NoArgsConstructor;
 import org.imouse.vitacorpus.funciones.login.Login;
 import org.imouse.vitacorpus.funciones.login.SignUp;
+import org.imouse.vitacorpus.funciones.CalculadoraSF;
 
 @NoArgsConstructor
 public class Consola extends ManejoMenus
@@ -24,7 +25,8 @@ public class Consola extends ManejoMenus
         System.out.println("\n\t-> Menú principal <-");
         System.out.println("1. Registro");
         System.out.println("2. Login");
-        System.out.println("3. Regresar");
+        System.out.println("3. Calculadora de sueño");
+        System.out.println("4. Regresar");
         System.out.print("> Ingresa tu opción: ");
     }
 
@@ -37,7 +39,7 @@ public class Consola extends ManejoMenus
     @Override
     public int valorMaxMenu()
     {
-        return 3;
+        return 4;
     }
 
     @Override
@@ -52,6 +54,8 @@ public class Consola extends ManejoMenus
             case 2:
                 ejecutable = Login.getInstance();
                 break;
+            case 3:
+                ejecutable = CalculadoraSF.getInstance();
             default:
                 break;
         }

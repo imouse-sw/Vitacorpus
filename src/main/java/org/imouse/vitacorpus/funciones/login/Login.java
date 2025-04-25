@@ -6,6 +6,7 @@ import org.imouse.vitacorpus.ui.Ejecutable;
 import org.imouse.vitacorpus.ui.MenuPrincipal;
 import org.imouse.vitacorpus.util.ReadUtil;
 
+import java.awt.*;
 import java.util.List;
 
 public class Login implements Ejecutable
@@ -46,8 +47,8 @@ public class Login implements Ejecutable
         {
             System.out.println("✅ Bienvenido, "+usuario.getUsuario()+"!");
             SessionManager.setUsuarioActual(usuario);
-            ejecutable = MenuPrincipal.getInstance();
-            ejecutable.run();
+            MenuPrincipal.resetInstance();
+            MenuPrincipal.getInstance().run();
         }
         else
         {

@@ -14,9 +14,6 @@ import java.sql.Timestamp;
 @AttributeOverride(name = "id", column=@Column(name = "idRegistro"))
 public class RegistroDatos extends Entidad
 {
-    @Column(name = "numero", nullable = false)
-    private int numero;
-
     @ManyToOne
     @JoinColumn(name = "TBL_USUARIO_idUsuario", nullable = false)
     private Usuario usuario;

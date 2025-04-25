@@ -17,12 +17,18 @@ public class MenuPrincipal extends ManejoMenus
         return menuPrincipal;
     }
 
+    public static void resetInstance()
+    {
+        menuPrincipal = null;
+    }
+
     @Override
     public void despliegaMenu()
     {
         System.out.println("\n\t-> Bienvenido al menú principal de Vitacorpus <-");
         System.out.println("1. Registrar mis datos");
-        System.out.println("2. Salir");
+        System.out.println("2. Elegir mis objetivos");
+        System.out.println("3. Salir");
         System.out.print("> Ingresa tu opción: ");
     }
 

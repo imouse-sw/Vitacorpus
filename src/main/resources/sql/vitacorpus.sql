@@ -126,19 +126,6 @@ CREATE TABLE IF NOT EXISTS vitacorpus.REL_USUARIO_PREF
 );
 
 # ----------------------------
-# Relación REL_USUARIO_OBJ
-# ----------------------------
-CREATE TABLE IF NOT EXISTS vitacorpus.REL_USUARIO_OBJ
-(
-	idRelUsuarioObjetivo INT PRIMARY KEY,
-	TBL_USUARIO_idUsuario INT NOT NULL,
-    CAT_OBJETIVO_idObjetivos INT NOT NULL,
-    
-    FOREIGN KEY (TBL_USUARIO_idUsuario) REFERENCES vitacorpus.TBL_USUARIO(idUsuario),
-    FOREIGN KEY (CAT_OBJETIVO_idObjetivos) REFERENCES vitacorpus.CAT_OBJETIVO(idObjetivos)
-);
-
-# ----------------------------
 # Relación REL_RUTINA_EJ
 # ----------------------------
 CREATE TABLE IF NOT EXISTS vitacorpus.REL_RUTINA_EJ

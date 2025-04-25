@@ -2,6 +2,7 @@ package org.imouse.vitacorpus.ui;
 
 import lombok.NoArgsConstructor;
 import org.imouse.vitacorpus.funciones.data.Datos;
+import org.imouse.vitacorpus.funciones.data.EleccionObjetivos;
 
 @NoArgsConstructor
 public class MenuPrincipal extends ManejoMenus
@@ -27,7 +28,7 @@ public class MenuPrincipal extends ManejoMenus
     {
         System.out.println("\n\t-> Bienvenido al menú principal de Vitacorpus <-");
         System.out.println("1. Registrar mis datos");
-        System.out.println("2. Elegir mis objetivos");
+        System.out.println("2. Manejar mis objetivos");
         System.out.println("3. Salir");
         System.out.print("> Ingresa tu opción: ");
     }
@@ -53,6 +54,8 @@ public class MenuPrincipal extends ManejoMenus
             case 1:
                 ejecutable = Datos.getInstance();
                 break;
+            case 2:
+                ejecutable = EleccionObjetivos.getInstance();
             default:
                 break;
         }

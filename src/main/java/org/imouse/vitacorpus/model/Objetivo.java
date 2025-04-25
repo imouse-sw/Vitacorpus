@@ -9,7 +9,7 @@ import lombok.*;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 @Entity
-@Table(name = "CAT_OBJETIVOS")
+@Table(name = "CAT_OBJETIVO")
 @AttributeOverride(name = "id", column=@Column(name = "idObjetivos"))
 public class Objetivo extends Entidad
 {

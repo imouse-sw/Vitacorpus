@@ -25,4 +25,8 @@ public class Usuario extends Entidad
 
     @Column(name = "fechaRegistro", nullable = false, updatable = false, insertable = false)
     private Timestamp fechaRegistro;
+
+    @ManyToOne
+    @JoinColumn(name = "CAT_OBJETIVO_idObjetivos")
+    private Objetivo objetivo;
 }

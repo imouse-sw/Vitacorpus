@@ -7,6 +7,15 @@ USE vitacorpus;
 # ----------------------------
 
 # ----------------------------
+# Catálogo CAT_OBJETIVO
+# ----------------------------
+CREATE TABLE IF NOT EXISTS vitacorpus.CAT_OBJETIVO
+(
+	idObjetivos INT PRIMARY KEY AUTO_INCREMENT,
+    descripcion VARCHAR(255) NOT NULL
+);
+
+# ----------------------------
 # Tabla TBL_USUARIO
 # ----------------------------
 CREATE TABLE IF NOT EXISTS vitacorpus.TBL_USUARIO
@@ -15,16 +24,10 @@ CREATE TABLE IF NOT EXISTS vitacorpus.TBL_USUARIO
     usuario VARCHAR(45) NOT NULL,
     email VARCHAR(45) NOT NULL,
     contrasena VARCHAR(20) NOT NULL,
-    fechaRegistro TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
-);
-
-# ----------------------------
-# Catálogo CAT_OBJETIVO
-# ----------------------------
-CREATE TABLE IF NOT EXISTS vitacorpus.CAT_OBJETIVO
-(
-	idObjetivos INT PRIMARY KEY AUTO_INCREMENT,
-    descripcion VARCHAR(255) NOT NULL
+    fechaRegistro TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CAT_OBJETIVO_idObjetivos INT,
+    
+		FOREIGN KEY (CAT_OBJETIVO_idObjetivos) REFERENCES vitacorpus.CAT_OBJETIVO(idObjetivos)
 );
 
 # ----------------------------
@@ -168,3 +171,13 @@ CREATE TABLE IF NOT EXISTS vitacorpus.REL_DIETA_COMIDA
     FOREIGN KEY (TBL_DIETA_CAT_OBJETIVO_idObjetivos) REFERENCES vitacorpus.CAT_OBJETIVO(idObjetivos)
 );
 
+# -----------------------------
+# Inserción de los valores fijos para los catálogos
+# -----------------------------
+
+INSERT INTO vitacorpus.CAT_OBJETIVO VALUES
+(1, "Bajar grasa"),
+(2, "Subir masa muscular"),
+(3, "Definición corporal"),
+(4, "Mejorar resistencia"),
+(5, "Ejercicio por salud");

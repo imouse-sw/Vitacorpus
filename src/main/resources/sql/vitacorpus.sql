@@ -133,13 +133,11 @@ CREATE TABLE IF NOT EXISTS vitacorpus.REL_RUTINA_EJ
 	idRelRutinaEjercicio INT PRIMARY KEY,
 	TBL_RUTINA_idRutina INT NOT NULL,
     TBL_EJERCICIO_idEjercicio INT NOT NULL,
-    TBL_RUTINA_CAT_OBJETIVO_idObjetivos INT NOT NULL,
     series INT NOT NULL,
     repeticiones INT NOT NULL,
 
     FOREIGN KEY (TBL_RUTINA_idRutina) REFERENCES vitacorpus.TBL_RUTINA(idRutina),
-    FOREIGN KEY (TBL_EJERCICIO_idEjercicio) REFERENCES vitacorpus.TBL_EJERCICIO(idEjercicio),
-    FOREIGN KEY (TBL_RUTINA_CAT_OBJETIVO_idObjetivos) REFERENCES vitacorpus.CAT_OBJETIVO(idObjetivos)
+    FOREIGN KEY (TBL_EJERCICIO_idEjercicio) REFERENCES vitacorpus.TBL_EJERCICIO(idEjercicio)
 );
 
 # ----------------------------
@@ -150,12 +148,10 @@ CREATE TABLE IF NOT EXISTS vitacorpus.REL_DIETA_COMIDA
 	idRelDietaComida INT PRIMARY KEY,
 	TBL_DIETA_idDieta INT NOT NULL,
     TBL_COMIDA_idComida INT NOT NULL,
-    TBL_DIETA_CAT_OBJETIVO_idObjetivos INT NOT NULL,
     cantidad DECIMAL(5,2) NOT NULL,
     
     FOREIGN KEY (TBL_DIETA_idDieta) REFERENCES vitacorpus.TBL_DIETA(idDieta),
-    FOREIGN KEY (TBL_COMIDA_idComida) REFERENCES vitacorpus.TBL_COMIDA(idComida),
-    FOREIGN KEY (TBL_DIETA_CAT_OBJETIVO_idObjetivos) REFERENCES vitacorpus.CAT_OBJETIVO(idObjetivos)
+    FOREIGN KEY (TBL_COMIDA_idComida) REFERENCES vitacorpus.TBL_COMIDA(idComida)
 );
 
 # -----------------------------

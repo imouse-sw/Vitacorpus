@@ -8,7 +8,6 @@ import org.imouse.vitacorpus.sql.hiberimpl.ObjetivoHiberImpl;
 import org.imouse.vitacorpus.sql.hiberimpl.UsuarioHiberImpl;
 import org.imouse.vitacorpus.ui.ManejoMenus;
 import org.imouse.vitacorpus.util.ReadUtil;
-
 import java.util.List;
 
 @NoArgsConstructor
@@ -56,8 +55,10 @@ public class EleccionObjetivos extends ManejoMenus
         System.out.print("\n> Elige el objetivo que se adecúe a tus necesidades: ");
         int opcion = ReadUtil.readInt();
 
-        Objetivo objetivo = ObjetivoHiberImpl.getInstance().findById(opcion);
-        System.out.println(objetivo);
+        Objetivo objetivo = ObjetivoHiberImpl
+                .getInstance()
+                .findById(opcion);
+
         if(objetivo!=null)
         {
             if(usuarioActual.getObjetivo()!=null)

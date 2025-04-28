@@ -41,8 +41,9 @@ public class EleccionObjetivos extends ManejoMenus
         else
         {
             int[] i = {1};
+            System.out.println();
             list.forEach(objetivo -> {
-                System.out.println("\n\t-> 🔢 Objetivo #"+objetivo.getId());
+                System.out.println("\t-> 🔢 Objetivo #"+objetivo.getId());
                 System.out.println("\t-> 🏁 Descripción: "+objetivo.getDescripcion());
             });
         }
@@ -63,7 +64,7 @@ public class EleccionObjetivos extends ManejoMenus
         {
             if(usuarioActual.getObjetivo()!=null)
             {
-                System.out.println("> Ya tienes un objetivo asignado. ¿Deseas actualizarlo? (s/n): ");
+                System.out.print("> Ya tienes un objetivo asignado. ¿Deseas actualizarlo? (s/n): ");
                 String flag = ReadUtil.read();
 
                 if(flag.equalsIgnoreCase("S"))

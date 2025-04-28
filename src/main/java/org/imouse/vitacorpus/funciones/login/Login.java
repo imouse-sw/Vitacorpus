@@ -49,7 +49,7 @@ public class Login implements Ejecutable
         }
         else
         {
-            System.out.println("❌ Correo o contraseña incorrectos.");
+            System.out.println("❌ Correo o contraseña inválidos.");
         }
     }
 

@@ -11,7 +11,7 @@ USE vitacorpus;
 # ----------------------------
 CREATE TABLE IF NOT EXISTS vitacorpus.CAT_OBJETIVO
 (
-	idObjetivos INT PRIMARY KEY AUTO_INCREMENT,
+	idObjetivos INT PRIMARY KEY,
     descripcion VARCHAR(255) NOT NULL
 );
 
@@ -27,17 +27,18 @@ CREATE TABLE IF NOT EXISTS vitacorpus.TBL_USUARIO
     fechaRegistro TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CAT_OBJETIVO_idObjetivos INT,
     
-		FOREIGN KEY (CAT_OBJETIVO_idObjetivos) REFERENCES vitacorpus.CAT_OBJETIVO(idObjetivos)
+	FOREIGN KEY (CAT_OBJETIVO_idObjetivos) REFERENCES vitacorpus.CAT_OBJETIVO(idObjetivos)
 );
 
 # ----------------------------
-# Catálogo CAT_PREFERENCIA
+# Catálogo CAT_ALIMENTOS_RESTRINGIDOS
 # ----------------------------
-CREATE TABLE IF NOT EXISTS vitacorpus.CAT_PREFERENCIA
+CREATE TABLE IF NOT EXISTS vitacorpus.CAT_ALIMENTOS_RESTRINGIDOS
 (
-	idPreferencia INT PRIMARY KEY AUTO_INCREMENT,
-    tipo VARCHAR(45) NOT NULL,
-    descripcion VARCHAR(255) NOT NULL
+	idAlimento INT PRIMARY KEY AUTO_INCREMENT,
+    alimento VARCHAR(30) NOT NULL,
+    sustituto1 VARCHAR(30) NOT NULL,
+    sustituto2 VARCHAR(30)
 );
 
 # ----------------------------
@@ -82,7 +83,7 @@ CREATE TABLE IF NOT EXISTS vitacorpus.TBL_DIETA
     restricMonetarias VARCHAR(255),
     CAT_OBJETIVO_idObjetivos INT NOT NULL,
     
-		FOREIGN KEY (CAT_OBJETIVO_idObjetivos) REFERENCES vitacorpus.CAT_OBJETIVO(idObjetivos)
+	FOREIGN KEY (CAT_OBJETIVO_idObjetivos) REFERENCES vitacorpus.CAT_OBJETIVO(idObjetivos)
 );
 
 # ----------------------------
@@ -104,8 +105,7 @@ CREATE TABLE IF NOT EXISTS vitacorpus.TBL_COMIDA
 (
 	idComida INT PRIMARY KEY AUTO_INCREMENT,
     comida VARCHAR(45) NOT NULL,
-    numCalorias DECIMAL(5,2) NOT NULL,
-    restricAlimenticias VARCHAR(45)
+    numCalorias DECIMAL(5,2) NOT NULL
 );
 
 # ----------------------------
@@ -113,16 +113,16 @@ CREATE TABLE IF NOT EXISTS vitacorpus.TBL_COMIDA
 # ----------------------------
 
 # ----------------------------
-# Relación REL_USUARIO_PREF
+# Relación REL_USUARIO_RESTRICCION
 # ----------------------------
-CREATE TABLE IF NOT EXISTS vitacorpus.REL_USUARIO_PREF
+CREATE TABLE IF NOT EXISTS vitacorpus.REL_USUARIO_RESTRICCION
 (
-	idRelUsuarioPref INT PRIMARY KEY,
+	idRelUsuarioRestriccion INT PRIMARY KEY AUTO_INCREMENT,
 	TBL_USUARIO_idUsuario INT NOT NULL,
-    CAT_PREFERENCIA_idPreferencia INT NOT NULL,
+    CAT_ALIMENTOS_RESTRINGIDOS_idAlimento INT NOT NULL,
     
     FOREIGN KEY (TBL_USUARIO_idUsuario) REFERENCES vitacorpus.TBL_USUARIO(idUsuario),
-    FOREIGN KEY (CAT_PREFERENCIA_idPreferencia) REFERENCES vitacorpus.CAT_PREFERENCIA(idPreferencia)
+    FOREIGN KEY (CAT_ALIMENTOS_RESTRINGIDOS_idAlimento) REFERENCES vitacorpus.CAT_ALIMENTOS_RESTRINGIDOS(idAlimento)
 );
 
 # ----------------------------
@@ -130,7 +130,7 @@ CREATE TABLE IF NOT EXISTS vitacorpus.REL_USUARIO_PREF
 # ----------------------------
 CREATE TABLE IF NOT EXISTS vitacorpus.REL_RUTINA_EJ
 (
-	idRelRutinaEjercicio INT PRIMARY KEY,
+	idRelRutinaEjercicio INT PRIMARY KEY AUTO_INCREMENT,
 	TBL_RUTINA_idRutina INT NOT NULL,
     TBL_EJERCICIO_idEjercicio INT NOT NULL,
     series INT NOT NULL,
@@ -145,7 +145,7 @@ CREATE TABLE IF NOT EXISTS vitacorpus.REL_RUTINA_EJ
 # ----------------------------
 CREATE TABLE IF NOT EXISTS vitacorpus.REL_DIETA_COMIDA
 (
-	idRelDietaComida INT PRIMARY KEY,
+	idRelDietaComida INT PRIMARY KEY AUTO_INCREMENT,
 	TBL_DIETA_idDieta INT NOT NULL,
     TBL_COMIDA_idComida INT NOT NULL,
     cantidad DECIMAL(5,2) NOT NULL,
@@ -155,12 +155,14 @@ CREATE TABLE IF NOT EXISTS vitacorpus.REL_DIETA_COMIDA
 );
 
 # -----------------------------
-# Inserción de los valores fijos para los catálogos
+# Relación REL_COMIDA_RESTRICCION
 # -----------------------------
-
-INSERT INTO vitacorpus.CAT_OBJETIVO VALUES
-(1, "Bajar grasa"),
-(2, "Subir masa muscular"),
-(3, "Definición corporal"),
-(4, "Mejorar resistencia"),
-(5, "Ejercicio por salud");
+CREATE TABLE IF NOT EXISTS vitacorpus.REL_COMIDA_RESTRICCION
+(
+	idRelComidaRestriccion INT PRIMARY KEY AUTO_INCREMENT,
+    TBL_COMIDA_idComida INT NOT NULL,
+    CAT_ALIMENTOS_RESTRINGIDOS_idAlimento INT NOT NULL,
+    
+    FOREIGN KEY (TBL_COMIDA_idComida) REFERENCES vitacorpus.TBL_COMIDA(idComida),
+    FOREIGN KEY (CAT_ALIMENTOS_RESTRINGIDOS_idAlimento) REFERENCES vitacorpus.CAT_ALIMENTOS_RESTRINGIDOS(idAlimento)
+);

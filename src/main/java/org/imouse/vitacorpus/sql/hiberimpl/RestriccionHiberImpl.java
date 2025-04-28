@@ -3,33 +3,32 @@ package org.imouse.vitacorpus.sql.hiberimpl;
 import lombok.NoArgsConstructor;
 import org.hibernate.Session;
 import org.imouse.vitacorpus.hibernate.HibernateUtil;
-import org.imouse.vitacorpus.model.Preferencia;
-import org.imouse.vitacorpus.model.Preferencia;
+import org.imouse.vitacorpus.model.Restriccion;
 import org.imouse.vitacorpus.sql.Sql;
 
 import java.util.List;
 
 @NoArgsConstructor
-public class PreferenciaHiberImpl implements Sql<Preferencia>
+public class RestriccionHiberImpl implements Sql<Restriccion>
 {
-    private static PreferenciaHiberImpl preferenciaHiber;
+    private static RestriccionHiberImpl restriccionHiber;
 
-    public static PreferenciaHiberImpl getInstance()
+    public static RestriccionHiberImpl getInstance()
     {
-        if(preferenciaHiber==null)
+        if(restriccionHiber==null)
         {
-            preferenciaHiber = new PreferenciaHiberImpl();
+            restriccionHiber = new RestriccionHiberImpl();
         }
-        return preferenciaHiber;
+        return restriccionHiber;
     }
 
     @Override
-    public List<Preferencia> findAll()
+    public List<Restriccion> findAll()
     {
         Session session = HibernateUtil.getSession();
         assert session != null;
-        List<Preferencia> list = session
-                .createQuery("FROM Preferencia", Preferencia.class)
+        List<Restriccion> list = session
+                .createQuery("FROM Restriccion", Restriccion.class)
                 .getResultList();
 
         session.close();
@@ -37,33 +36,33 @@ public class PreferenciaHiberImpl implements Sql<Preferencia>
     }
 
     @Override
-    public boolean save(Preferencia preferencia)
+    public boolean save(Restriccion restriccion)
     {
         throw new UnsupportedOperationException("Método no utilizado ni implementado.");
     }
 
     @Override
-    public boolean update(Preferencia preferencia)
+    public boolean update(Restriccion restriccion)
     {
         throw new UnsupportedOperationException("Método no utilizado ni implementado.");
     }
 
     @Override
-    public boolean delete(Preferencia preferencia)
+    public boolean delete(Restriccion restriccion)
     {
         throw new UnsupportedOperationException("Método no utilizado ni implementado.");
     }
 
     @Override
-    public Preferencia findById(Integer id)
+    public Restriccion findById(Integer id)
     {
         Session session = HibernateUtil.getSession();
         assert session!=null;
 
-        Preferencia preferencia = session
-                .get(Preferencia.class,id);
+        Restriccion restriccion = session
+                .get(Restriccion.class,id);
 
         session.close();
-        return preferencia;
+        return restriccion;
     }
 }

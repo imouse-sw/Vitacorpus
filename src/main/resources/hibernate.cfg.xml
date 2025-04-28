@@ -4,6 +4,13 @@
 		"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
 	<session-factory>
+		<!-- Para desactivar los logs de SQL -->
+		<property name="hibernate.show_sql">false</property>
+		<property name="hibernate.format_sql">false</property>
+		<!-- Para desactivar los logs de la conexión y el comportamiento de Hibernate -->
+		<property name="hibernate.use_sql_comments">false</property>
+		<!-- Para desactivar los logs de la transacción y el manejo de la sesión -->
+		<property name="hibernate.generate_statistics">false</property>
 		<property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
 		<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/vitacorpus</property>
 		<property name="hibernate.connection.username">root</property>
@@ -22,7 +29,8 @@
 		<mapping class="org.imouse.vitacorpus.model.Usuario"/>
 		<mapping class="org.imouse.vitacorpus.model.RegistroDatos"/>
 		<mapping class="org.imouse.vitacorpus.model.Objetivo"/>
-		<mapping class="org.imouse.vitacorpus.model.Preferencia"/>
+		<mapping class="org.imouse.vitacorpus.model.Restriccion"/>
+		<mapping class="org.imouse.vitacorpus.model.relaciones.UsuarioRestriccion"/>
 
     </session-factory>
 </hibernate-configuration>

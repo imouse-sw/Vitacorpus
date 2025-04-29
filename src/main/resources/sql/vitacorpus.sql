@@ -63,9 +63,9 @@ CREATE TABLE IF NOT EXISTS vitacorpus.TBL_REGISTRO_DATOS
 CREATE TABLE IF NOT EXISTS vitacorpus.TBL_RUTINA
 (
 	idRutina INT PRIMARY KEY AUTO_INCREMENT,
-    rutina VARCHAR(45) NOT NULL,
-    descripcion VARCHAR(255) NOT NULL,
-    precauciones VARCHAR(45),
+    rutina VARCHAR(1000) NOT NULL,
+    descripcion VARCHAR(3000) NOT NULL,
+    precauciones VARCHAR(1000),
     gradoDificultad INT NOT NULL,
     CAT_OBJETIVO_idObjetivos INT NOT NULL,
     
@@ -89,12 +89,16 @@ CREATE TABLE IF NOT EXISTS vitacorpus.TBL_DIETA
 # ----------------------------
 CREATE TABLE IF NOT EXISTS vitacorpus.TBL_EJERCICIO
 (
-	idEjercicio INT PRIMARY KEY AUTO_INCREMENT,
-    ejercicio VARCHAR(45) NOT NULL,
-    duracion TIME NOT NULL,
-    instrucciones VARCHAR(500) NOT NULL,
-    urlVideo VARCHAR(255)
+    idEjercicio INT PRIMARY KEY AUTO_INCREMENT,
+    ejercicioLunes VARCHAR(2000) NOT NULL,
+    ejercicioMartes VARCHAR(2000) NOT NULL,
+    ejercicioMiercoles VARCHAR(2000) NOT NULL,
+    ejercicioJueves VARCHAR(2000) NOT NULL,
+    ejercicioViernes VARCHAR(2000) NOT NULL,
+    ejercicioSabado VARCHAR(2000) NOT NULL,
+    ejercicioDomingo VARCHAR(2000) NOT NULL
 );
+
 
 # ----------------------------
 # Tabla TBL_COMIDA
@@ -136,8 +140,6 @@ CREATE TABLE IF NOT EXISTS vitacorpus.REL_RUTINA_EJ
 	idRelRutinaEjercicio INT PRIMARY KEY AUTO_INCREMENT,
 	TBL_RUTINA_idRutina INT NOT NULL,
     TBL_EJERCICIO_idEjercicio INT NOT NULL,
-    series INT NOT NULL,
-    repeticiones INT NOT NULL,
 
     FOREIGN KEY (TBL_RUTINA_idRutina) REFERENCES vitacorpus.TBL_RUTINA(idRutina),
     FOREIGN KEY (TBL_EJERCICIO_idEjercicio) REFERENCES vitacorpus.TBL_EJERCICIO(idEjercicio)

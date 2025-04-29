@@ -4,7 +4,6 @@ import lombok.NoArgsConstructor;
 import org.hibernate.Session;
 import org.imouse.vitacorpus.hibernate.HibernateUtil;
 import org.imouse.vitacorpus.model.relaciones.DietaComida;
-import org.imouse.vitacorpus.model.relaciones.DietaComida;
 import org.imouse.vitacorpus.sql.Sql;
 
 import java.util.List;

@@ -13,12 +13,24 @@ import lombok.*;
 @AttributeOverride(name = "id", column=@Column(name = "idComida"))
 public class Comida extends Entidad
 {
-    @Column(name = "comida", nullable = false)
-    private String comida;
+    @Column(name = "comidasLunes", nullable = false)
+    private String comidasLunes;
 
-    @Column(name = "numCalorias", nullable = false)
-    private double calorias;
+    @Column(name = "comidasMartes", nullable = false)
+    private String comidasMartes;
 
-    @Column(name = "restricAlimenticias")
-    private String restricciones;
+    @Column(name = "comidasMiercoles", nullable = false)
+    private String comidasMiercoles;
+
+    @Column(name = "comidasJueves", nullable = false)
+    private String comidasJueves;
+
+    @Column(name = "comidasViernes", nullable = false)
+    private String comidasViernes;
+
+    @Column(name = "comidasSabado", nullable = false)
+    private String comidasSabado;
+
+    @Column(name = "comidasDomingo", nullable = false)
+    private String comidasDomingo;
 }

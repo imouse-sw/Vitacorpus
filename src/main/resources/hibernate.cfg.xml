@@ -31,6 +31,9 @@
 		<mapping class="org.imouse.vitacorpus.model.Objetivo"/>
 		<mapping class="org.imouse.vitacorpus.model.Restriccion"/>
 		<mapping class="org.imouse.vitacorpus.model.relaciones.UsuarioRestriccion"/>
+		<mapping class="org.imouse.vitacorpus.model.relaciones.DietaComida"/>
+		<mapping class="org.imouse.vitacorpus.model.Dieta"/>
+		<mapping class="org.imouse.vitacorpus.model.Comida"/>
 
     </session-factory>
 </hibernate-configuration>

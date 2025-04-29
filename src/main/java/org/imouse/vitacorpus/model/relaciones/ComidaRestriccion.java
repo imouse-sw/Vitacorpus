@@ -3,9 +3,8 @@ package org.imouse.vitacorpus.model.relaciones;
 import jakarta.persistence.*;
 import lombok.*;
 import org.imouse.vitacorpus.model.Comida;
-import org.imouse.vitacorpus.model.Dieta;
 import org.imouse.vitacorpus.model.Entidad;
-import org.imouse.vitacorpus.model.Objetivo;
+import org.imouse.vitacorpus.model.Restriccion;
 
 @Data
 @NoArgsConstructor
@@ -13,15 +12,15 @@ import org.imouse.vitacorpus.model.Objetivo;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 @Entity
-@Table(name = "REL_DIETA_COMIDA")
-@AttributeOverride(name = "id", column = @Column(name = "idRelDietaComida"))
-public class DietaComida extends Entidad
+@Table(name = "REL_COMIDA_RESTRICCION")
+@AttributeOverride(name = "id", column = @Column(name = "idRelComidaRestriccion"))
+public class ComidaRestriccion extends Entidad
 {
-    @ManyToOne
-    @JoinColumn(name = "TBL_DIETA_idDieta")
-    private Dieta dieta;
-
     @ManyToOne
     @JoinColumn(name = "TBL_COMIDA_idComida")
     private Comida comida;
+
+    @ManyToOne
+    @JoinColumn(name = "CAT_ALIMENTOS_RESTRINGIDOS_idAlimento")
+    private Restriccion restriccion;
 }

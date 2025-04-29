@@ -79,8 +79,6 @@ CREATE TABLE IF NOT EXISTS vitacorpus.TBL_DIETA
 (
 	idDieta INT PRIMARY KEY AUTO_INCREMENT,
     dieta VARCHAR(45) NOT NULL,
-    caloriasTotales DECIMAL(6,2),
-    restricMonetarias VARCHAR(255),
     CAT_OBJETIVO_idObjetivos INT NOT NULL,
     
 	FOREIGN KEY (CAT_OBJETIVO_idObjetivos) REFERENCES vitacorpus.CAT_OBJETIVO(idObjetivos)
@@ -104,8 +102,13 @@ CREATE TABLE IF NOT EXISTS vitacorpus.TBL_EJERCICIO
 CREATE TABLE IF NOT EXISTS vitacorpus.TBL_COMIDA
 (
 	idComida INT PRIMARY KEY AUTO_INCREMENT,
-    comida VARCHAR(45) NOT NULL,
-    numCalorias DECIMAL(5,2) NOT NULL
+    comidasLunes VARCHAR(400) NOT NULL,
+    comidasMartes VARCHAR(400) NOT NULL,
+    comidasMiercoles VARCHAR(400) NOT NULL,
+    comidasJueves VARCHAR(400) NOT NULL,
+    comidasViernes VARCHAR(400) NOT NULL,
+    comidasSabado VARCHAR(400) NOT NULL,
+    comidasDomingo VARCHAR(400) NOT NULL
 );
 
 # ----------------------------
@@ -148,7 +151,6 @@ CREATE TABLE IF NOT EXISTS vitacorpus.REL_DIETA_COMIDA
 	idRelDietaComida INT PRIMARY KEY AUTO_INCREMENT,
 	TBL_DIETA_idDieta INT NOT NULL,
     TBL_COMIDA_idComida INT NOT NULL,
-    cantidad DECIMAL(5,2) NOT NULL,
     
     FOREIGN KEY (TBL_DIETA_idDieta) REFERENCES vitacorpus.TBL_DIETA(idDieta),
     FOREIGN KEY (TBL_COMIDA_idComida) REFERENCES vitacorpus.TBL_COMIDA(idComida)

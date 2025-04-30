@@ -27,6 +27,7 @@ public class EleccionObjetivos extends ManejoMenus
 
     public void print()
     {
+        usuarioActual = SessionManager.getUsuarioActual();
         //Verifica si el usuario ya tiene un objetivo asignado
         if(usuarioActual.getObjetivo()!=null)
         {
@@ -92,7 +93,7 @@ public class EleccionObjetivos extends ManejoMenus
         usuarioActual = SessionManager.getUsuarioActual();
         if(usuarioActual.getObjetivo()!=null)
         {
-            System.out.println("🧐 ¿Estás seguro de que quieres borrar tu objetivo? (s/n): ");
+            System.out.print("🧐 ¿Estás seguro de que quieres borrar tu objetivo? No podrás acceder a dietas o rutinas hasta que elijas otro (s/n): ");
             String flag = ReadUtil.read();
 
             if(flag.equalsIgnoreCase("S"))

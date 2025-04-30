@@ -40,7 +40,7 @@ public class UsuarioRestriccionHiberImpl implements Sql<UsuarioRestriccion>
         Session session = HibernateUtil.getSession();
         assert session != null;
         List<UsuarioRestriccion> list = session
-                .createQuery("FROM UsuarioRestriccion up WHERE up.usuario.id = :idUsuario",
+                .createQuery("FROM UsuarioRestriccion ur WHERE ur.usuario.id = :idUsuario",
                         UsuarioRestriccion.class)
                 .setParameter("idUsuario",id)
                 .getResultList();

@@ -54,7 +54,7 @@ public class EleccionRestricciones extends ManejoMenus
     {
         usuarioActual = SessionManager.getUsuarioActual();
         printAll();
-        System.out.print("\n> Elige alguna restricción que se adecúe a tus gustos: ");
+        System.out.print("\n> Elige el ID de alguna restricción que se adecúe a tus gustos: ");
         int opcion = ReadUtil.readInt();
 
         Restriccion restriccion = RestriccionHiberImpl
@@ -134,8 +134,7 @@ public class EleccionRestricciones extends ManejoMenus
         {
             System.out.println();
             restriccions.forEach(restriccion -> {
-                System.out.println("\t> 🔢 ID: "+ restriccion.getId());
-                System.out.println("\t> 🍽️ Alimento: "+ restriccion.getAlimento());
+                System.out.println("\t> 🔢 ID: "+ restriccion.getId() + " | 🍽️ Alimento: "+ restriccion.getAlimento());
             });
         }
     }

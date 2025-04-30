@@ -4,6 +4,7 @@ import lombok.NoArgsConstructor;
 import org.imouse.vitacorpus.funciones.data.Datos;
 import org.imouse.vitacorpus.funciones.data.EleccionObjetivos;
 import org.imouse.vitacorpus.funciones.data.EleccionRestricciones;
+import org.imouse.vitacorpus.funciones.dietas.EleccionDietas;
 
 @NoArgsConstructor
 public class MenuPrincipal extends ManejoMenus
@@ -32,7 +33,8 @@ public class MenuPrincipal extends ManejoMenus
         System.out.println("1. Registrar mis datos");
         System.out.println("2. Manejar mis objetivos");
         System.out.println("3. Manejar mis restricciones alimenticias");
-        System.out.println("4. Salir");
+        System.out.println("4. Acceder al menú de dietas");
+        System.out.println("5. Salir");
         System.out.print("> Ingresa tu opción: ");
     }
 
@@ -45,7 +47,7 @@ public class MenuPrincipal extends ManejoMenus
     @Override
     public int valorMaxMenu()
     {
-        return 4;
+        return 5;
     }
 
     @Override
@@ -62,6 +64,9 @@ public class MenuPrincipal extends ManejoMenus
                 break;
             case 3:
                 ejecutable = EleccionRestricciones.getInstance();
+                break;
+            case 4:
+                ejecutable = EleccionDietas.getInstance();
                 break;
             default:
                 break;

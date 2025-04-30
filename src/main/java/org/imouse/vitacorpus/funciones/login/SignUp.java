@@ -59,8 +59,15 @@ public class SignUp implements Ejecutable
             }
             else
             {
-                usuario.setEmail(email);
-                flag2 = false;
+                if (!email.contains("@") || !email.endsWith(".com"))
+                {
+                    System.out.println("❌ Correo inválido. Asegúrate de que tenga un '@' y termine en .com");
+                }
+                else
+                {
+                    usuario.setEmail(email);
+                    flag2 = false;
+                }
             }
         }
 

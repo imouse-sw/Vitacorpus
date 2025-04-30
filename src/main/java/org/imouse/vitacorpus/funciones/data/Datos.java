@@ -143,20 +143,31 @@ public class Datos extends ManejoMenus
         }
         else
         {
-            registrosUsuario.forEach(System.out::println);
+            int[] i = {1};
+            registrosUsuario.forEach(registro -> {
+                System.out.println("\n\t-> 🔢 Registro #"+i[0]++);
+                System.out.println("\t-> 💻 ID del registro: "+registro.getId());
+                System.out.println("\t-> 📆 Fecha del registro: "+registro.getFechaActualizacion());
+                System.out.println("\t-> 🎂 Edad registrada: "+registro.getEdad());
+                System.out.println("\t-> 🏋️ Peso registrado: "+registro.getPeso());
+                System.out.println("\t-> 📏 Altura registrada: "+registro.getEstatura());
+                System.out.println("\t-> ⚖️ IMC: "+registro.getImc());
+            });
         }
 
         while(flag2)
         {
             System.out.print("> Ingrese el ID del registro a eliminar: ");
-            RegistroDatos registro = list.stream()
-                    .filter( e -> e.getId().equals( ReadUtil.readInt( ) ) )
+            Integer idRegistro = ReadUtil.readInt();
+
+            RegistroDatos registro = registrosUsuario.stream()
+                    .filter( e -> e.getId().equals(idRegistro) )
                     .findFirst()
                     .orElse( null );
 
             if( registro==null )
             {
-                System.out.println( "> No se encontró el elemento." );
+                System.out.println( "> ❌ No se encontró el registro con el ID proporcionado o el registro no pertenece a este usuario." );
                 System.out.print( "> Deseas volver a intentarlo? s/n: ");
                 String respuesta = ReadUtil.read();
 

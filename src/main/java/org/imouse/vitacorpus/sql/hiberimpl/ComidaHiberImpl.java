@@ -65,4 +65,5 @@ public class ComidaHiberImpl implements Sql<Comida>
         session.close();
         return comida;
     }
+
 }

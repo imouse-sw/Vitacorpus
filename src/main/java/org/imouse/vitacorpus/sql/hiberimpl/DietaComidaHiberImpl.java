@@ -3,6 +3,7 @@ package org.imouse.vitacorpus.sql.hiberimpl;
 import lombok.NoArgsConstructor;
 import org.hibernate.Session;
 import org.imouse.vitacorpus.hibernate.HibernateUtil;
+import org.imouse.vitacorpus.model.Comida;
 import org.imouse.vitacorpus.model.relaciones.DietaComida;
 import org.imouse.vitacorpus.sql.Sql;
 
@@ -79,5 +80,19 @@ public class DietaComidaHiberImpl implements Sql<DietaComida>
 
         session.close();
         return dietaComida;
+    }
+
+    public List<Comida> getComidasByDietaId(Integer idDieta)
+    {
+        Session session = HibernateUtil.getSession();
+        assert session!=null;
+
+        List<Comida> comidas = session
+                .createQuery("SELECT dc.comida FROM DietaComida dc WHERE dc.dieta.id = :idDieta", Comida.class)
+                .setParameter("idDieta", idDieta)
+                .getResultList();
+
+        session.close();
+        return comidas;
     }
 }

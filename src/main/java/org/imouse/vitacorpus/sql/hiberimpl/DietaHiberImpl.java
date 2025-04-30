@@ -65,4 +65,18 @@ public class DietaHiberImpl implements Sql<Dieta>
         session.close();
         return dieta;
     }
+
+    public List<Dieta> findByObjetivoId(int idObjetivo)
+    {
+        Session session = HibernateUtil.getSession();
+        assert session != null;
+
+        List<Dieta> dietas = session
+                .createQuery("FROM Dieta WHERE objetivo.id = :idDieta", Dieta.class) // id refiere al idObjetivo
+                .setParameter("idDieta", idObjetivo)
+                .getResultList();
+
+        session.close();
+        return dietas;
+    }
 }

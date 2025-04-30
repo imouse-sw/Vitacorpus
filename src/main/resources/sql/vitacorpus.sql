@@ -1,4 +1,4 @@
-CREATE DATABASE vitacorpus;
+CREATE DATABASE IF NOT EXISTS vitacorpus;
 
 USE vitacorpus;
 

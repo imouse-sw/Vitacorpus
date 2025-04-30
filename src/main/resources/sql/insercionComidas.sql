@@ -1,3 +1,4 @@
+USE vitacorpus;
 # ---------------------------------
 # Inserción a la tabla de comidas
 # ---------------------------------

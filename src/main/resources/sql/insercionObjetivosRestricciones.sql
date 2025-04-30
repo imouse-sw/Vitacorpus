@@ -1,3 +1,5 @@
+USE vitacorpus;
+
 INSERT INTO vitacorpus.CAT_OBJETIVO VALUES
 (1, "Bajar grasa"),
 (2, "Subir masa muscular"),

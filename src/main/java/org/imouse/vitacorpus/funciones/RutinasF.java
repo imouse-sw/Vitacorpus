@@ -77,34 +77,59 @@ public class RutinasF implements Ejecutable
 
         List<String> dias = List.of("Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo");
 
-        System.out.println("¿Qué día deseas ver? Elige uno de estos:");
-        dias.forEach(System.out::println);
+        while (true) {
+            System.out.println("\n¿Qué día deseas ver? Elige un número:");
+            for (int i = 0; i < dias.size(); i++) {
+                System.out.println((i + 1) + ". " + dias.get(i));
+            }
+            System.out.println("8. Salir al menú");
 
-        String diaSeleccionado = ReadUtil.read().trim();
+            int opcion;
+            try {
+                opcion = Integer.parseInt(ReadUtil.read().trim());
+            } catch (NumberFormatException e) {
+                System.out.println("Entrada no válida. Debes ingresar un número.");
+                continue;
+            }
 
-        if (!dias.contains(diaSeleccionado)) {
-            System.out.println("Día no válido.");
-            return;
-        }
+            if (opcion == 8) {
+                System.out.println("Regresando al menú...");
+                break;
+            }
 
-        for (Rutina rutina : rutinas) {
-            System.out.println("\nRutina: " + rutina.getDescripcion());
+            if (opcion < 1 || opcion > 7) {
+                System.out.println("Número fuera de rango. Debe ser entre 1 y 8.");
+                continue;
+            }
 
-            List<RutinaEjercicio> ejercicios = RutinaEjercicioHiberImpl.getInstance().findByRutinaId(rutina.getId());
+            String diaSeleccionado = dias.get(opcion - 1);
+            System.out.println("\nMostrando rutinas del día: " + diaSeleccionado);
 
-            for (RutinaEjercicio rutinaEjercicio : ejercicios) {
-                Object ejercicio = rutinaEjercicio.getEjercicio();
+            int semana = 1;
 
-                try {
-                    Method metodo = ejercicio.getClass().getMethod("getEjercicio" + diaSeleccionado);
-                    String resultado = (String) metodo.invoke(ejercicio);
-                    System.out.println("- " + resultado);
-                } catch (Exception e) {
-                    System.out.println("Error accediendo al ejercicio del día " + diaSeleccionado);
+            for (Rutina rutina : rutinas) {
+                System.out.println("\nRutina: " + rutina.getDescripcion() + " | Semana " + semana);
+                semana++;
+
+                List<RutinaEjercicio> ejercicios = RutinaEjercicioHiberImpl.getInstance().findByRutinaId(rutina.getId());
+
+                for (RutinaEjercicio rutinaEjercicio : ejercicios) {
+                    Object ejercicio = rutinaEjercicio.getEjercicio();
+
+                    try {
+                        Method metodo = ejercicio.getClass().getMethod("getEjercicio" + diaSeleccionado);
+                        String resultado = (String) metodo.invoke(ejercicio);
+                        System.out.println("- " + resultado);
+                    } catch (Exception e) {
+                        System.out.println("Error accediendo al ejercicio del día " + diaSeleccionado);
+                    }
                 }
             }
         }
     }
+
+
+
 
 
 }

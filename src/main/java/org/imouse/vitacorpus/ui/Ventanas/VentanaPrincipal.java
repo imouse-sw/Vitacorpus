@@ -30,14 +30,15 @@ public class VentanaPrincipal implements Ejecutable {
             frame.setLocationRelativeTo(null);
 
             JPanel panel = new JPanel();
-            panel.setBackground(new Color(240, 255, 240));
+            panel.setBackground(new Color(255, 255, 255));
             panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
             panel.setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30));
 
-            JLabel logo = new JLabel("VitaCorpus");
+            ImageIcon iconoOriginal = new ImageIcon(getClass().getResource("/img/logo.jpg"));
+            Image imagenEscalada = iconoOriginal.getImage().getScaledInstance(300, 300, Image.SCALE_SMOOTH);
+            JLabel logo = new JLabel(new ImageIcon(imagenEscalada));
             logo.setAlignmentX(Component.CENTER_ALIGNMENT);
-            logo.setFont(new Font("SansSerif", Font.BOLD, 28));
-            logo.setForeground(new Color(34, 139, 34));
+
 
             JButton iniciarBtn = new JButton("Iniciar");
             iniciarBtn.setAlignmentX(Component.CENTER_ALIGNMENT);

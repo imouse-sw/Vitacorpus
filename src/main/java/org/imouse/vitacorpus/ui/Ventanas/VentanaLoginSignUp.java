@@ -1,5 +1,4 @@
 package org.imouse.vitacorpus.ui.Ventanas;
-
 import org.imouse.vitacorpus.model.Usuario;
 import org.imouse.vitacorpus.sql.hiberimpl.UsuarioHiberImpl;
 import org.imouse.vitacorpus.ui.MenuPrincipal;
@@ -21,8 +20,17 @@ public class VentanaLoginSignUp extends JFrame {
         setLocationRelativeTo(null);
         setResizable(false);
 
-        JPanel panel = new JPanel(new GridBagLayout());
-        panel.setBackground(new Color(230, 255, 240));
+        // Panel con imagen de fondo
+        JPanel fondoPanel = new JPanel(new GridBagLayout()) {
+            private final Image fondo = new ImageIcon(getClass().getResource("/img/fondito.jpeg")).getImage();
+
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                g.drawImage(fondo, 0, 0, getWidth(), getHeight(), this);
+            }
+        };
+        fondoPanel.setOpaque(false);
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 10, 5, 10);
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -30,39 +38,40 @@ public class VentanaLoginSignUp extends JFrame {
         JLabel labelModo = new JLabel("Iniciar sesión");
         labelModo.setFont(new Font("Arial", Font.BOLD, 18));
         labelModo.setHorizontalAlignment(SwingConstants.CENTER);
+        labelModo.setForeground(Color.BLACK);
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.gridwidth = 2;
-        panel.add(labelModo, gbc);
+        fondoPanel.add(labelModo, gbc);
 
         gbc.gridwidth = 1;
 
         usernameField = new JTextField();
         usernameField.setVisible(false);
         gbc.gridy = 1;
-        panel.add(new JLabel("Usuario:"), gbc);
+        fondoPanel.add(new JLabel("Usuario:"), gbc);
         gbc.gridx = 1;
-        panel.add(usernameField, gbc);
+        fondoPanel.add(usernameField, gbc);
         gbc.gridx = 0;
 
         emailField = new JTextField();
         gbc.gridy = 2;
-        panel.add(new JLabel("Correo:"), gbc);
+        fondoPanel.add(new JLabel("Correo:"), gbc);
         gbc.gridx = 1;
-        panel.add(emailField, gbc);
+        fondoPanel.add(emailField, gbc);
         gbc.gridx = 0;
 
         passwordField = new JPasswordField();
         gbc.gridy = 3;
-        panel.add(new JLabel("Contraseña:"), gbc);
+        fondoPanel.add(new JLabel("Contraseña:"), gbc);
         gbc.gridx = 1;
-        panel.add(passwordField, gbc);
+        fondoPanel.add(passwordField, gbc);
         gbc.gridx = 0;
 
         JButton accionButton = new JButton("Iniciar sesión");
         gbc.gridy = 4;
         gbc.gridwidth = 2;
-        panel.add(accionButton, gbc);
+        fondoPanel.add(accionButton, gbc);
 
         JButton cambiarModo = new JButton("¿No tienes cuenta? Regístrate");
         cambiarModo.setBorderPainted(false);
@@ -71,7 +80,7 @@ public class VentanaLoginSignUp extends JFrame {
         cambiarModo.setForeground(Color.BLUE);
         cambiarModo.setCursor(new Cursor(Cursor.HAND_CURSOR));
         gbc.gridy = 5;
-        panel.add(cambiarModo, gbc);
+        fondoPanel.add(cambiarModo, gbc);
 
         accionButton.addActionListener(e -> {
             String email = emailField.getText().trim();
@@ -125,7 +134,7 @@ public class VentanaLoginSignUp extends JFrame {
             pack();
         });
 
-        add(panel);
+        setContentPane(fondoPanel);
         setVisible(true);
     }
 }

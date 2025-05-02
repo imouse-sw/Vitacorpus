@@ -14,15 +14,24 @@ import java.sql.Time;
 @AttributeOverride(name = "id", column=@Column(name = "idEjercicio"))
 public class Ejercicio extends Entidad
 {
-    @Column(name = "ejercicio", nullable = false)
-    private String ejercicio;
+    @Column(name = "ejercicioLunes", nullable = false)
+    private String ejercicioLunes;
 
-    @Column(name = "duracion", nullable = false)
-    private Time duracion;
+    @Column(name = "ejercicioMartes", nullable = false)
+    private String ejercicioMartes;
 
-    @Column(name = "instrucciones", nullable = false)
-    private String instrucciones;
+    @Column(name = "ejercicioMiercoles", nullable = false)
+    private String ejercicioMiercoles;
 
-    @Column(name = "urlVideo")
-    private String url;
+    @Column(name = "ejercicioJueves", nullable = false)
+    private String ejercicioJueves;
+
+    @Column(name = "ejercicioViernes", nullable = false)
+    private String ejercicioViernes;
+
+    @Column(name = "ejercicioSabado", nullable = false)
+    private String ejercicioSabado;
+
+    @Column(name = "ejercicioDomingo", nullable = false)
+    private String ejercicioDomingo;
 }

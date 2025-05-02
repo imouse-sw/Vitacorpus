@@ -1,6 +1,8 @@
 package org.imouse.vitacorpus.ui;
 
 import lombok.NoArgsConstructor;
+import org.imouse.vitacorpus.funciones.CalculadoraSF;
+import org.imouse.vitacorpus.funciones.RutinasF;
 import org.imouse.vitacorpus.funciones.data.Datos;
 import org.imouse.vitacorpus.funciones.data.EleccionObjetivos;
 import org.imouse.vitacorpus.funciones.data.EleccionRestricciones;
@@ -33,8 +35,10 @@ public class MenuPrincipal extends ManejoMenus
         System.out.println("1. Registrar mis datos");
         System.out.println("2. Manejar mis objetivos");
         System.out.println("3. Manejar mis restricciones alimenticias");
-        System.out.println("4. Acceder al menú de dietas");
-        System.out.println("5. Salir");
+        System.out.println("4. Calculadora de sueño");
+        System.out.println("5. Acceder al menú de dietas");
+        System.out.println("6. Acceder al menú de rutinas de ejercicio");
+        System.out.println("7. Salir");
         System.out.print("> Ingresa tu opción: ");
     }
 
@@ -47,7 +51,7 @@ public class MenuPrincipal extends ManejoMenus
     @Override
     public int valorMaxMenu()
     {
-        return 5;
+        return 7;
     }
 
     @Override
@@ -66,8 +70,13 @@ public class MenuPrincipal extends ManejoMenus
                 ejecutable = EleccionRestricciones.getInstance();
                 break;
             case 4:
+                ejecutable = CalculadoraSF.getInstance();
+                break;
+            case 5:
                 ejecutable = EleccionDietas.getInstance();
                 break;
+            case 6:
+                ejecutable = RutinasF.getInstance();
             default:
                 break;
         }

@@ -4,23 +4,20 @@ import org.imouse.vitacorpus.ui.Ejecutable;
 import javax.swing.*;
 import java.awt.*;
 
-public class VentanaPrincipal implements Ejecutable
-{
+public class VentanaPrincipal implements Ejecutable {
     private static VentanaPrincipal ventanaPrincipal;
     private boolean flag = false;
     private JFrame frame;
 
-    private VentanaPrincipal()
-    {
+    private VentanaPrincipal() {
         frame = new JFrame("Vitacorpus");
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.setSize(700, 500);
+        frame.setSize(800, 600);
         frame.setLocationRelativeTo(null);
     }
 
     public static VentanaPrincipal getInstance() {
-        if (ventanaPrincipal == null)
-        {
+        if (ventanaPrincipal == null) {
             ventanaPrincipal = new VentanaPrincipal();
         }
         return ventanaPrincipal;
@@ -30,7 +27,7 @@ public class VentanaPrincipal implements Ejecutable
     public void run() {
         SwingUtilities.invokeLater(() -> {
             // Panel con imagen de fondo
-            JPanel panel = new JPanel(){
+            JPanel panel = new JPanel() {
                 private Image imagenFondo = new ImageIcon(getClass().getResource("/img/fondito.jpeg")).getImage();
 
                 @Override
@@ -43,30 +40,36 @@ public class VentanaPrincipal implements Ejecutable
             panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
             panel.setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30));
 
-            // Logo
-
-            // Logo con fondo transparente (logito.png debe tener transparencia)
-            ImageIcon iconoOriginal = new ImageIcon(getClass().getResource("/img/logito.png"));
+            // Logo principal
+            ImageIcon iconoOriginal = new ImageIcon(getClass().getResource("/img/logo.png"));
             Image imagenEscalada = iconoOriginal.getImage().getScaledInstance(325, 300, Image.SCALE_SMOOTH);
             JLabel logo = new JLabel(new ImageIcon(imagenEscalada));
             logo.setAlignmentX(Component.CENTER_ALIGNMENT);
-            logo.setOpaque(false); // Esto permite mostrar la transparencia del PNG
+            logo.setOpaque(false);
 
+            // Segundo logo (nombre)
+            ImageIcon iconoOriginal2 = new ImageIcon(getClass().getResource("/img/nombre.png"));
+            Image imagenEscalada2 = iconoOriginal2.getImage().getScaledInstance(90, 40, Image.SCALE_SMOOTH);
+            JLabel logo2 = new JLabel(new ImageIcon(imagenEscalada2));
+            logo2.setAlignmentX(Component.CENTER_ALIGNMENT);
+            logo2.setOpaque(false);
 
             // Botón personalizado
             BotonPersonalizado iniciarBtn = new BotonPersonalizado("Iniciar");
             iniciarBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
-            iniciarBtn.addActionListener(e ->{
+            iniciarBtn.addActionListener(e -> {
                 frame.dispose();
                 VentanaLoginSignUp.getInstance().LoginSignup();
             });
 
             // Añadir componentes al panel
             panel.add(logo);
+            panel.add(logo2);
             panel.add(Box.createVerticalStrut(40));
             panel.add(iniciarBtn);
 
-            frame.setContentPane(panel); // Usar setContentPane en lugar de add
+            // Mostrar ventana
+            frame.setContentPane(panel);
             frame.setVisible(true);
             frame.toFront();
             frame.requestFocus();

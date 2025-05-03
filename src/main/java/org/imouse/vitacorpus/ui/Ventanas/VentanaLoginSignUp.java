@@ -10,31 +10,33 @@ import java.awt.*;
 import java.util.List;
 
 @NoArgsConstructor
-public class VentanaLoginSignUp extends JFrame
-{
+public class VentanaLoginSignUp extends JFrame {
     private static VentanaLoginSignUp ventanaLoginSignUp;
     private JTextField emailField;
     private JPasswordField passwordField;
     private JTextField usernameField;
     private boolean esRegistro = false;
 
-    public static VentanaLoginSignUp getInstance()
-    {
-        if(ventanaLoginSignUp==null)
-        {
+    public static VentanaLoginSignUp getInstance() {
+        if (ventanaLoginSignUp == null) {
             ventanaLoginSignUp = new VentanaLoginSignUp();
         }
         return ventanaLoginSignUp;
     }
 
     public void LoginSignup() {
+        ImageIcon iconoOriginal = new ImageIcon(getClass().getResource("/img/logito.png"));
+        Image imagenEscalada = iconoOriginal.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+        JLabel logo = new JLabel(new ImageIcon(imagenEscalada));
+        logo.setOpaque(false);
+        logo.setHorizontalAlignment(SwingConstants.CENTER);
+
         setTitle("Vitacorpus - Iniciar sesión / Registrarse");
-        setSize(400, 300);
+        setSize(500, 400);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);
 
-        // Panel con imagen de fondo
         JPanel fondoPanel = new JPanel(new GridBagLayout()) {
             private final Image fondo = new ImageIcon(getClass().getResource("/img/fondito.jpeg")).getImage();
 
@@ -50,41 +52,46 @@ public class VentanaLoginSignUp extends JFrame
         gbc.insets = new Insets(5, 10, 5, 10);
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.gridwidth = 2;
+        fondoPanel.add(logo, gbc);
+
         JLabel labelModo = new JLabel("Iniciar sesión");
         labelModo.setFont(new Font("Arial", Font.BOLD, 18));
         labelModo.setHorizontalAlignment(SwingConstants.CENTER);
         labelModo.setForeground(Color.BLACK);
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.gridwidth = 2;
+        gbc.gridy = 1;
         fondoPanel.add(labelModo, gbc);
-
         gbc.gridwidth = 1;
 
         usernameField = new JTextField();
         usernameField.setVisible(false);
-        gbc.gridy = 1;
-        fondoPanel.add(new JLabel("Usuario:"), gbc);
-        gbc.gridx = 1;
-        fondoPanel.add(usernameField, gbc);
+        agregarPlaceholder(usernameField, "Usuario");
+        gbc.gridy = 2;
         gbc.gridx = 0;
+        gbc.gridwidth = 2;
+        fondoPanel.add(usernameField, gbc);
+        gbc.gridwidth = 1;
 
         emailField = new JTextField();
-        gbc.gridy = 2;
-        fondoPanel.add(new JLabel("Correo:"), gbc);
-        gbc.gridx = 1;
-        fondoPanel.add(emailField, gbc);
+        agregarPlaceholder(emailField, "Correo electrónico");
+        gbc.gridy = 3;
         gbc.gridx = 0;
+        gbc.gridwidth = 2;
+        fondoPanel.add(emailField, gbc);
+        gbc.gridwidth = 1;
 
         passwordField = new JPasswordField();
-        gbc.gridy = 3;
-        fondoPanel.add(new JLabel("Contraseña:"), gbc);
-        gbc.gridx = 1;
-        fondoPanel.add(passwordField, gbc);
+        agregarPlaceholder(passwordField, "Contraseña");
+        gbc.gridy = 4;
         gbc.gridx = 0;
+        gbc.gridwidth = 2;
+        fondoPanel.add(passwordField, gbc);
+        gbc.gridwidth = 1;
 
         JButton accionButton = new JButton("Iniciar sesión");
-        gbc.gridy = 4;
+        gbc.gridy = 5;
         gbc.gridwidth = 2;
         fondoPanel.add(accionButton, gbc);
 
@@ -94,18 +101,22 @@ public class VentanaLoginSignUp extends JFrame
         cambiarModo.setContentAreaFilled(false);
         cambiarModo.setForeground(Color.BLUE);
         cambiarModo.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        gbc.gridy = 5;
+        gbc.gridy = 6;
         fondoPanel.add(cambiarModo, gbc);
 
         accionButton.addActionListener(e -> {
             String email = emailField.getText().trim();
             String password = new String(passwordField.getPassword()).trim();
 
-            if (esRegistro)
-            {
+            if (esRegistro) {
                 String username = usernameField.getText().trim();
                 if (username.isEmpty() || email.isEmpty() || password.isEmpty()) {
-                    JOptionPane.showMessageDialog(this, "Completa todos los campos.");
+                    mostrarMensaje("Completa todos los campos.", false);
+                    return;
+                }
+
+                if (!email.contains("@") || !email.endsWith(".com")) {
+                    mostrarMensaje("Correo inválido. Asegúrate de que tenga un '@' y termine en '.com'", false);
                     return;
                 }
 
@@ -113,14 +124,8 @@ public class VentanaLoginSignUp extends JFrame
                 boolean userExists = usuarios.stream().anyMatch(u -> u.getUsuario().equals(username));
                 boolean emailExists = usuarios.stream().anyMatch(u -> u.getEmail().equals(email));
 
-                if(!email.contains("@") || !email.endsWith(".com"))
-                {
-                    JOptionPane.showMessageDialog(this,"Correo inválido. Asegúrate de que tenga un '@' y termine en '.com'");
-                    return;
-                }
-
                 if (userExists || emailExists) {
-                    JOptionPane.showMessageDialog(this, "Usuario o correo ya en uso.");
+                    mostrarMensaje("Usuario o correo ya en uso.", false);
                     return;
                 }
 
@@ -129,24 +134,21 @@ public class VentanaLoginSignUp extends JFrame
                 nuevo.setEmail(email);
                 nuevo.setPassword(password);
                 UsuarioHiberImpl.getInstance().save(nuevo);
-                JOptionPane.showMessageDialog(this, "Usuario registrado con éxito.");
+                mostrarMensaje("Usuario registrado con éxito.", false);
                 cambiarModo.doClick();
-            }
-            else
-            {
+            } else {
                 Usuario usuario = UsuarioHiberImpl.getInstance().findAll().stream()
                         .filter(u -> u.getEmail().equals(email) && u.getPassword().equals(password))
                         .findFirst()
                         .orElse(null);
 
-                if (usuario != null)
-                {
+                if (usuario != null) {
                     SessionManager.setUsuarioActual(usuario);
-                    JOptionPane.showMessageDialog(this, "Bienvenido, " + usuario.getUsuario() + "!");
+                    mostrarMensaje("Bienvenid@, " + usuario.getUsuario() + "!", true);
                     dispose();
                     VentanaMenu.getInstance().run();
                 } else {
-                    JOptionPane.showMessageDialog(this, "Correo o contraseña incorrectos.");
+                    mostrarMensaje("Correo o contraseña incorrectos.", true);
                 }
             }
         });
@@ -163,4 +165,65 @@ public class VentanaLoginSignUp extends JFrame
         setContentPane(fondoPanel);
         setVisible(true);
     }
+
+    private void mostrarMensaje(String mensaje, boolean autoCerrar) {
+        JDialog dialog = new JDialog(this, "Mensaje", true);
+        dialog.setSize(500, 200);
+        dialog.setLocationRelativeTo(this);
+        dialog.setLayout(new BorderLayout());
+
+        JLabel label = new JLabel(mensaje, SwingConstants.CENTER);
+        label.setFont(new Font("Verdana", Font.BOLD, 16));
+        label.setForeground(Color.BLACK);
+        label.setBackground(new Color(143, 188, 143));
+        label.setOpaque(true);
+        label.setBorder(BorderFactory.createEmptyBorder(20, 10, 10, 10));
+        dialog.add(label, BorderLayout.CENTER);
+
+        if (!autoCerrar) {
+            JButton cerrar = new JButton("Aceptar");
+            cerrar.setFont(new Font("Arial", Font.PLAIN, 14));
+            cerrar.setBackground(new Color(60, 179, 113));
+            cerrar.setForeground(Color.BLACK);
+            cerrar.addActionListener(e -> dialog.dispose());
+
+            JPanel panelBoton = new JPanel();
+            panelBoton.setBackground(new Color(224, 255, 255));
+            panelBoton.add(cerrar);
+            dialog.add(panelBoton, BorderLayout.SOUTH);
+        } else {
+            new javax.swing.Timer(2000, e -> dialog.dispose()).start();
+        }
+
+        dialog.setVisible(true);
+    }
+
+    private void agregarPlaceholder(JTextField campo, String placeholder) {
+        campo.setText(placeholder);
+        campo.setForeground(Color.LIGHT_GRAY);
+
+        campo.addKeyListener(new java.awt.event.KeyAdapter() {
+            @Override
+            public void keyTyped(java.awt.event.KeyEvent e) {
+                if (campo.getText().equals(placeholder)) {
+                    campo.setText("");
+                    campo.setForeground(Color.BLACK);
+                }
+            }
+        });
+
+        campo.addFocusListener(new java.awt.event.FocusAdapter() {
+            @Override
+            public void focusLost(java.awt.event.FocusEvent e) {
+                if (campo.getText().isEmpty()) {
+                    campo.setText(placeholder);
+                    campo.setForeground(Color.LIGHT_GRAY);
+                }
+            }
+        });
+    }
 }
+
+
+
+

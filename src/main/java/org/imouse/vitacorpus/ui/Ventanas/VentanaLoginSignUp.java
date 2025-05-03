@@ -1,4 +1,6 @@
 package org.imouse.vitacorpus.ui.Ventanas;
+import lombok.NoArgsConstructor;
+import org.imouse.vitacorpus.funciones.login.SessionManager;
 import org.imouse.vitacorpus.model.Usuario;
 import org.imouse.vitacorpus.sql.hiberimpl.UsuarioHiberImpl;
 import org.imouse.vitacorpus.ui.MenuPrincipal;
@@ -7,13 +9,25 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
-public class VentanaLoginSignUp extends JFrame {
+@NoArgsConstructor
+public class VentanaLoginSignUp extends JFrame
+{
+    private static VentanaLoginSignUp ventanaLoginSignUp;
     private JTextField emailField;
     private JPasswordField passwordField;
     private JTextField usernameField;
     private boolean esRegistro = false;
 
-    public VentanaLoginSignUp() {
+    public static VentanaLoginSignUp getInstance()
+    {
+        if(ventanaLoginSignUp==null)
+        {
+            ventanaLoginSignUp = new VentanaLoginSignUp();
+        }
+        return ventanaLoginSignUp;
+    }
+
+    public void LoginSignup() {
         setTitle("Vitacorpus - Iniciar sesión / Registrarse");
         setSize(400, 300);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -30,6 +44,7 @@ public class VentanaLoginSignUp extends JFrame {
                 g.drawImage(fondo, 0, 0, getWidth(), getHeight(), this);
             }
         };
+
         fondoPanel.setOpaque(false);
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 10, 5, 10);
@@ -86,7 +101,8 @@ public class VentanaLoginSignUp extends JFrame {
             String email = emailField.getText().trim();
             String password = new String(passwordField.getPassword()).trim();
 
-            if (esRegistro) {
+            if (esRegistro)
+            {
                 String username = usernameField.getText().trim();
                 if (username.isEmpty() || email.isEmpty() || password.isEmpty()) {
                     JOptionPane.showMessageDialog(this, "Completa todos los campos.");
@@ -96,6 +112,12 @@ public class VentanaLoginSignUp extends JFrame {
                 List<Usuario> usuarios = UsuarioHiberImpl.getInstance().findAll();
                 boolean userExists = usuarios.stream().anyMatch(u -> u.getUsuario().equals(username));
                 boolean emailExists = usuarios.stream().anyMatch(u -> u.getEmail().equals(email));
+
+                if(!email.contains("@") || !email.endsWith(".com"))
+                {
+                    JOptionPane.showMessageDialog(this,"Correo inválido. Asegúrate de que tenga un '@' y termine en '.com'");
+                    return;
+                }
 
                 if (userExists || emailExists) {
                     JOptionPane.showMessageDialog(this, "Usuario o correo ya en uso.");
@@ -109,16 +131,20 @@ public class VentanaLoginSignUp extends JFrame {
                 UsuarioHiberImpl.getInstance().save(nuevo);
                 JOptionPane.showMessageDialog(this, "Usuario registrado con éxito.");
                 cambiarModo.doClick();
-            } else {
+            }
+            else
+            {
                 Usuario usuario = UsuarioHiberImpl.getInstance().findAll().stream()
                         .filter(u -> u.getEmail().equals(email) && u.getPassword().equals(password))
                         .findFirst()
                         .orElse(null);
 
-                if (usuario != null) {
+                if (usuario != null)
+                {
+                    SessionManager.setUsuarioActual(usuario);
                     JOptionPane.showMessageDialog(this, "Bienvenido, " + usuario.getUsuario() + "!");
                     dispose();
-                    MenuPrincipal.getInstance().run();
+                    VentanaMenu.getInstance().run();
                 } else {
                     JOptionPane.showMessageDialog(this, "Correo o contraseña incorrectos.");
                 }

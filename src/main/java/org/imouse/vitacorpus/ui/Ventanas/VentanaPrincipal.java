@@ -4,16 +4,23 @@ import org.imouse.vitacorpus.ui.Ejecutable;
 import javax.swing.*;
 import java.awt.*;
 
-public class VentanaPrincipal implements Ejecutable {
-
+public class VentanaPrincipal implements Ejecutable
+{
     private static VentanaPrincipal ventanaPrincipal;
     private boolean flag = false;
     private JFrame frame;
 
-    private VentanaPrincipal() {}
+    private VentanaPrincipal()
+    {
+        frame = new JFrame("Vitacorpus");
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setSize(700, 500);
+        frame.setLocationRelativeTo(null);
+    }
 
     public static VentanaPrincipal getInstance() {
-        if (ventanaPrincipal == null) {
+        if (ventanaPrincipal == null)
+        {
             ventanaPrincipal = new VentanaPrincipal();
         }
         return ventanaPrincipal;
@@ -22,13 +29,8 @@ public class VentanaPrincipal implements Ejecutable {
     @Override
     public void run() {
         SwingUtilities.invokeLater(() -> {
-            frame = new JFrame("Vitacorpus");
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setSize(700, 500);
-            frame.setLocationRelativeTo(null);
-
             // Panel con imagen de fondo
-            JPanel panel = new JPanel() {
+            JPanel panel = new JPanel(){
                 private Image imagenFondo = new ImageIcon(getClass().getResource("/img/fondito.jpeg")).getImage();
 
                 @Override
@@ -54,7 +56,10 @@ public class VentanaPrincipal implements Ejecutable {
             // Botón personalizado
             BotonPersonalizado iniciarBtn = new BotonPersonalizado("Iniciar");
             iniciarBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
-            iniciarBtn.addActionListener(e -> new VentanaLoginSignUp());
+            iniciarBtn.addActionListener(e ->{
+                frame.dispose();
+                VentanaLoginSignUp.getInstance().LoginSignup();
+            });
 
             // Añadir componentes al panel
             panel.add(logo);
@@ -63,6 +68,8 @@ public class VentanaPrincipal implements Ejecutable {
 
             frame.setContentPane(panel); // Usar setContentPane en lugar de add
             frame.setVisible(true);
+            frame.toFront();
+            frame.requestFocus();
         });
     }
 

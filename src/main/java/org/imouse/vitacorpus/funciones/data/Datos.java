@@ -60,10 +60,20 @@ public class Datos extends ManejoMenus
         RegistroDatos registroDatos = new RegistroDatos();
         usuarioActual = SessionManager.getUsuarioActual();
         double peso, estatura;
+        Integer edad;
 
         registroDatos.setUsuario(usuarioActual);
 
-        System.out.print("> Ingresa tu edad: ");
+        do
+        {
+            System.out.print("> Ingresa tu edad: ");
+            edad = ReadUtil.readInt();
+
+            if(edad<=0 || edad>=120)
+            {
+                System.out.println("❌ Introduce una edad válida.");
+            }
+        }while(edad<=0 || edad>=120);
         registroDatos.setEdad(ReadUtil.readInt());
 
         do
@@ -75,7 +85,7 @@ public class Datos extends ManejoMenus
             {
                 System.out.println("❌ Introduce un peso válido.");
             }
-        } while(peso>=300||peso<=20);
+        }while(peso>=300||peso<=20);
         registroDatos.setPeso(peso);
 
         do
@@ -186,8 +196,6 @@ public class Datos extends ManejoMenus
 
     public void explicacionImc()
     {
-        String flag = null;
-
         System.out.println("\n\t🧠 ¿Qué es el IMC?");
         System.out.println("El IMC (Índice de Masa Corporal) es una medida que relaciona tu peso con tu estatura.");
         System.out.println("Se calcula dividiendo tu peso en kilogramos entre tu estatura en metros cuadrados (kg/m²).");
@@ -196,9 +204,9 @@ public class Datos extends ManejoMenus
         System.out.println("Sin embargo, ten en cuenta que no considera tu masa muscular ni tu distribución de grasa, por lo que es meramente orientativo!");
         System.out.print("> Deseas conocer los rangos que el IMC maneja? (s/n): ");
 
-        flag = ReadUtil.read();
+        boolean flag = ReadUtil.read().equalsIgnoreCase("s");
 
-        if(flag.equalsIgnoreCase("s"))
+        if(flag)
         {
             System.out.println("\n\t🍏 Las divisiones del IMC de acuerdo al rango son:");
             System.out.println("> Menor a 18.5: Peso bajo");

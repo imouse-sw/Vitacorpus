@@ -15,7 +15,8 @@ public class BotonPersonalizado extends JButton {
         setForeground(Color.BLACK);
         setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
-        addMouseListener(new java.awt.event.MouseAdapter() {
+        addMouseListener(new java.awt.event.MouseAdapter()
+        {
             @Override
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 presionado = true;

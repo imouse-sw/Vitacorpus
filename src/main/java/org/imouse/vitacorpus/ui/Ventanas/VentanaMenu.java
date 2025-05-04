@@ -20,9 +20,7 @@ public class VentanaMenu extends JFrame implements Ejecutable {
         frame.setSize(600, 480);
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
-
-
-
+        frame.setLayout(new BorderLayout());
         fondoPanel = new JPanel(new GridBagLayout()) {
             private final Image fondo = new ImageIcon(getClass().getResource("/img/fondo2.jpeg")).getImage();
 
@@ -45,7 +43,6 @@ public class VentanaMenu extends JFrame implements Ejecutable {
     @Override
     public void run() {
         SwingUtilities.invokeLater(() -> {
-            frame.setLayout(new BorderLayout());
             frame.setContentPane(fondoPanel);
 
             GridBagConstraints gbc = new GridBagConstraints();
@@ -116,7 +113,7 @@ public class VentanaMenu extends JFrame implements Ejecutable {
                 if (opcionSeleccionada == 0) {
                     exit(0);
                 } else if (opcionSeleccionada == 1) {
-                    dispose();
+                    frame.dispose();
                     JOptionPane.showMessageDialog(this, "Sesión cerrada. Dirigiendo a la ventana de Login...");
                     VentanaLoginSignUp.getInstance().LoginSignup();
                 }

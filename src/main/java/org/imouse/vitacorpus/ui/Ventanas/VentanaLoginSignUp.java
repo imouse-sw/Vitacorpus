@@ -168,12 +168,12 @@ public class VentanaLoginSignUp extends JFrame {
 
     private void mostrarMensaje(String mensaje, boolean autoCerrar) {
         JDialog dialog = new JDialog(this, "Mensaje", true);
-        dialog.setSize(500, 200);
+        dialog.setSize(600, 200);
         dialog.setLocationRelativeTo(this);
         dialog.setLayout(new BorderLayout());
 
         JLabel label = new JLabel(mensaje, SwingConstants.CENTER);
-        label.setFont(new Font("Verdana", Font.BOLD, 16));
+        label.setFont(new Font("Verdana", Font.BOLD, 14));
         label.setForeground(Color.BLACK);
         label.setBackground(new Color(143, 188, 143));
         label.setOpaque(true);

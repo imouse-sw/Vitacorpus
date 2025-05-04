@@ -125,7 +125,7 @@ public class Datos extends ManejoMenus
         {
             System.out.println("> Esto indica una obesidad leve.");
         }
-        else if(imcRegistro>=35&&imcRegistro>=39.9)
+        else if(imcRegistro>=35&&imcRegistro<=39.9)
         {
             System.out.println("> Esto indica una obesidad moderada.");
         }

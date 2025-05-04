@@ -154,6 +154,13 @@ public class VentanaRegistroDatos extends JFrame implements Ejecutable {
             gbcNew.gridy = 5;
             fondoRegistro.add(btnCrear, gbcNew);
 
+            JLabel imcInfo = new JLabel("");
+            gbcNew.gridx = 0;
+            gbcNew.gridy = 6;
+            gbcNew.gridwidth = 2;
+            gbcNew.gridheight = 2;
+            fondoRegistro.add(imcInfo,gbcNew);
+
             btnCrear.addActionListener(e -> {
                 RegistroDatos nuevo = new RegistroDatos();
                 String edadTxt = edadField.getText().trim();
@@ -191,6 +198,7 @@ public class VentanaRegistroDatos extends JFrame implements Ejecutable {
                     RegistroHiberImpl.getInstance().save(nuevo);
 
                     imcLabel.setText(String.valueOf(nuevo.getImc()));
+                    mostrarInfoImc(nuevo.getImc(), imcInfo);
                     fondoRegistro.revalidate();
                     fondoRegistro.repaint();
                 } catch (NumberFormatException e1) {
@@ -202,6 +210,36 @@ public class VentanaRegistroDatos extends JFrame implements Ejecutable {
             frameRegistro.toFront();
             frameRegistro.requestFocus();
         });
+    }
+
+    private void mostrarInfoImc(double imcRegistro, JLabel info)
+    {
+        String resultado;
+        if(imcRegistro<18.5)
+        {
+            resultado = "esto indica un peso por debajo de lo normal.";
+        }
+        else if(imcRegistro>=18.5&&imcRegistro<=24.9)
+        {
+            resultado = "estás en un peso saludable. ¡Sigue así!";
+        }
+        else if(imcRegistro>=25&&imcRegistro<=29.9)
+        {
+            resultado = "esto indica un ligero sobrepeso.";
+        }
+        else if(imcRegistro>=30&&imcRegistro<=34.9)
+        {
+            resultado = "esto indica una obesidad leve.";
+        }
+        else if(imcRegistro>=35&&imcRegistro<=39.9)
+        {
+            resultado = "esto indica una obesidad moderada.";
+        }
+        else
+        {
+            resultado = "esto indica una obesidad mórbida. Te recomendamos enfocarte en ello! 😟";
+        }
+        info.setText("<html>Tu IMC fue de "+imcRegistro+", "+resultado+"</html>");
     }
 
     @Override

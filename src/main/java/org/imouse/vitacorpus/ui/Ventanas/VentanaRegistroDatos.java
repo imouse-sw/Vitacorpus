@@ -1,9 +1,11 @@
 package org.imouse.vitacorpus.ui.Ventanas;
+
+import org.imouse.vitacorpus.funciones.data.HistorialDatosVentana;
 import org.imouse.vitacorpus.funciones.login.SessionManager;
 import org.imouse.vitacorpus.model.RegistroDatos;
 import org.imouse.vitacorpus.sql.hiberimpl.RegistroHiberImpl;
 import org.imouse.vitacorpus.ui.Ejecutable;
-
+import org.imouse.vitacorpus.util.BotonPersonalizado;
 import javax.swing.*;
 import java.awt.*;
 
@@ -61,26 +63,69 @@ public class VentanaRegistroDatos extends JFrame implements Ejecutable {
             btnNuevo.addActionListener(e -> nuevoRegistro());
             fondoPanel.add(btnNuevo, gbc);
 
-            BotonPersonalizado btnHistorial = new BotonPersonalizado("Ver mi historial de registros");
+            BotonPersonalizado btnGestion = new BotonPersonalizado("Gestionar mis registros");
             gbc.gridy = 2;
-            fondoPanel.add(btnHistorial, gbc);
+            btnGestion.addActionListener(e -> new HistorialDatosVentana().setVisible(true));
+            fondoPanel.add(btnGestion, gbc);
 
-            BotonPersonalizado btnEliminar = new BotonPersonalizado("Eliminar uno de mis registros");
+            BotonPersonalizado btnImc = new BotonPersonalizado("¿Qué es el IMC?");
             gbc.gridy = 3;
-            fondoPanel.add(btnEliminar, gbc);
+            btnImc.addActionListener(e -> explicacionImc());
+            fondoPanel.add(btnImc, gbc);
 
             BotonPersonalizado btnRegresar = new BotonPersonalizado("Volver al menú principal");
             gbc.gridy = 4;
-            fondoPanel.add(btnRegresar, gbc);
-
             btnRegresar.addActionListener(e -> {
                 frame.dispose();
                 VentanaMenu.getInstance().run();
             });
+            fondoPanel.add(btnRegresar, gbc);
 
             frame.setVisible(true);
             frame.toFront();
             frame.requestFocus();
+        });
+    }
+
+    private void explicacionImc()
+    {
+        SwingUtilities.invokeLater(()-> {
+            JFrame frameExplicacion = new JFrame("¿Qué es el IMC?");
+            frameExplicacion.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            frameExplicacion.setSize(1080,600);
+            frameExplicacion.setLocationRelativeTo(null);
+            frameExplicacion.setResizable(false);
+
+            JPanel panel = new JPanel(new BorderLayout());
+            frameExplicacion.setContentPane(panel);
+
+            JLabel titulo = new JLabel("¿Qué es el IMC?");
+            titulo.setFont(new Font("Arial", Font.BOLD, 24));
+            titulo.setHorizontalAlignment(SwingConstants.CENTER);
+            titulo.setForeground(Color.BLACK);
+            panel.add(titulo, BorderLayout.PAGE_START);
+
+            JLabel explicacion = new JLabel(
+                    "<html><p style='width: 400px;'>"
+                            + "El IMC (Índice de Masa Corporal) es una medida que relaciona tu peso con tu estatura, "
+                            + "y se calcula dividiendo tu peso en kilogramos entre tu estatura en metros cuadrados (kg/m²).<br><br>"
+                            + "Sirve como una referencia general para saber si estás en un peso saludable, "
+                            + "si estás por debajo o por encima de lo considerado normal.<br><br>"
+                            + "Sin embargo, ten en cuenta que no considera tu masa muscular ni tu distribución de grasa, "
+                            + "por lo que es meramente orientativo."
+                            + "</p></html>"
+            );
+            explicacion.setFont(new Font("Arial", Font.PLAIN, 18));
+            explicacion.setHorizontalAlignment(SwingConstants.LEFT);
+            explicacion.setForeground(Color.BLACK);
+            panel.add(explicacion, BorderLayout.LINE_START);
+
+            JLabel imcImagen = new JLabel(new ImageIcon(getClass().getResource("/img/imc.png")));
+            panel.add(imcImagen,BorderLayout.LINE_END);
+
+            frameExplicacion.setVisible(true);
+            frameExplicacion.toFront();
+            frameExplicacion.requestFocus();
         });
     }
 

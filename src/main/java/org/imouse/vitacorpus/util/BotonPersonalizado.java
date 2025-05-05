@@ -1,4 +1,4 @@
-package org.imouse.vitacorpus.ui.Ventanas;
+package org.imouse.vitacorpus.util;
 import java.awt.*;
 import javax.swing.*;
 

@@ -1,5 +1,6 @@
 package org.imouse.vitacorpus.ui.Ventanas;
 import org.imouse.vitacorpus.ui.Ejecutable;
+import org.imouse.vitacorpus.util.BotonPersonalizado;
 
 import javax.swing.*;
 import java.awt.*;

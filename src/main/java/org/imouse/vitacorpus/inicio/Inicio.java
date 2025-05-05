@@ -1,8 +1,6 @@
 package org.imouse.vitacorpus.inicio;
 
 import org.imouse.vitacorpus.ui.SeleccionEjecutable;
-import org.imouse.vitacorpus.ui.Ventanas.VentanaMenu;
-import org.imouse.vitacorpus.ui.Ventanas.VentanaRegistroDatos;
 
 public class Inicio
 {

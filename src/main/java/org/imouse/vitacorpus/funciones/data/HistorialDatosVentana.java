@@ -111,7 +111,7 @@ public class HistorialDatosVentana extends JFrame
             int confirmar = JOptionPane.showConfirmDialog(this,"Deseas eliminar este registro?","Eliminando registro...",JOptionPane.YES_NO_OPTION);
             if(confirmar == JOptionPane.YES_OPTION)
             {
-                int id = (int) modeloTabla.getValueAt(fila, 0);
+                int id = (int) modeloTabla.getValueAt(fila, 1);
                 RegistroDatos registro = RegistroHiberImpl.getInstance().findById(id);
                 RegistroHiberImpl.getInstance().delete(registro);
 

@@ -72,12 +72,20 @@ public class VentanaMenu extends JFrame implements Ejecutable {
             });
             fondoPanel.add(btnRegistro, gbc);
 
-            BotonPersonalizado btnObjetivos = new BotonPersonalizado("Manejar mis objetivos");
+            BotonPersonalizado btnObjetivos = new BotonPersonalizado("Gestionar mi objetivo");
             gbc.gridy = 3;
+            btnObjetivos.addActionListener(e -> {
+                frame.dispose();
+                VentanaObjetivo.getInstance().run();
+            });
             fondoPanel.add(btnObjetivos, gbc);
 
             BotonPersonalizado btnRestricciones = new BotonPersonalizado("Manejar mis restricciones alimenticias");
             gbc.gridy = 4;
+            btnRestricciones.addActionListener(e -> {
+                frame.dispose();
+                VentanaRestricciones.getInstance().run();
+            });
             fondoPanel.add(btnRestricciones, gbc);
 
             BotonPersonalizado btnCalculadora = new BotonPersonalizado("Calculadora de sueño");

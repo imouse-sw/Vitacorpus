@@ -18,7 +18,8 @@ public class VentanaLoginSignUp extends JFrame {
     private boolean esRegistro = false;
 
     public static VentanaLoginSignUp getInstance() {
-        if (ventanaLoginSignUp == null) {
+        if (ventanaLoginSignUp == null)
+        {
             ventanaLoginSignUp = new VentanaLoginSignUp();
         }
         return ventanaLoginSignUp;

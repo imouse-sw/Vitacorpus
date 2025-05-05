@@ -71,7 +71,7 @@ public class CalculadoraSF implements Ejecutable {
         }
     }
 
-    private void calcularHorasDespertar() {
+    public void calcularHorasDespertar() {
         System.out.print("Ingresa la hora a la que piensas dormir (formato 24hrs, HH:mm): ");
         String hora = ReadUtil.read();
 
@@ -87,7 +87,7 @@ public class CalculadoraSF implements Ejecutable {
         }
     }
 
-    private List<Time> calcularHorasParaDormir(Time horaDespertar) {
+    public List<Time> calcularHorasParaDormir(Time horaDespertar) {
         List<Time> posiblesHoras = new ArrayList<>();
         LocalTime despertar = horaDespertar.toLocalTime();
 
@@ -99,7 +99,7 @@ public class CalculadoraSF implements Ejecutable {
         return posiblesHoras;
     }
 
-    private List<Time> calcularHorasParaDespertar(Time horaDormir) {
+    public List<Time> calcularHorasParaDespertar(Time horaDormir) {
         List<Time> posiblesHoras = new ArrayList<>();
         LocalTime dormir = horaDormir.toLocalTime();
 
@@ -111,7 +111,7 @@ public class CalculadoraSF implements Ejecutable {
         return posiblesHoras;
     }
 
-    private void queEs() {
+    public void queEs() {
         System.out.println("El sueño se divide en varias fases que forman un ciclo completo de aproximadamente 90 minutos.");
         System.out.println("Cada ciclo de sueño incluye las siguientes fases:");
         System.out.println("1. **Sueño ligero**: Es la primera fase del sueño donde nuestro cuerpo comienza a relajarse.");

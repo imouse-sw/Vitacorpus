@@ -82,6 +82,10 @@ public class VentanaMenu extends JFrame implements Ejecutable {
 
             BotonPersonalizado btnCalculadora = new BotonPersonalizado("Calculadora de sueño");
             gbc.gridy = 5;
+            btnCalculadora.addActionListener(e ->{
+                frame.dispose();
+                VentanaCalculadoraSueño.getInstance().run();
+            } );
             fondoPanel.add(btnCalculadora, gbc);
 
             BotonPersonalizado btnDietas = new BotonPersonalizado("Acceder al menú de dietas");

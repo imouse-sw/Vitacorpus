@@ -327,4 +327,3 @@ public class VentanaRegistroDatos extends JFrame implements Ejecutable {
         }
     }
 }
-

@@ -27,7 +27,6 @@ public class VentanaPrincipal implements Ejecutable {
     @Override
     public void run() {
         SwingUtilities.invokeLater(() -> {
-            // Panel con imagen de fondo
             JPanel panel = new JPanel() {
                 private Image imagenFondo = new ImageIcon(getClass().getResource("/img/fondito.jpeg")).getImage();
 
@@ -37,25 +36,22 @@ public class VentanaPrincipal implements Ejecutable {
                     g.drawImage(imagenFondo, 0, 0, getWidth(), getHeight(), this);
                 }
             };
-            panel.setOpaque(false); // Necesario para mostrar el fondo
+            panel.setOpaque(false);
             panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
             panel.setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30));
 
-            // Logo principal
             ImageIcon iconoOriginal = new ImageIcon(getClass().getResource("/img/logo.png"));
             Image imagenEscalada = iconoOriginal.getImage().getScaledInstance(325, 300, Image.SCALE_SMOOTH);
             JLabel logo = new JLabel(new ImageIcon(imagenEscalada));
             logo.setAlignmentX(Component.CENTER_ALIGNMENT);
             logo.setOpaque(false);
 
-            // Segundo logo (nombre)
             ImageIcon iconoOriginal2 = new ImageIcon(getClass().getResource("/img/nombre.png"));
             Image imagenEscalada2 = iconoOriginal2.getImage().getScaledInstance(90, 40, Image.SCALE_SMOOTH);
             JLabel logo2 = new JLabel(new ImageIcon(imagenEscalada2));
             logo2.setAlignmentX(Component.CENTER_ALIGNMENT);
             logo2.setOpaque(false);
 
-            // Botón personalizado
             BotonPersonalizado iniciarBtn = new BotonPersonalizado("Iniciar");
             iniciarBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
             iniciarBtn.addActionListener(e -> {
@@ -63,13 +59,11 @@ public class VentanaPrincipal implements Ejecutable {
                 VentanaLoginSignUp.getInstance().LoginSignup();
             });
 
-            // Añadir componentes al panel
             panel.add(logo);
             panel.add(logo2);
             panel.add(Box.createVerticalStrut(40));
             panel.add(iniciarBtn);
 
-            // Mostrar ventana
             frame.setContentPane(panel);
             frame.setVisible(true);
             frame.toFront();

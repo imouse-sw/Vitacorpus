@@ -2,7 +2,6 @@ package org.imouse.vitacorpus.ui.Ventanas;
 import org.imouse.vitacorpus.ui.Ejecutable;
 
 import org.imouse.vitacorpus.ui.Ejecutable;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
@@ -79,25 +78,28 @@ public class VentanaMenu extends JFrame implements Ejecutable {
             int fila = 0;
 
             JButton[] botones = {
-                    crearBoton("Manejar mis restricciones alimenticias", "/img/restricciones.png", new Color(185, 0, 255), e -> {
+                    crearBoton("<html><div style='text-align: center;'>Manejar mis<br>restricciones alimenticias</div></html>", "/img/restricciones.png", new Color(185, 0, 255), e -> {
                         frame.dispose();
                         VentanaRestricciones.getInstance().run();
-                    }, 150, 90),
+                    }, 140, 80),
                     crearBoton("Calculadora de sueño", "/img/calculadora.png", new Color(70, 130, 180), e -> {
                         frame.dispose();
                         VentanaCalculadoraSueño.getInstance().run();
-                    }, 120, 90),
+                    }, 110, 80),
                     crearBoton("Registrar mis datos", "/img/registro.png", new Color(143, 188, 143), e -> {
                         frame.dispose();
                         VentanaRegistroDatos.getInstance().run();
-                    }, 90, 90),
-                    crearBoton("Acceder al menú de dietas", "/img/dietas.png", new Color(240, 230, 140), null, 100, 100),
-                    crearBoton("Acceder al menú de rutinas de ejercicio", "/img/ejercicios.png", new Color(255, 140, 0), null, 110, 110),
+                    }, 80, 80),
+                    crearBoton("Acceder al menú de dietas", "/img/dietas.png", new Color(240, 230, 140), null,
+                            90, 90),
+                    crearBoton("<html>Acceder al menú de<br>rutinas de ejercicio</html>", "/img/ejercicios.png", new Color(255, 140, 0), null,
+                            100, 100),
                     crearBoton("Gestionar mi objetivo", "/img/objetivos.png", new Color(255, 99, 71), e -> {
                         frame.dispose();
                         VentanaObjetivo.getInstance().run();
-                    }, 90, 110)
+                    }, 80, 100)
             };
+
 
             for (int i = 0; i < botones.length; i++) {
                 gbcBotones.gridx = columna;

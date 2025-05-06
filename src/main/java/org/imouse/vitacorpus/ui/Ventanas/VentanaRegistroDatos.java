@@ -89,47 +89,72 @@ public class VentanaRegistroDatos extends JFrame implements Ejecutable {
         });
     }
 
-    private void explicacionImc()
-    {
-        SwingUtilities.invokeLater(()-> {
+    private void explicacionImc() {
+        SwingUtilities.invokeLater(() -> {
             JFrame frameExplicacion = new JFrame("¿Qué es el IMC?");
             frameExplicacion.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-            frameExplicacion.setSize(1080,600);
+            frameExplicacion.setSize(1280, 640);
             frameExplicacion.setLocationRelativeTo(null);
             frameExplicacion.setResizable(false);
 
-            JPanel panel = new JPanel(new BorderLayout());
-            frameExplicacion.setContentPane(panel);
+            // Panel con fondo
+            JPanel panelConFondo = new JPanel(new BorderLayout()) {
+                ImageIcon fondo = new ImageIcon(getClass().getResource("/img/fondo4.jpeg"));
+                Image imagenFondo = fondo.getImage();
 
+                @Override
+                protected void paintComponent(Graphics g) {
+                    super.paintComponent(g);
+                    g.drawImage(imagenFondo, 0, 0, getWidth(), getHeight(), this);
+                }
+            };
+            panelConFondo.setOpaque(false);
+            panelConFondo.setLayout(new BorderLayout());
+
+            frameExplicacion.setContentPane(panelConFondo);
+
+            // Título
             JLabel titulo = new JLabel("¿Qué es el IMC?");
-            titulo.setFont(new Font("Arial", Font.BOLD, 24));
+            titulo.setFont(new Font("Britannic Bold", Font.BOLD, 50));
             titulo.setHorizontalAlignment(SwingConstants.CENTER);
-            titulo.setForeground(Color.BLACK);
-            panel.add(titulo, BorderLayout.PAGE_START);
+            titulo.setForeground(new Color(47, 79, 79));
+            panelConFondo.add(titulo, BorderLayout.PAGE_START);
 
+            // Panel para contenido (texto + imagen)
+            JPanel panelContenido = new JPanel(new FlowLayout(FlowLayout.LEFT, 30, 20));
+            panelContenido.setOpaque(false);
+
+            // Texto explicativo
             JLabel explicacion = new JLabel(
-                    "<html><p style='width: 400px;'>"
-                            + "El IMC (Índice de Masa Corporal) es una medida que relaciona tu peso con tu estatura, "
+                    "<html><div style='text-align: justify; width: 500px;'>"
+                            + "<b>El IMC (Índice de Masa Corporal)</b> es una medida que relaciona tu peso con tu estatura, "
                             + "y se calcula dividiendo tu peso en kilogramos entre tu estatura en metros cuadrados (kg/m²).<br><br>"
                             + "Sirve como una referencia general para saber si estás en un peso saludable, "
                             + "si estás por debajo o por encima de lo considerado normal.<br><br>"
                             + "Sin embargo, ten en cuenta que no considera tu masa muscular ni tu distribución de grasa, "
                             + "por lo que es meramente orientativo."
-                            + "</p></html>"
+                            + "</div></html>"
             );
-            explicacion.setFont(new Font("Arial", Font.PLAIN, 18));
-            explicacion.setHorizontalAlignment(SwingConstants.LEFT);
+            explicacion.setFont(new Font("Amasis MT Pro Light", Font.PLAIN, 24));
             explicacion.setForeground(Color.BLACK);
-            panel.add(explicacion, BorderLayout.LINE_START);
 
-            JLabel imcImagen = new JLabel(new ImageIcon(getClass().getResource("/img/imc.png")));
-            panel.add(imcImagen,BorderLayout.LINE_END);
+            // Imagen
+            ImageIcon imagenIcon = new ImageIcon(getClass().getResource("/img/imc.png"));
+            Image imagen = imagenIcon.getImage().getScaledInstance(510, 280, Image.SCALE_SMOOTH);
+            JLabel imcImagen = new JLabel(new ImageIcon(imagen));
+
+            // Agregar componentes
+            panelContenido.add(explicacion);
+            panelContenido.add(imcImagen);
+
+            panelConFondo.add(panelContenido, BorderLayout.CENTER);
 
             frameExplicacion.setVisible(true);
             frameExplicacion.toFront();
             frameExplicacion.requestFocus();
         });
     }
+
 
     private void nuevoRegistro() {
         SwingUtilities.invokeLater(() -> {

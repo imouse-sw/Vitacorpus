@@ -55,10 +55,12 @@ public class VentanaPrincipal implements Ejecutable {
 
             BotonPersonalizado iniciarBtn = new BotonPersonalizado("Iniciar");
             iniciarBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
+            iniciarBtn.setBackground(new Color(143, 188, 143));
             iniciarBtn.addActionListener(e -> {
                 frame.dispose();
                 VentanaLoginSignUp.getInstance().LoginSignup();
             });
+
 
             panel.add(logo);
             panel.add(logo2);

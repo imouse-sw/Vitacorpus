@@ -26,8 +26,8 @@ public class VentanaLoginSignUp extends JFrame {
     }
 
     public void LoginSignup() {
-        ImageIcon iconoOriginal = new ImageIcon(getClass().getResource("/img/logito.png"));
-        Image imagenEscalada = iconoOriginal.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+        ImageIcon iconoOriginal = new ImageIcon(getClass().getResource("/img/logo.png"));
+        Image imagenEscalada = iconoOriginal.getImage().getScaledInstance(120, 110, Image.SCALE_SMOOTH);
         JLabel logo = new JLabel(new ImageIcon(imagenEscalada));
         logo.setOpaque(false);
         logo.setHorizontalAlignment(SwingConstants.CENTER);

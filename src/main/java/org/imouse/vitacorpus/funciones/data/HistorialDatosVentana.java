@@ -53,15 +53,10 @@ public class HistorialDatosVentana extends JFrame {
 
         tablaRegistros = new JTable(modeloTabla);
         tablaRegistros.setRowHeight(25);
-        tablaRegistros.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        tablaRegistros.setFont(new Font("Arial", Font.PLAIN, 14));
         tablaRegistros.setForeground(Color.BLACK);
         tablaRegistros.setOpaque(false);
         tablaRegistros.setBackground(new Color(0, 0, 0, 0)); // Transparente
-
-        JTableHeader header = tablaRegistros.getTableHeader();
-        header.setFont(new Font("Segoe UI", Font.BOLD, 15));
-        header.setBackground(new Color(143, 188, 143));
-        header.setForeground(Color.black);
 
         //  fondo transparente
         JScrollPane scrollPane = new JScrollPane(tablaRegistros);
@@ -69,17 +64,10 @@ public class HistorialDatosVentana extends JFrame {
         scrollPane.setOpaque(false);
 
         botonEliminar = new JButton("Eliminar registro seleccionado");
-        botonEliminar.setBackground(new Color(133, 195, 113));
-        botonEliminar.setForeground(Color.BLACK);
-        botonEliminar.setFont(new Font("Segoe UI", Font.BOLD, 14));
         botonEliminar.addActionListener(e -> eliminarRegistro());
 
-        JPanel panelBoton = new JPanel();
-        panelBoton.setOpaque(false);
-        panelBoton.add(botonEliminar);
-
         panelConFondo.add(scrollPane, BorderLayout.CENTER);
-        panelConFondo.add(panelBoton, BorderLayout.SOUTH);
+        panelConFondo.add(botonEliminar, BorderLayout.SOUTH);
     }
 
     private void datos() {

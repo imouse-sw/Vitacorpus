@@ -169,7 +169,7 @@ public class VentanaLoginSignUp extends JFrame {
 
     private void mostrarMensaje(String mensaje, boolean autoCerrar) {
         JDialog dialog = new JDialog(this, "Mensaje", true);
-        dialog.setSize(600, 200);
+        dialog.setSize(600, 125);
         dialog.setLocationRelativeTo(this);
         dialog.setLayout(new BorderLayout());
 

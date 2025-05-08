@@ -1,6 +1,5 @@
 package org.imouse.vitacorpus.ui.Ventanas;
 import org.imouse.vitacorpus.ui.Ejecutable;
-import org.imouse.vitacorpus.util.BotonPersonalizado;
 
 import javax.swing.*;
 import java.awt.*;
@@ -53,14 +52,12 @@ public class VentanaPrincipal implements Ejecutable {
             logo2.setAlignmentX(Component.CENTER_ALIGNMENT);
             logo2.setOpaque(false);
 
-            BotonPersonalizado iniciarBtn = new BotonPersonalizado("Iniciar");
+            JButton iniciarBtn = new JButton("Iniciar");
             iniciarBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
-            iniciarBtn.setBackground(new Color(143, 188, 143));
             iniciarBtn.addActionListener(e -> {
                 frame.dispose();
                 VentanaLoginSignUp.getInstance().LoginSignup();
             });
-
 
             panel.add(logo);
             panel.add(logo2);

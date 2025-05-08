@@ -11,7 +11,6 @@ import org.imouse.vitacorpus.sql.hiberimpl.RestriccionHiberImpl;
 import org.imouse.vitacorpus.sql.hiberimpl.UsuarioHiberImpl;
 import org.imouse.vitacorpus.sql.hiberimpl.UsuarioRestriccionHiberImpl;
 import org.imouse.vitacorpus.ui.Ejecutable;
-import org.imouse.vitacorpus.util.BotonPersonalizado;
 
 import javax.swing.*;
 import java.awt.*;
@@ -89,7 +88,7 @@ public class VentanaRestricciones extends JFrame implements Ejecutable
             gbc.weighty = 1.0;
             panel.add(listaScroll, gbc);
 
-            BotonPersonalizado btnAgregar = new BotonPersonalizado("Agregar una nueva restricción");
+            JButton btnAgregar = new JButton("Agregar una nueva restricción");
             gbc.gridy = 2;
             gbc.gridx = 0;
             gbc.gridwidth = 1;
@@ -101,12 +100,12 @@ public class VentanaRestricciones extends JFrame implements Ejecutable
             });
             panel.add(btnAgregar, gbc);
 
-            BotonPersonalizado btnEliminar = new BotonPersonalizado("Eliminar la restricción seleccionada");
+            JButton btnEliminar = new JButton("Eliminar la restricción seleccionada");
             gbc.gridx = 1;
             btnEliminar.addActionListener(e -> eliminarRegistro());
             panel.add(btnEliminar, gbc);
 
-            BotonPersonalizado btnVolver = new BotonPersonalizado("Volver");
+            JButton btnVolver = new JButton("Volver");
             gbc.gridx = 2;
             btnVolver.addActionListener(e -> {
                 frame.dispose();
@@ -196,7 +195,7 @@ public class VentanaRestricciones extends JFrame implements Ejecutable
         gbc.weighty = 1.0;
         panel.add(listaScroll, gbc);
 
-        BotonPersonalizado btnAgregar = new BotonPersonalizado("Agregar la selección");
+        JButton btnAgregar = new JButton("Agregar la selección");
         gbc.gridy = 2;
         gbc.gridwidth = 1;
         gbc.weighty = 0;
@@ -235,7 +234,7 @@ public class VentanaRestricciones extends JFrame implements Ejecutable
 
         panel.add(btnAgregar, gbc);
 
-        BotonPersonalizado btnVolver = new BotonPersonalizado("Volver");
+        JButton btnVolver = new JButton("Volver");
         gbc.gridy = 3;
         gbc.gridwidth = 1;
         gbc.weighty = 0;

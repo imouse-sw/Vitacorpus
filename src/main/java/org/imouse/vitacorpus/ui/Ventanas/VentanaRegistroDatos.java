@@ -5,7 +5,6 @@ import org.imouse.vitacorpus.funciones.login.SessionManager;
 import org.imouse.vitacorpus.model.RegistroDatos;
 import org.imouse.vitacorpus.sql.hiberimpl.RegistroHiberImpl;
 import org.imouse.vitacorpus.ui.Ejecutable;
-import org.imouse.vitacorpus.util.BotonPersonalizado;
 import javax.swing.*;
 import java.awt.*;
 
@@ -60,22 +59,22 @@ public class VentanaRegistroDatos extends JFrame implements Ejecutable {
             gbc.gridy = 0;
             fondoPanel.add(text, gbc);
 
-            BotonPersonalizado btnNuevo = new BotonPersonalizado("Añadir un nuevo registro");
+            JButton btnNuevo = new JButton("Añadir un nuevo registro");
             gbc.gridy = 1;
             btnNuevo.addActionListener(e -> nuevoRegistro());
             fondoPanel.add(btnNuevo, gbc);
 
-            BotonPersonalizado btnGestion = new BotonPersonalizado("Gestionar mis registros");
+            JButton btnGestion = new JButton("Gestionar mis registros");
             gbc.gridy = 2;
             btnGestion.addActionListener(e -> new HistorialDatosVentana().setVisible(true));
             fondoPanel.add(btnGestion, gbc);
 
-            BotonPersonalizado btnImc = new BotonPersonalizado("¿Qué es el IMC?");
+            JButton btnImc = new JButton("¿Qué es el IMC?");
             gbc.gridy = 3;
             btnImc.addActionListener(e -> explicacionImc());
             fondoPanel.add(btnImc, gbc);
 
-            BotonPersonalizado btnRegresar = new BotonPersonalizado("Volver al menú principal");
+            JButton btnRegresar = new JButton("Volver al menú principal");
             gbc.gridy = 4;
             btnRegresar.addActionListener(e -> {
                 frame.dispose();
@@ -89,65 +88,41 @@ public class VentanaRegistroDatos extends JFrame implements Ejecutable {
         });
     }
 
-    private void explicacionImc() {
-        SwingUtilities.invokeLater(() -> {
+    private void explicacionImc()
+    {
+        SwingUtilities.invokeLater(()-> {
             JFrame frameExplicacion = new JFrame("¿Qué es el IMC?");
             frameExplicacion.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-            frameExplicacion.setSize(1280, 640);
+            frameExplicacion.setSize(1080,600);
             frameExplicacion.setLocationRelativeTo(null);
             frameExplicacion.setResizable(false);
 
-            // Panel con fondo
-            JPanel panelConFondo = new JPanel(new BorderLayout()) {
-                ImageIcon fondo = new ImageIcon(getClass().getResource("/img/fondo4.jpeg"));
-                Image imagenFondo = fondo.getImage();
+            JPanel panel = new JPanel(new BorderLayout());
+            frameExplicacion.setContentPane(panel);
 
-                @Override
-                protected void paintComponent(Graphics g) {
-                    super.paintComponent(g);
-                    g.drawImage(imagenFondo, 0, 0, getWidth(), getHeight(), this);
-                }
-            };
-            panelConFondo.setOpaque(false);
-            panelConFondo.setLayout(new BorderLayout());
-
-            frameExplicacion.setContentPane(panelConFondo);
-
-            // Título
             JLabel titulo = new JLabel("¿Qué es el IMC?");
-            titulo.setFont(new Font("Britannic Bold", Font.BOLD, 50));
+            titulo.setFont(new Font("Arial", Font.BOLD, 24));
             titulo.setHorizontalAlignment(SwingConstants.CENTER);
-            titulo.setForeground(new Color(47, 79, 79));
-            panelConFondo.add(titulo, BorderLayout.PAGE_START);
+            titulo.setForeground(Color.BLACK);
+            panel.add(titulo, BorderLayout.PAGE_START);
 
-            // Panel para contenido (texto + imagen)
-            JPanel panelContenido = new JPanel(new FlowLayout(FlowLayout.LEFT, 30, 20));
-            panelContenido.setOpaque(false);
-
-            // Texto explicativo
             JLabel explicacion = new JLabel(
                     "<html><div style='text-align: justify; width: 500px;'>"
-                            + "<b>El IMC (Índice de Masa Corporal)</b> es una medida que relaciona tu peso con tu estatura, "
+                            + "El IMC (Índice de Masa Corporal) es una medida que relaciona tu peso con tu estatura, "
                             + "y se calcula dividiendo tu peso en kilogramos entre tu estatura en metros cuadrados (kg/m²).<br><br>"
                             + "Sirve como una referencia general para saber si estás en un peso saludable, "
                             + "si estás por debajo o por encima de lo considerado normal.<br><br>"
                             + "Sin embargo, ten en cuenta que no considera tu masa muscular ni tu distribución de grasa, "
                             + "por lo que es meramente orientativo."
-                            + "</div></html>"
+                            + "</p></html>"
             );
-            explicacion.setFont(new Font("Amasis MT Pro Light", Font.PLAIN, 24));
+            explicacion.setFont(new Font("Arial", Font.PLAIN, 18));
+            explicacion.setHorizontalAlignment(SwingConstants.LEFT);
             explicacion.setForeground(Color.BLACK);
+            panel.add(explicacion, BorderLayout.LINE_START);
 
-            // Imagen
-            ImageIcon imagenIcon = new ImageIcon(getClass().getResource("/img/imc.png"));
-            Image imagen = imagenIcon.getImage().getScaledInstance(510, 280, Image.SCALE_SMOOTH);
-            JLabel imcImagen = new JLabel(new ImageIcon(imagen));
-
-            // Agregar componentes
-            panelContenido.add(explicacion);
-            panelContenido.add(imcImagen);
-
-            panelConFondo.add(panelContenido, BorderLayout.CENTER);
+            JLabel imcImagen = new JLabel(new ImageIcon(getClass().getResource("/img/imc.png")));
+            panel.add(imcImagen,BorderLayout.LINE_END);
 
             frameExplicacion.setVisible(true);
             frameExplicacion.toFront();
@@ -291,7 +266,7 @@ public class VentanaRegistroDatos extends JFrame implements Ejecutable {
         {
             resultado = "esto indica un peso por debajo de lo normal.";
         }
-        else if(imcRegistro>=18.5&&imcRegistro<=24.9)
+        else if(imcRegistro>=18.5&&imcRegistro<=25)
         {
             resultado = "estás en un peso saludable. ¡Sigue así!";
         }
@@ -299,11 +274,11 @@ public class VentanaRegistroDatos extends JFrame implements Ejecutable {
         {
             resultado = "esto indica un ligero sobrepeso.";
         }
-        else if(imcRegistro>=30&&imcRegistro<=34.9)
+        else if(imcRegistro>=29.9&&imcRegistro<=34.9)
         {
             resultado = "esto indica una obesidad leve.";
         }
-        else if(imcRegistro>=35&&imcRegistro<=39.9)
+        else if(imcRegistro>=34.9&&imcRegistro<=39.9)
         {
             resultado = "esto indica una obesidad moderada.";
         }

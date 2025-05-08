@@ -2,14 +2,10 @@ package org.imouse.vitacorpus.ui.Ventanas;
 
 import org.imouse.vitacorpus.funciones.login.SessionManager;
 import org.imouse.vitacorpus.model.Objetivo;
-import org.imouse.vitacorpus.model.RegistroDatos;
 import org.imouse.vitacorpus.model.Usuario;
 import org.imouse.vitacorpus.sql.hiberimpl.ObjetivoHiberImpl;
-import org.imouse.vitacorpus.sql.hiberimpl.RegistroHiberImpl;
 import org.imouse.vitacorpus.sql.hiberimpl.UsuarioHiberImpl;
 import org.imouse.vitacorpus.ui.Ejecutable;
-import org.imouse.vitacorpus.util.BotonPersonalizado;
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -73,12 +69,12 @@ public class VentanaObjetivo extends JFrame implements Ejecutable
             txtTitulo.setForeground(Color.BLACK);
             panel.add(txtTitulo,gbc);
 
-            BotonPersonalizado btnEscoger = new BotonPersonalizado("Elegir/actualizar mi objetivo");
+            JButton btnEscoger = new JButton("Elegir/actualizar mi objetivo");
             gbc.gridy = 1;
             btnEscoger.addActionListener(e -> eleccionObjetivo(usuarioActual));
             panel.add(btnEscoger,gbc);
 
-            BotonPersonalizado btnEliminar = new BotonPersonalizado("Eliminar mi objetivo actual");
+            JButton btnEliminar = new JButton("Eliminar mi objetivo actual");
             gbc.gridy = 2;
             btnEliminar.addActionListener(e -> {
                 UIManager.put("OptionPane.yesButtonText","Sí");
@@ -95,7 +91,7 @@ public class VentanaObjetivo extends JFrame implements Ejecutable
             });
             panel.add(btnEliminar,gbc);
 
-            BotonPersonalizado btnVolver = new BotonPersonalizado("Volver");
+            JButton btnVolver = new JButton("Volver");
             gbc.gridx = 1;
             gbc.gridy = 3;
             btnVolver.addActionListener(e -> {

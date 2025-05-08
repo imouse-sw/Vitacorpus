@@ -1,23 +1,12 @@
 package org.imouse.vitacorpus.ui.Ventanas;
 
-import org.imouse.vitacorpus.funciones.data.HistorialDatosVentana;
-import org.imouse.vitacorpus.funciones.login.SessionManager;
-import org.imouse.vitacorpus.model.RegistroDatos;
-import org.imouse.vitacorpus.sql.hiberimpl.RegistroHiberImpl;
 import org.imouse.vitacorpus.ui.Ejecutable;
-import org.imouse.vitacorpus.util.BotonPersonalizado;
 
 import javax.swing.*;
 import java.awt.*;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.time.*;
-import java.util.*;
 
 public class VentanaCalculadoraSueño extends JFrame implements Ejecutable {
     private static VentanaCalculadoraSueño ventanaCalculadoraSueño;
@@ -29,7 +18,7 @@ public class VentanaCalculadoraSueño extends JFrame implements Ejecutable {
     private VentanaCalculadoraSueño() {
         frame = new JFrame("Vitacorpus - Calculadora de Sueño");
         frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        frame.setSize(626, 417);
+        frame.setSize(500, 480);
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
     }
@@ -57,7 +46,7 @@ public class VentanaCalculadoraSueño extends JFrame implements Ejecutable {
             panelPrincipal.setLayout(null);
 
             JLabel titulo = new JLabel("Calculadora de Ciclos de Sueño");
-            titulo.setFont(new Font("Britannic Bold", Font.BOLD, 24));
+            titulo.setFont(new Font("Arial", Font.BOLD, 18));
             titulo.setHorizontalAlignment(SwingConstants.CENTER);
             titulo.setForeground(Color.WHITE);
             titulo.setBounds(0, 20, 500, 30);
@@ -72,20 +61,6 @@ public class VentanaCalculadoraSueño extends JFrame implements Ejecutable {
             btnDespertar.setBounds(150, 130, 200, 40);
             btnInfo.setBounds(150, 180, 200, 40);
             btnVolver.setBounds(150, 230, 200, 40);
-
-            Font fuente = new Font("Angsana New", Font.PLAIN, 20);
-            Color fondoBoton = new Color(100, 110, 140);
-            Color fondoAzul = new Color(100, 110, 140);
-
-            for (JButton btn : new JButton[]{btnDormir, btnDespertar, btnInfo}) {
-                btn.setFont(fuente);
-                btn.setBackground(fondoBoton);
-                btn.setForeground(Color.WHITE);
-            }
-
-            btnVolver.setFont(fuente);
-            btnVolver.setBackground(fondoAzul);
-            btnVolver.setForeground(Color.WHITE);
 
             panelPrincipal.add(btnDormir);
             panelPrincipal.add(btnDespertar);
@@ -111,33 +86,23 @@ public class VentanaCalculadoraSueño extends JFrame implements Ejecutable {
         ventana.setResizable(false);
         ventana.setLayout(null);
 
-        // Panel con imagen de fondo
-        JPanel panel = new JPanel() {
-            private final Image fondo = new ImageIcon(getClass().getResource("/img/dormir.jpeg")).getImage();
-
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                g.drawImage(fondo, 0, 0, getWidth(), getHeight(), this);
-            }
-        };
+        JPanel panel = new JPanel();
         panel.setLayout(null);
+        panel.setBackground(new Color(30, 30, 30));
 
-        JLabel labelHora = new JLabel("Hora para despertar :");
+        JLabel labelHora = new JLabel("Hora para despertar:");
         labelHora.setFont(new Font("Arial", Font.PLAIN, 14));
         labelHora.setForeground(Color.WHITE);
         labelHora.setBounds(50, 30, 400, 30);
 
-        PlaceholderTextField fieldHora = new PlaceholderTextField("formato 24h, ej. 23:00");
+        PlaceholderTextField fieldHora = new PlaceholderTextField("En formato 24h, ej. 23:00");
         fieldHora.setBounds(50, 60, 400, 30);
 
         JButton btnCalcular = new JButton("Calcular hora para dormir");
         btnCalcular.setBounds(150, 110, 200, 40);
-        estilizarBoton(btnCalcular);
 
         JButton btnVolver = new JButton("Cerrar");
         btnVolver.setBounds(150, 170, 200, 40);
-        estilizarRojo(btnVolver);
 
         btnCalcular.addActionListener(e -> {
             String input = fieldHora.getText().trim();
@@ -173,8 +138,6 @@ public class VentanaCalculadoraSueño extends JFrame implements Ejecutable {
         ventana.setVisible(true);
     }
 
-
-
     private void crearVentanaDespertar() {
         JFrame ventana = new JFrame("¿A qué hora despertar?");
         ventana.setSize(500, 300);
@@ -186,21 +149,19 @@ public class VentanaCalculadoraSueño extends JFrame implements Ejecutable {
         panel.setLayout(null);
         panel.setBackground(new Color(30, 30, 30));
 
-        JLabel labelHora = new JLabel("Hora para dormir (formato 24h, ej. 23:00):");
+        JLabel labelHora = new JLabel("Hora para dormir:");
         labelHora.setFont(new Font("Arial", Font.PLAIN, 14));
         labelHora.setForeground(Color.WHITE);
         labelHora.setBounds(50, 30, 400, 30);
 
-        JTextField fieldHora = new JTextField();
+        PlaceholderTextField fieldHora = new PlaceholderTextField("En formato 24h, ej. 23:00");
         fieldHora.setBounds(50, 60, 400, 30);
 
         JButton btnCalcular = new JButton("Calcular hora para despertar");
         btnCalcular.setBounds(150, 110, 200, 40);
-        estilizarBoton(btnCalcular);
 
         JButton btnVolver = new JButton("Cerrar");
         btnVolver.setBounds(150, 170, 200, 40);
-        estilizarRojo(btnVolver);
 
         btnCalcular.addActionListener(e -> {
             String input = fieldHora.getText().trim();
@@ -280,7 +241,6 @@ public class VentanaCalculadoraSueño extends JFrame implements Ejecutable {
 
         JButton btnVolver = new JButton("Cerrar");
         btnVolver.setBounds(150, 330, 200, 40);
-        estilizarRojo(btnVolver);
 
         btnVolver.addActionListener(e -> ventana.dispose());
 
@@ -307,6 +267,7 @@ public class VentanaCalculadoraSueño extends JFrame implements Ejecutable {
     public void setFlag(boolean flag) {
         this.flag = flag;
     }
+
     static class PlaceholderTextField extends JTextField {
         private String placeholder;
         private boolean showingPlaceholder = true;

@@ -87,8 +87,6 @@ public class EleccionDietas implements Ejecutable
 
     private void getComidas(Integer seleccion)
     {
-        boolean flag = true;
-
         List<Comida> comidas = DietaComidaHiberImpl
             .getInstance()
             .getComidasByDietaId(seleccion);

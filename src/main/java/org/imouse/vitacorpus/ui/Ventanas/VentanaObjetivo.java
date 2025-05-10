@@ -20,7 +20,7 @@ public class VentanaObjetivo extends JFrame implements Ejecutable
     private VentanaObjetivo()
     {
         frame = new JFrame("Vitacorpus - Mi objetivo");
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         frame.setSize(450,220);
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
@@ -109,7 +109,7 @@ public class VentanaObjetivo extends JFrame implements Ejecutable
     private void eleccionObjetivo(Usuario usuarioActual)
     {
         JFrame frameEleccion = new JFrame("Eligiendo objetivo...");
-        frameEleccion.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frameEleccion.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         frameEleccion.setSize(300,240);
         frameEleccion.setLocationRelativeTo(null);
         frameEleccion.setResizable(false);

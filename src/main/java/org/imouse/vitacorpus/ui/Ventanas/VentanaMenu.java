@@ -1,5 +1,7 @@
 package org.imouse.vitacorpus.ui.Ventanas;
 
+import org.imouse.vitacorpus.funciones.login.SessionManager;
+import org.imouse.vitacorpus.model.Usuario;
 import org.imouse.vitacorpus.ui.Ejecutable;
 
 import javax.swing.*;
@@ -15,7 +17,7 @@ public class VentanaMenu extends JFrame implements Ejecutable {
 
     private VentanaMenu() {
         frame = new JFrame("Vitacorpus - ¡Bienvenido!");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         frame.setSize(600, 480);
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
@@ -42,6 +44,7 @@ public class VentanaMenu extends JFrame implements Ejecutable {
     @Override
     public void run() {
         SwingUtilities.invokeLater(() -> {
+            Usuario usuarioActual = SessionManager.getUsuarioActual();
             frame.setContentPane(fondoPanel);
 
             GridBagConstraints gbc = new GridBagConstraints();
@@ -56,7 +59,7 @@ public class VentanaMenu extends JFrame implements Ejecutable {
             gbc.gridy = 0;
             fondoPanel.add(saludo, gbc);
 
-            JLabel saludo2 = new JLabel("¿Qué vamos a hacer hoy?");
+            JLabel saludo2 = new JLabel("¿Qué vamos a hacer hoy, "+usuarioActual.getUsuario()+"?");
             saludo2.setFont(new Font("Arial", Font.ITALIC, 16));
             saludo2.setHorizontalAlignment(SwingConstants.CENTER);
             saludo2.setForeground(Color.BLACK);
@@ -97,6 +100,18 @@ public class VentanaMenu extends JFrame implements Ejecutable {
 
             JButton btnDietas = new JButton("Acceder al menú de dietas");
             gbc.gridy = 6;
+            btnDietas.addActionListener( e -> {
+                if(usuarioActual.getObjetivo() == null)
+                {
+                    JOptionPane.showMessageDialog(frame,"No puedes acceder al menú de dietas sin haber elegido un objetivo.");
+                    return;
+                }
+                else
+                {
+                    frame.dispose();
+                    VentanaDietas.getInstance().run();
+                }
+            });
             fondoPanel.add(btnDietas, gbc);
 
             JButton btnRutinas = new JButton("Acceder al menú de rutinas de ejercicio");

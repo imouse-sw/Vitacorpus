@@ -1,17 +1,12 @@
 package org.imouse.vitacorpus.ui.Ventanas;
 
 import org.imouse.vitacorpus.funciones.login.SessionManager;
-import org.imouse.vitacorpus.model.Objetivo;
-import org.imouse.vitacorpus.model.RegistroDatos;
 import org.imouse.vitacorpus.model.Restriccion;
 import org.imouse.vitacorpus.model.Usuario;
 import org.imouse.vitacorpus.model.relaciones.UsuarioRestriccion;
-import org.imouse.vitacorpus.sql.hiberimpl.RegistroHiberImpl;
 import org.imouse.vitacorpus.sql.hiberimpl.RestriccionHiberImpl;
-import org.imouse.vitacorpus.sql.hiberimpl.UsuarioHiberImpl;
 import org.imouse.vitacorpus.sql.hiberimpl.UsuarioRestriccionHiberImpl;
 import org.imouse.vitacorpus.ui.Ejecutable;
-
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
@@ -28,7 +23,7 @@ public class VentanaRestricciones extends JFrame implements Ejecutable
     private VentanaRestricciones()
     {
         frame = new JFrame("Vitacorpus - Mis restricciones");
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         frame.setSize(450,400);
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
@@ -159,7 +154,7 @@ public class VentanaRestricciones extends JFrame implements Ejecutable
         JFrame frameEleccion = new JFrame("Agregando nueva restricción...");
         frameEleccion.setResizable(false);
         frameEleccion.setSize(450,400);
-        frameEleccion.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frameEleccion.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         frameEleccion.setLocationRelativeTo(null);
 
         JPanel panel = new JPanel(new GridBagLayout());

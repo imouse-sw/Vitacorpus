@@ -16,7 +16,7 @@ public class VentanaRegistroDatos extends JFrame implements Ejecutable {
     private VentanaRegistroDatos()
     {
         frame = new JFrame("Vitacorpus - Registro de datos personales");
-        frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        frame.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         frame.setSize(480, 400);
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);

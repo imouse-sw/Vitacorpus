@@ -6,7 +6,6 @@ import java.awt.*;
 
 public class VentanaPrincipal implements Ejecutable {
     private static VentanaPrincipal ventanaPrincipal;
-    private boolean flag = false;
     private JFrame frame;
 
     private VentanaPrincipal() {
@@ -72,8 +71,8 @@ public class VentanaPrincipal implements Ejecutable {
     }
 
     @Override
-    public void setFlag(boolean flag) {
-        this.flag = flag;
+    public void setFlag(boolean flag)
+    {
     }
 
     public JFrame getFrame() {

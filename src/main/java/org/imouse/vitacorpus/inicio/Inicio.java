@@ -9,7 +9,10 @@ public class Inicio
     {
         System.out.println("Ejecutando Vitacorpus...");
         HibernateUtil.getSessionFactory(); // Para evitar el lag de Hibernate cuando se hacen operaciones :P
+
         SeleccionEjecutable.getInstance().run();
+
         System.out.println("¡Gracias por usar Vitacorpus!");
+        System.exit(0); // Para que el programa cierre bien porq había un bugsito ahí con las ventanas jeje
     }
 }

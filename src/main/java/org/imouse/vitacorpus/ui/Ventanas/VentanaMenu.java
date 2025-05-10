@@ -116,6 +116,18 @@ public class VentanaMenu extends JFrame implements Ejecutable {
 
             JButton btnRutinas = new JButton("Acceder al menú de rutinas de ejercicio");
             gbc.gridy = 7;
+            btnRutinas.addActionListener( e -> {
+                if(usuarioActual.getObjetivo() == null)
+                {
+                    JOptionPane.showMessageDialog(frame,"No puedes acceder al menú de rutinas sin haber elegido un objetivo.");
+                    return;
+                }
+                else
+                {
+                    frame.dispose();
+                    VentanaRutinas.getInstance().run();
+                }
+            });
             fondoPanel.add(btnRutinas, gbc);
 
             JButton btnSalir = new JButton("Salir");

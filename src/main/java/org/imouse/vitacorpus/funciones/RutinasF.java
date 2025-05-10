@@ -1,27 +1,26 @@
 package org.imouse.vitacorpus.funciones;
 
 import org.imouse.vitacorpus.funciones.login.SessionManager;
+import org.imouse.vitacorpus.model.Ejercicio;
 import org.imouse.vitacorpus.model.Objetivo;
 import org.imouse.vitacorpus.model.Rutina;
 import org.imouse.vitacorpus.model.Usuario;
 import org.imouse.vitacorpus.model.relaciones.RutinaEjercicio;
-import org.imouse.vitacorpus.model.relaciones.UsuarioRestriccion;
 import org.imouse.vitacorpus.sql.hiberimpl.RutinaEjercicioHiberImpl;
 import org.imouse.vitacorpus.sql.hiberimpl.RutinaHiberImpl;
-import org.imouse.vitacorpus.sql.hiberimpl.UsuarioRestriccionHiberImpl;
 import org.imouse.vitacorpus.ui.Ejecutable;
 import org.imouse.vitacorpus.util.ReadUtil;
 
-import java.lang.reflect.Method;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class RutinasF implements Ejecutable
 {
-    private boolean flag = true;
     private static RutinasF rutinasF;
+    private boolean flag = true;
 
-    private RutinasF() {
-    }
+    private RutinasF() {}
 
     public static RutinasF getInstance() {
         if (rutinasF == null) {
@@ -29,19 +28,84 @@ public class RutinasF implements Ejecutable
         }
         return rutinasF;
     }
+
     @Override
     public void run()
     {
-        System.out.println("=== Rutinas ===");
+        Usuario usuarioActual = SessionManager.getUsuarioActual();
+        Objetivo objetivo = usuarioActual != null ? usuarioActual.getObjetivo() : null;
 
-        Objetivo objetivo = getObjetivoUsuarioActual();
-
-        if (objetivo != null) {
-            mostrarRutinasPorDia(objetivo);
+        if (usuarioActual == null) {
+            System.out.println("> No hay ningún usuario loggeado.");
+            return;
         }
 
-        System.out.println("\nPresiona ENTER para volver al menú...");
-        ReadUtil.read();
+        if (objetivo == null) {
+            System.out.println("> El usuario no ha seleccionado ningún objetivo.");
+            return;
+        }
+
+        System.out.println("=== Rutinas disponibles para tu objetivo: " + objetivo.getDescripcion() + " ===");
+
+        boolean continuar = true;
+
+        while (continuar)
+        {
+            List<Rutina> rutinas = RutinaHiberImpl.getInstance().findByObjetivoId(objetivo.getId());
+
+            if (rutinas.isEmpty()) {
+                System.out.println("No hay rutinas asociadas a este objetivo.");
+                return;
+            }
+
+            // Mostrar lista de rutinas
+            rutinas.forEach(rutina ->
+                    System.out.println("ID: " + rutina.getId() + " | Rutina: " + rutina.getRutina()));
+
+            Set<Integer> idsValidos = rutinas.stream().map(Rutina::getId).collect(Collectors.toSet());
+
+            int seleccion;
+            do {
+                System.out.print("\nIngresa el ID de la rutina que deseas ver: ");
+                seleccion = ReadUtil.readInt();
+
+                if (!idsValidos.contains(seleccion)) {
+                    System.out.println("❌ Ese ID no está en la lista. Intenta de nuevo.");
+                }
+            } while (!idsValidos.contains(seleccion));
+
+            mostrarEjerciciosPorDia(seleccion);
+
+            System.out.print("\n¿Deseas revisar otra rutina? (s/n): ");
+            String respuesta = ReadUtil.read();
+
+            if (!respuesta.equalsIgnoreCase("s")) {
+                continuar = false;
+            }
+        }
+    }
+
+    private void mostrarEjerciciosPorDia(int rutinaId)
+    {
+        List<RutinaEjercicio> relaciones = RutinaEjercicioHiberImpl.getInstance().findByRutinaId(rutinaId);
+
+        if (relaciones.isEmpty()) {
+            System.out.println("Esta rutina no tiene ejercicios asignados.");
+            return;
+        }
+
+        for (RutinaEjercicio re : relaciones)
+        {
+            Ejercicio ejercicio = re.getEjercicio();
+
+            System.out.println("\n📆 Lunes:\n" + ejercicio.getEjercicioLunes());
+            System.out.println("📆 Martes:\n" + ejercicio.getEjercicioMartes());
+            System.out.println("📆 Miércoles:\n" + ejercicio.getEjercicioMiercoles());
+            System.out.println("📆 Jueves:\n" + ejercicio.getEjercicioJueves());
+            System.out.println("📆 Viernes:\n" + ejercicio.getEjercicioViernes());
+            System.out.println("📆 Sábado:\n" + ejercicio.getEjercicioSabado());
+            System.out.println("📆 Domingo:\n" + ejercicio.getEjercicioDomingo());
+        }
     }
 
     @Override
@@ -49,87 +113,4 @@ public class RutinasF implements Ejecutable
     {
         this.flag = flag;
     }
-    public Objetivo getObjetivoUsuarioActual() {
-        Usuario usuario = SessionManager.getUsuarioActual();
-
-        if (usuario == null) {
-            System.out.println("> No hay ningún usuario loggeado.");
-            return null;
-        }
-
-        Objetivo objetivo = usuario.getObjetivo();
-
-        if (objetivo == null) {
-            System.out.println("> El usuario no ha seleccionado ningún objetivo.");
-        } else {
-            System.out.println("> Objetivo actual del usuario: " + objetivo.getDescripcion());
-        }
-
-        return objetivo;
-    }
-    public void mostrarRutinasPorDia(Objetivo objetivo) {
-        List<Rutina> rutinas = RutinaHiberImpl.getInstance().findByObjetivo(objetivo);
-
-        if (rutinas.isEmpty()) {
-            System.out.println("No hay rutinas para este objetivo.");
-            return;
-        }
-
-        List<String> dias = List.of("Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo");
-
-        while (true) {
-            System.out.println("\n¿Qué día deseas ver? Elige un número:");
-            for (int i = 0; i < dias.size(); i++) {
-                System.out.println((i + 1) + ". " + dias.get(i));
-            }
-            System.out.println("8. Salir al menú");
-
-            int opcion;
-            try {
-                opcion = Integer.parseInt(ReadUtil.read().trim());
-            } catch (NumberFormatException e) {
-                System.out.println("Entrada no válida. Debes ingresar un número.");
-                continue;
-            }
-
-            if (opcion == 8) {
-                System.out.println("Regresando al menú...");
-                break;
-            }
-
-            if (opcion < 1 || opcion > 7) {
-                System.out.println("Número fuera de rango. Debe ser entre 1 y 8.");
-                continue;
-            }
-
-            String diaSeleccionado = dias.get(opcion - 1);
-            System.out.println("\nMostrando rutinas del día: " + diaSeleccionado);
-
-            int semana = 1;
-
-            for (Rutina rutina : rutinas) {
-                System.out.println("\nRutina: " + rutina.getDescripcion() + " | Semana " + semana);
-                semana++;
-
-                List<RutinaEjercicio> ejercicios = RutinaEjercicioHiberImpl.getInstance().findByRutinaId(rutina.getId());
-
-                for (RutinaEjercicio rutinaEjercicio : ejercicios) {
-                    Object ejercicio = rutinaEjercicio.getEjercicio();
-
-                    try {
-                        Method metodo = ejercicio.getClass().getMethod("getEjercicio" + diaSeleccionado);
-                        String resultado = (String) metodo.invoke(ejercicio);
-                        System.out.println("- " + resultado);
-                    } catch (Exception e) {
-                        System.out.println("Error accediendo al ejercicio del día " + diaSeleccionado);
-                    }
-                }
-            }
-        }
-    }
-
-
-
-
-
 }

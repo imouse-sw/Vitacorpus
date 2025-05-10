@@ -5,6 +5,7 @@ import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.imouse.vitacorpus.funciones.login.SessionManager;
 import org.imouse.vitacorpus.hibernate.HibernateUtil;
+import org.imouse.vitacorpus.model.Dieta;
 import org.imouse.vitacorpus.model.Objetivo;
 import org.imouse.vitacorpus.model.Rutina;
 import org.imouse.vitacorpus.model.Usuario;
@@ -65,22 +66,19 @@ public class RutinaHiberImpl implements Sql<Rutina> {
         return rutina;
     }
 
-    public List<Rutina> findByObjetivo(Objetivo objetivo) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        List<Rutina> lista = new ArrayList<>();
+    public List<Rutina> findByObjetivoId(int idObjetivo)
+    {
+        Session session = HibernateUtil.getSession();
+        assert session != null;
 
-        try {
-            Query<Rutina> query = session.createQuery(
-                    "FROM Rutina WHERE objetivo = :objetivo", Rutina.class);
-            query.setParameter("objetivo", objetivo);
-            lista = query.getResultList();
-        } finally {
-            session.close();
-        }
+        List<Rutina> rutinas = session
+                .createQuery("FROM Rutina WHERE objetivo.id = :idRutina", Rutina.class) // id refiere al idObjetivo
+                .setParameter("idRutina", idObjetivo)
+                .getResultList();
 
-        return lista;
+        session.close();
+        return rutinas;
     }
 
 
 }
-

@@ -64,9 +64,6 @@ CREATE TABLE IF NOT EXISTS vitacorpus.TBL_RUTINA
 (
 	idRutina INT PRIMARY KEY AUTO_INCREMENT,
     rutina VARCHAR(1000) NOT NULL,
-    descripcion VARCHAR(3000) NOT NULL,
-    precauciones VARCHAR(1000),
-    gradoDificultad INT NOT NULL,
     CAT_OBJETIVO_idObjetivos INT NOT NULL,
     
 	FOREIGN KEY (CAT_OBJETIVO_idObjetivos) REFERENCES vitacorpus.CAT_OBJETIVO(idObjetivos)

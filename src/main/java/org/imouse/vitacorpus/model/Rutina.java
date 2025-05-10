@@ -16,15 +16,6 @@ public class Rutina extends Entidad
     @Column(name = "rutina", nullable = false)
     private String rutina;
 
-    @Column(name = "descripcion", nullable = false)
-    private String descripcion;
-
-    @Column(name = "precauciones")
-    private String precauciones;
-
-    @Column(name = "gradoDificultad", nullable = false)
-    private int dificultad;
-
     @ManyToOne
     @JoinColumn(name = "CAT_OBJETIVO_idObjetivos")
     private Objetivo objetivo;

@@ -6,7 +6,6 @@ import org.imouse.vitacorpus.model.Dieta;
 import org.imouse.vitacorpus.model.Restriccion;
 import org.imouse.vitacorpus.model.Usuario;
 import org.imouse.vitacorpus.model.relaciones.ComidaRestriccion;
-import org.imouse.vitacorpus.model.relaciones.UsuarioRestriccion;
 import org.imouse.vitacorpus.sql.hiberimpl.*;
 import org.imouse.vitacorpus.ui.Ejecutable;
 
@@ -74,7 +73,7 @@ public class VentanaDietas extends JFrame implements Ejecutable
                 JButton boton = new JButton(dieta.getDieta());
                 boton.addActionListener(e -> {
                     frame.dispose();
-                    mostrarComidas(dieta.getId());
+                    dietaSeleccionada(dieta.getId());
                 });
 
                 gbc.gridx = columna;
@@ -106,7 +105,7 @@ public class VentanaDietas extends JFrame implements Ejecutable
         });
     }
 
-    private void mostrarComidas(Integer idDieta)
+    private void dietaSeleccionada(Integer idDieta)
     {
         usuarioActual = SessionManager.getUsuarioActual();
 
@@ -134,38 +133,39 @@ public class VentanaDietas extends JFrame implements Ejecutable
         panel.add(tituloTxt,gbc);
 
         JButton btnLunes = new JButton("Lunes");
+        btnLunes.addActionListener(e -> getComidas("Lunes", comidas));
         JButton btnMartes = new JButton("Martes");
+        btnMartes.addActionListener(e -> getComidas("Martes", comidas));
         JButton btnMiercoles = new JButton("Miércoles");
+        btnMiercoles.addActionListener(e -> getComidas("Miercoles", comidas));
         JButton btnJueves = new JButton("Jueves");
+        btnJueves.addActionListener(e -> getComidas("Jueves", comidas));
         JButton btnViernes = new JButton("Viernes");
+        btnViernes.addActionListener(e -> getComidas("Viernes", comidas));
         JButton btnSabado = new JButton("Sábado");
+        btnSabado.addActionListener(e -> getComidas("Sabado", comidas));
         JButton btnDomingo = new JButton("Domingo");
+        btnDomingo.addActionListener(e -> getComidas("Domingo", comidas));
         JButton btnSemana = new JButton("Quiero ver toda la semana");
+        btnSemana.addActionListener(e -> getComidas("Semana", comidas));
 
         gbc.gridx = 0;
         gbc.gridwidth = 1;
 
         gbc.gridy = 1;
         panel.add(btnLunes,gbc);
-
         gbc.gridy = 2;
         panel.add(btnMartes,gbc);
-
         gbc.gridy = 3;
         panel.add(btnMiercoles,gbc);
-
         gbc.gridy = 4;
         panel.add(btnJueves,gbc);
-
         gbc.gridy = 5;
         panel.add(btnViernes,gbc);
-
         gbc.gridy = 6;
         panel.add(btnSabado,gbc);
-
         gbc.gridy = 7;
         panel.add(btnDomingo,gbc);
-
         gbc.gridy = 8;
         panel.add(btnSemana,gbc);
 
@@ -192,6 +192,75 @@ public class VentanaDietas extends JFrame implements Ejecutable
         frameComidas.setVisible(true);
         frameComidas.toFront();
         frameComidas.requestFocus();
+    }
+
+    private void getComidas(String dia, Comida comida)
+    {
+        usuarioActual = SessionManager.getUsuarioActual();
+
+        JFrame framePlan = new JFrame("Plan del día");
+        framePlan.setResizable(false);
+        framePlan.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        framePlan.setLocationRelativeTo(null);
+
+        JPanel panel = new JPanel(new BorderLayout());
+        framePlan.setContentPane(panel);
+
+        JLabel tituloTxt = new JLabel("");
+        tituloTxt.setFont(new Font("Arial",Font.BOLD,18));
+        tituloTxt.setForeground(Color.BLACK);
+        tituloTxt.setHorizontalAlignment(SwingConstants.CENTER);
+
+        String contenido = "";
+
+        if(dia.equalsIgnoreCase("semana"))
+        {
+            contenido =
+                    "Lunes:\n" + comida.getComidasLunes() + "\n\n" +
+                    "Martes:\n" + comida.getComidasMartes() + "\n\n" +
+                    "Miércoles:\n" + comida.getComidasMiercoles() + "\n\n" +
+                    "Jueves:\n" + comida.getComidasJueves() + "\n\n" +
+                    "Viernes:\n" + comida.getComidasViernes() + "\n\n" +
+                    "Sábado:\n" + comida.getComidasSabado() + "\n\n" +
+                    "Domingo:\n" + comida.getComidasDomingo();
+            framePlan.setSize(450,400);
+            tituloTxt.setText("Estas son las comidas de la semana:");
+        }
+        else
+        {
+            contenido = switch (dia.toLowerCase())
+            {
+                case "lunes" -> comida.getComidasLunes();
+                case "martes" -> comida.getComidasMartes();
+                case "miercoles" -> comida.getComidasMiercoles();
+                case "jueves" -> comida.getComidasJueves();
+                case "viernes" -> comida.getComidasViernes();
+                case "sabado" -> comida.getComidasSabado();
+                case "domingo" -> comida.getComidasDomingo();
+                default -> contenido;
+            };
+            framePlan.setSize(450,180);
+            tituloTxt.setText("Estas son las comidas del día "+dia.toLowerCase()+":");
+        }
+
+        panel.add(tituloTxt,BorderLayout.PAGE_START);
+
+        JTextArea text = new JTextArea(contenido);
+        text.setEditable(false);
+        text.setLineWrap(true);
+        text.setWrapStyleWord(true);
+        text.setFont(new Font("Arial",Font.PLAIN,15));
+
+        JScrollPane scrollPane = new JScrollPane(text);
+        panel.add(scrollPane,BorderLayout.CENTER);
+
+        JButton btnVolver = new JButton("Volver");
+        btnVolver.addActionListener(e -> framePlan.dispose());
+        panel.add(btnVolver,BorderLayout.PAGE_END);
+
+        framePlan.setVisible(true);
+        framePlan.toFront();
+        framePlan.requestFocus();
     }
 
     private JPanel getRestricciones(Comida comidas, Integer idUsuario)

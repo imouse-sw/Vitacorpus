@@ -95,4 +95,18 @@ public class DietaComidaHiberImpl implements Sql<DietaComida>
         session.close();
         return comidas;
     }
+
+    public Comida getComidaByDietaId(Integer idDieta)
+    {
+        Session session = HibernateUtil.getSession();
+        assert session!=null;
+
+        Comida comida = session
+                .createQuery("SELECT dc.comida FROM DietaComida dc WHERE dc.dieta.id = :idDieta", Comida.class)
+                .setParameter("idDieta", idDieta)
+                .uniqueResult();
+
+        session.close();
+        return comida;
+    }
 }

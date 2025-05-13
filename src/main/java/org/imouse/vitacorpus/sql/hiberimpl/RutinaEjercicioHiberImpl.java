@@ -3,6 +3,9 @@ package org.imouse.vitacorpus.sql.hiberimpl;
 import lombok.NoArgsConstructor;
 import org.hibernate.Session;
 import org.imouse.vitacorpus.hibernate.HibernateUtil;
+import org.imouse.vitacorpus.model.Comida;
+import org.imouse.vitacorpus.model.Ejercicio;
+import org.imouse.vitacorpus.model.Rutina;
 import org.imouse.vitacorpus.model.relaciones.DietaComida;
 import org.imouse.vitacorpus.model.relaciones.RutinaEjercicio;
 import org.imouse.vitacorpus.sql.Sql;
@@ -80,5 +83,32 @@ public class RutinaEjercicioHiberImpl implements Sql<RutinaEjercicio>
 
         session.close();
         return rutinaEjercicio;
+    }
+    public List<Ejercicio> getEjerciciosByRutinaId(Integer idRutina)
+    {
+        Session session = HibernateUtil.getSession();
+        assert session!=null;
+
+        List<Ejercicio> ejercicios = session
+                .createQuery("SELECT dc.ejercicio FROM RutinaEjercicio dc WHERE dc.rutina.id = :idRutina", Ejercicio.class)
+                .setParameter("idRutina", idRutina)
+                .getResultList();
+
+        session.close();
+        return ejercicios;
+    }
+
+    public Ejercicio getEjercicioByRutinaId(Integer idRutina)
+    {
+        Session session = HibernateUtil.getSession();
+        assert session!=null;
+
+        Ejercicio ejercicio = session
+                .createQuery("SELECT dc.ejercicio FROM RutinaEjercicio dc WHERE dc.rutina.id = :idRutina", Ejercicio.class)
+                .setParameter("idRutina", idRutina)
+                .uniqueResult();
+
+        session.close();
+        return ejercicio;
     }
 }

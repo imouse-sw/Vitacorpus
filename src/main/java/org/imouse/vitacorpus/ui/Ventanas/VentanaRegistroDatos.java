@@ -93,7 +93,7 @@ public class VentanaRegistroDatos extends JFrame implements Ejecutable {
         SwingUtilities.invokeLater(()-> {
             JFrame frameExplicacion = new JFrame("¿Qué es el IMC?");
             frameExplicacion.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-            frameExplicacion.setSize(1080,600);
+            frameExplicacion.setSize(800,650);
             frameExplicacion.setLocationRelativeTo(null);
             frameExplicacion.setResizable(false);
 
@@ -106,23 +106,28 @@ public class VentanaRegistroDatos extends JFrame implements Ejecutable {
             titulo.setForeground(Color.BLACK);
             panel.add(titulo, BorderLayout.PAGE_START);
 
-            JLabel explicacion = new JLabel(
-                    "<html><div style='text-align: justify; width: 500px;'>"
-                            + "El IMC (Índice de Masa Corporal) es una medida que relaciona tu peso con tu estatura, "
-                            + "y se calcula dividiendo tu peso en kilogramos entre tu estatura en metros cuadrados (kg/m²).<br><br>"
+            JTextArea explicacion = new JTextArea(
+                            "El IMC (Índice de Masa Corporal) es una medida que relaciona tu peso con tu estatura, "
+                            + "y se calcula dividiendo tu peso en kilogramos entre tu estatura en metros cuadrados (kg/m²)." + "\n\n"
                             + "Sirve como una referencia general para saber si estás en un peso saludable, "
-                            + "si estás por debajo o por encima de lo considerado normal.<br><br>"
+                            + "si estás por debajo o por encima de lo considerado normal. "
                             + "Sin embargo, ten en cuenta que no considera tu masa muscular ni tu distribución de grasa, "
-                            + "por lo que es meramente orientativo."
-                            + "</p></html>"
+                            + "por lo que es meramente orientativo." + "\n\n"
+                            + "El IMC se interpreta de manera diferente para niños y adolescentes, aunque se calcula utilizando la misma fórmula que el IMC para adultos. "
+                            + "Para los niños y adolescentes debe ser específico para la edad y el sexo porque la cantidad de grasa corporal cambia con la edad y "
+                            + "difiere entre niñas y niños."
             );
-            explicacion.setFont(new Font("Arial", Font.PLAIN, 18));
-            explicacion.setHorizontalAlignment(SwingConstants.LEFT);
+            explicacion.setFont(new Font("Arial", Font.PLAIN, 15));
             explicacion.setForeground(Color.BLACK);
-            panel.add(explicacion, BorderLayout.LINE_START);
+            explicacion.setEditable(false);
+            explicacion.setLineWrap(true);
+            explicacion.setWrapStyleWord(true);
+
+            JScrollPane scrollPane = new JScrollPane(explicacion);
+            panel.add(scrollPane, BorderLayout.CENTER);
 
             JLabel imcImagen = new JLabel(new ImageIcon(getClass().getResource("/img/imc.png")));
-            panel.add(imcImagen,BorderLayout.LINE_END);
+            panel.add(imcImagen,BorderLayout.PAGE_END);
 
             frameExplicacion.setVisible(true);
             frameExplicacion.toFront();

@@ -7,12 +7,19 @@ import java.awt.*;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.time.format.DateTimeParseException;
+
+import javax.swing.*;
+import java.awt.*;
+import java.time.LocalTime;
+import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class VentanaCalculadoraSueño extends JFrame implements Ejecutable {
-    private static VentanaCalculadoraSueño ventanaCalculadoraSueño;
+    private static VentanaCalculadoraSueño instancia;
     private boolean flag;
     private JFrame frame;
-
     private JPanel panelPrincipal;
 
     private VentanaCalculadoraSueño() {
@@ -24,16 +31,16 @@ public class VentanaCalculadoraSueño extends JFrame implements Ejecutable {
     }
 
     public static VentanaCalculadoraSueño getInstance() {
-        if (ventanaCalculadoraSueño == null) {
-            ventanaCalculadoraSueño = new VentanaCalculadoraSueño();
+        if (instancia == null) {
+            instancia = new VentanaCalculadoraSueño();
         }
-        return ventanaCalculadoraSueño;
+        return instancia;
     }
 
     @Override
     public void run() {
         SwingUtilities.invokeLater(() -> {
-            // Panel principal con fondo personalizado
+            // Crear panel con fondo
             panelPrincipal = new JPanel() {
                 private final Image fondo = new ImageIcon(getClass().getResource("/img/fondo_sueno.jpg")).getImage();
                 @Override
@@ -42,6 +49,7 @@ public class VentanaCalculadoraSueño extends JFrame implements Ejecutable {
                     g.drawImage(fondo, 0, 0, getWidth(), getHeight(), this);
                 }
             };
+
             frame.setContentPane(panelPrincipal);
             panelPrincipal.setLayout(null);
 
@@ -57,19 +65,17 @@ public class VentanaCalculadoraSueño extends JFrame implements Ejecutable {
             JButton btnInfo = new JButton("¿Qué son los ciclos REM?");
             JButton btnVolver = new JButton("Volver al menú principal");
 
-            btnDormir.setBounds(150, 80, 200, 40);
-            btnDespertar.setBounds(150, 130, 200, 40);
-            btnInfo.setBounds(150, 180, 200, 40);
-            btnVolver.setBounds(150, 230, 200, 40);
+            JButton[] botones = {btnDormir, btnDespertar, btnInfo, btnVolver};
+            int y = 80;
+            for (JButton btn : botones) {
+                btn.setBounds(150, y, 200, 40);
+                panelPrincipal.add(btn);
+                y += 50;
+            }
 
-            panelPrincipal.add(btnDormir);
-            panelPrincipal.add(btnDespertar);
-            panelPrincipal.add(btnInfo);
-            panelPrincipal.add(btnVolver);
-
-            btnDormir.addActionListener(e -> crearVentanaDormir());
-            btnDespertar.addActionListener(e -> crearVentanaDespertar());
-            btnInfo.addActionListener(e -> crearVentanaInfo());
+            btnDormir.addActionListener(e -> mostrarVentanaHoraParaDormir());
+            btnDespertar.addActionListener(e -> mostrarVentanaHoraParaDespertar());
+            btnInfo.addActionListener(e -> mostrarVentanaInformacionREM());
             btnVolver.addActionListener(e -> {
                 frame.dispose();
                 VentanaMenu.getInstance().run();
@@ -79,16 +85,36 @@ public class VentanaCalculadoraSueño extends JFrame implements Ejecutable {
         });
     }
 
-    private void crearVentanaDormir() {
+    // Método para validar si la hora es válida
+    private boolean esHoraValida(String hora) {
+        return hora.matches("\\d{2}:\\d{2}");
+    }
+
+    private LocalTime parsearHora(String texto, Component parent) {
+        try {
+            return LocalTime.parse(texto);
+        } catch (DateTimeParseException e) {
+            JOptionPane.showMessageDialog(parent, "Formato de hora inválido. Usa HH:mm.");
+            return null;
+        }
+    }
+
+    private void mostrarVentanaHoraParaDormir() {
         JFrame ventana = new JFrame("¿A qué hora dormir?");
         ventana.setSize(500, 300);
         ventana.setLocationRelativeTo(null);
         ventana.setResizable(false);
-        ventana.setLayout(null);
 
-        JPanel panel = new JPanel();
+        // Crear panel con fondo
+        JPanel panel = new JPanel() {
+            private final Image fondo = new ImageIcon(getClass().getResource("/img/fondo_anochecer.jpeg")).getImage();
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                g.drawImage(fondo, 0, 0, getWidth(), getHeight(), this);
+            }
+        };
         panel.setLayout(null);
-        panel.setBackground(new Color(30, 30, 30));
 
         JLabel labelHora = new JLabel("Hora para despertar:");
         labelHora.setFont(new Font("Arial", Font.PLAIN, 14));
@@ -106,16 +132,12 @@ public class VentanaCalculadoraSueño extends JFrame implements Ejecutable {
 
         btnCalcular.addActionListener(e -> {
             String input = fieldHora.getText().trim();
-            if (!input.matches("\\d{2}:\\d{2}")) {
-                JOptionPane.showMessageDialog(ventana, "Formato de hora inválido. Usa HH:mm.");
-                return;
-            }
+            LocalTime horaDespertar = parsearHora(input, ventana);
+            if (horaDespertar == null) return;
 
-            LocalTime horaDespertar = LocalTime.parse(input);
             List<LocalTime> opciones = new ArrayList<>();
             for (int ciclos = 6; ciclos >= 3; ciclos--) {
-                LocalTime horaDormir = horaDespertar.minusMinutes(ciclos * 90L);
-                opciones.add(horaDormir);
+                opciones.add(horaDespertar.minusMinutes(ciclos * 90L));
             }
 
             StringBuilder mensaje = new StringBuilder("Para despertarte a las " + horaDespertar + ", podrías dormirte a:\n\n");
@@ -138,16 +160,22 @@ public class VentanaCalculadoraSueño extends JFrame implements Ejecutable {
         ventana.setVisible(true);
     }
 
-    private void crearVentanaDespertar() {
+    private void mostrarVentanaHoraParaDespertar() {
         JFrame ventana = new JFrame("¿A qué hora despertar?");
         ventana.setSize(500, 300);
         ventana.setLocationRelativeTo(null);
         ventana.setResizable(false);
-        ventana.setLayout(null);
 
-        JPanel panel = new JPanel();
+        // Crear panel con fondo
+        JPanel panel = new JPanel() {
+            private final Image fondo = new ImageIcon(getClass().getResource("/img/fondo_amanecer.jpeg")).getImage();
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                g.drawImage(fondo, 0, 0, getWidth(), getHeight(), this);
+            }
+        };
         panel.setLayout(null);
-        panel.setBackground(new Color(30, 30, 30));
 
         JLabel labelHora = new JLabel("Hora para dormir:");
         labelHora.setFont(new Font("Arial", Font.PLAIN, 14));
@@ -165,16 +193,12 @@ public class VentanaCalculadoraSueño extends JFrame implements Ejecutable {
 
         btnCalcular.addActionListener(e -> {
             String input = fieldHora.getText().trim();
-            if (!input.matches("\\d{2}:\\d{2}")) {
-                JOptionPane.showMessageDialog(ventana, "Formato de hora inválido. Usa HH:mm.");
-                return;
-            }
+            LocalTime horaDormir = parsearHora(input, ventana);
+            if (horaDormir == null) return;
 
-            LocalTime horaDormir = LocalTime.parse(input);
             List<LocalTime> opciones = new ArrayList<>();
             for (int ciclos = 3; ciclos <= 6; ciclos++) {
-                LocalTime horaDespertar = horaDormir.plusMinutes(ciclos * 90L);
-                opciones.add(horaDespertar);
+                opciones.add(horaDormir.plusMinutes(ciclos * 90L));
             }
 
             StringBuilder mensaje = new StringBuilder("Si te duermes a las " + horaDormir + ", podrías despertarte a:\n\n");
@@ -197,70 +221,62 @@ public class VentanaCalculadoraSueño extends JFrame implements Ejecutable {
         ventana.setVisible(true);
     }
 
-    private void crearVentanaInfo() {
-        JFrame ventana = new JFrame("¿Qué son los ciclos REM?");
-        ventana.setSize(500, 420);
-        ventana.setLocationRelativeTo(null);
-        ventana.setResizable(false);
-        ventana.setLayout(null);
+    private void mostrarVentanaInformacionREM() {
+        SwingUtilities.invokeLater(() -> {
+            JFrame ventana = new JFrame("¿Qué son los ciclos REM?");
+            ventana.setSize(500, 420);
+            ventana.setLocationRelativeTo(null);
+            ventana.setResizable(false);
 
-        JPanel panel = new JPanel();
-        panel.setLayout(null);
-        panel.setBackground(new Color(30, 30, 30));
+            JPanel panel = new JPanel() {
+                private final Image fondo = new ImageIcon(getClass().getResource("/img/fondo_calculadora.jpeg")).getImage();
+                @Override
+                protected void paintComponent(Graphics g) {
+                    super.paintComponent(g);
+                    g.drawImage(fondo, 0, 0, getWidth(), getHeight(), this);
+                }
+            };
+            panel.setLayout(null);
 
-        JTextArea infoArea = new JTextArea();
-        infoArea.setText("""
-            ¿Qué son los ciclos REM?
+            JTextArea infoArea = new JTextArea(""" 
+                ¿Qué son los ciclos REM?
+                
+                El sueño se divide en varias fases que forman un ciclo completo de aproximadamente 90 minutos. Cada ciclo incluye varias etapas esenciales para el descanso y la recuperación del cuerpo.
+                
+                Las fases del sueño son:
+                1. Fase 1 - Sueño Ligero (N1)
+                2. Fase 2 - Sueño Ligero Profundo (N2)
+                3. Fase 3 - Sueño Profundo (N3)
+                4. Fase 4 - Sueño REM (Rapid Eye Movement)
+                
+                El sueño REM es crucial para la memoria y la salud mental. Durante la noche, se repiten varios ciclos.
+                
+                Duración de los ciclos:
+                3 ciclos = 4.5 horas
+                4 ciclos = 6 horas
+                5 ciclos = 7.5 horas
+                6 ciclos = 9 horas
+            """);
+            infoArea.setWrapStyleWord(true);
+            infoArea.setLineWrap(true);
+            infoArea.setEditable(false);
+            infoArea.setBackground(new Color(50, 50, 50));
+            infoArea.setForeground(Color.WHITE);
+            infoArea.setFont(new Font("Arial", Font.PLAIN, 14));
 
-            El sueño se divide en varias fases que forman un ciclo completo de aproximadamente 90 minutos. Cada ciclo incluye varias etapas esenciales para el descanso y la recuperación del cuerpo.
+            JScrollPane scrollPane = new JScrollPane(infoArea);
+            scrollPane.setBounds(30, 20, 430, 300);
 
-            Las fases del sueño son:
+            JButton btnVolver = new JButton("Cerrar");
+            btnVolver.setBounds(150, 330, 200, 40);
+            btnVolver.addActionListener(e -> ventana.dispose());
 
-            1. Fase 1 - Sueño Ligero (N1)
-            2. Fase 2 - Sueño Ligero Profundo (N2)
-            3. Fase 3 - Sueño Profundo (N3)
-            4. Fase 4 - Sueño REM (Rapid Eye Movement)
+            panel.add(scrollPane);
+            panel.add(btnVolver);
 
-            El sueño REM es crucial para la memoria y la salud mental. Durante la noche, se repiten varios ciclos.
-
-            Duración de los ciclos:
-            3 ciclos = 4.5 horas
-            4 ciclos = 6 horas
-            5 ciclos = 7.5 horas
-            6 ciclos = 9 horas
-        """);
-        infoArea.setWrapStyleWord(true);
-        infoArea.setLineWrap(true);
-        infoArea.setEditable(false);
-        infoArea.setBackground(new Color(50, 50, 50));
-        infoArea.setForeground(Color.WHITE);
-        infoArea.setFont(new Font("Arial", Font.PLAIN, 14));
-
-        JScrollPane scrollPane = new JScrollPane(infoArea);
-        scrollPane.setBounds(30, 20, 430, 300);
-
-        JButton btnVolver = new JButton("Cerrar");
-        btnVolver.setBounds(150, 330, 200, 40);
-
-        btnVolver.addActionListener(e -> ventana.dispose());
-
-        panel.add(scrollPane);
-        panel.add(btnVolver);
-
-        ventana.setContentPane(panel);
-        ventana.setVisible(true);
-    }
-
-    private void estilizarBoton(JButton boton) {
-        boton.setFont(new Font("Arial", Font.PLAIN, 14));
-        boton.setBackground(new Color(50, 50, 50));
-        boton.setForeground(Color.WHITE);
-    }
-
-    private void estilizarRojo(JButton boton) {
-        boton.setFont(new Font("Arial", Font.PLAIN, 14));
-        boton.setBackground(new Color(150, 50, 50));
-        boton.setForeground(Color.WHITE);
+            ventana.setContentPane(panel);
+            ventana.setVisible(true);
+        });
     }
 
     @Override

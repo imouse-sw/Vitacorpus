@@ -15,54 +15,46 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
-public class VentanaRutinas extends JFrame implements Ejecutable
-{
+public class VentanaRutinas extends JFrame implements Ejecutable {
     private final JFrame frame;
     private static VentanaRutinas ventanaRutinas;
     private Usuario usuarioActual;
 
-    private VentanaRutinas()
-    {
+    private VentanaRutinas() {
         frame = new JFrame("Vitacorpus - ¡Rutinas para todos!");
         frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        frame.setSize(550,240);
+        frame.setSize(550, 340);
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
     }
 
-    public static VentanaRutinas getInstance()
-    {
-        if(ventanaRutinas==null)
-        {
+    public static VentanaRutinas getInstance() {
+        if (ventanaRutinas == null) {
             ventanaRutinas = new VentanaRutinas();
         }
         return ventanaRutinas;
     }
 
     @Override
-    public void run()
-    {
+    public void run() {
         SwingUtilities.invokeLater(() -> {
             usuarioActual = SessionManager.getUsuarioActual();
-            frame.getContentPane().removeAll();
-
-            JPanel mainPanel = new JPanel();
-            mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-            mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+            JPanel panelConFondo = crearPanelConFondo("/img/fondo_rutinas.jpeg");
+            panelConFondo.setLayout(new BoxLayout(panelConFondo, BoxLayout.Y_AXIS));
+            panelConFondo.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
             JLabel titulo = new JLabel("Elige una rutina según tu objetivo:");
             titulo.setFont(new Font("Arial", Font.BOLD, 16));
             titulo.setAlignmentX(Component.CENTER_ALIGNMENT);
-            mainPanel.add(titulo);
-            mainPanel.add(Box.createVerticalStrut(15));
+            panelConFondo.add(titulo);
+            panelConFondo.add(Box.createVerticalStrut(15));
 
             JPanel botonesPanel = new JPanel(new GridLayout(0, 2, 10, 10));
-            List<Rutina> rutinas = RutinaHiberImpl
-                    .getInstance()
+            botonesPanel.setOpaque(false);
+            List<Rutina> rutinas = RutinaHiberImpl.getInstance()
                     .findByObjetivoId(usuarioActual.getObjetivo().getId());
 
-            for (Rutina rutina : rutinas)
-            {
+            for (Rutina rutina : rutinas) {
                 JButton btn = new JButton(rutina.getRutina());
                 btn.addActionListener(e -> {
                     frame.dispose();
@@ -71,8 +63,8 @@ public class VentanaRutinas extends JFrame implements Ejecutable
                 botonesPanel.add(btn);
             }
 
-            mainPanel.add(botonesPanel);
-            mainPanel.add(Box.createVerticalStrut(20));
+            panelConFondo.add(botonesPanel);
+            panelConFondo.add(Box.createVerticalStrut(20));
 
             JButton volver = new JButton("Volver");
             volver.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -81,8 +73,8 @@ public class VentanaRutinas extends JFrame implements Ejecutable
                 VentanaMenu.getInstance().run();
             });
 
-            mainPanel.add(volver);
-            frame.setContentPane(mainPanel);
+            panelConFondo.add(volver);
+            frame.setContentPane(panelConFondo);
             frame.revalidate();
             frame.repaint();
             frame.setVisible(true);
@@ -90,35 +82,32 @@ public class VentanaRutinas extends JFrame implements Ejecutable
         });
     }
 
-
-    private void rutinaSeleccionada(Integer idRutina)
-    {
+    private void rutinaSeleccionada(Integer idRutina) {
         usuarioActual = SessionManager.getUsuarioActual();
 
         JFrame frameEjercicios = new JFrame("Vitacorpus - Tu rutina");
-        frameEjercicios.setSize(500, 500);
+        frameEjercicios.setSize(500, 400);
         frameEjercicios.setLocationRelativeTo(null);
         frameEjercicios.setResizable(false);
         frameEjercicios.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 
-        Ejercicio ejercicios = RutinaEjercicioHiberImpl
-                .getInstance()
+        Ejercicio ejercicios = RutinaEjercicioHiberImpl.getInstance()
                 .getEjercicioByRutinaId(idRutina);
 
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        panel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
+        JPanel panelConFondo = crearPanelConFondo("/img/fondo_r_dias.jpeg");
+        panelConFondo.setLayout(new BoxLayout(panelConFondo, BoxLayout.Y_AXIS));
+        panelConFondo.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
 
         JLabel titulo = new JLabel("¿Qué día deseas consultar?");
         titulo.setFont(new Font("Arial", Font.BOLD, 16));
         titulo.setAlignmentX(Component.CENTER_ALIGNMENT);
-        panel.add(titulo);
-        panel.add(Box.createVerticalStrut(20));
+        panelConFondo.add(titulo);
+        panelConFondo.add(Box.createVerticalStrut(20));
 
         JPanel gridPanel = new JPanel(new GridLayout(4, 2, 10, 10));
+        gridPanel.setOpaque(false);
         String[] dias = {"Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"};
-        for (String dia : dias)
-        {
+        for (String dia : dias) {
             JButton btn = new JButton(dia);
             btn.addActionListener(e -> getEjercicios(dia, ejercicios));
             gridPanel.add(btn);
@@ -128,10 +117,12 @@ public class VentanaRutinas extends JFrame implements Ejecutable
         btnSemana.addActionListener(e -> getEjercicios("Semana", ejercicios));
         gridPanel.add(btnSemana);
 
-        panel.add(gridPanel);
-        panel.add(Box.createVerticalStrut(15));
+        panelConFondo.add(gridPanel);
+        panelConFondo.add(Box.createVerticalStrut(15));
 
         JPanel botonesAbajo = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        botonesAbajo.setOpaque(false);
+
         JButton btnVideos = new JButton("Videos de ejercicios");
         btnVideos.addActionListener(e -> mostrarVideosEjercicios());
         botonesAbajo.add(btnVideos);
@@ -143,18 +134,13 @@ public class VentanaRutinas extends JFrame implements Ejecutable
         });
         botonesAbajo.add(btnVolver);
 
-        panel.add(botonesAbajo);
-
-        // ESTO FALTABA:
-        frameEjercicios.setContentPane(panel);
+        panelConFondo.add(botonesAbajo);
+        frameEjercicios.setContentPane(panelConFondo);
         frameEjercicios.setVisible(true);
         frameEjercicios.toFront();
     }
 
-
-
-    private void getEjercicios(String dia, Ejercicio ejercicio)
-    {
+    private void getEjercicios(String dia, Ejercicio ejercicio) {
         usuarioActual = SessionManager.getUsuarioActual();
 
         JFrame framePlan = new JFrame("Plan del día");
@@ -165,15 +151,12 @@ public class VentanaRutinas extends JFrame implements Ejecutable
         JPanel panel = new JPanel(new BorderLayout());
         framePlan.setContentPane(panel);
 
-        JLabel tituloTxt = new JLabel("");
-        tituloTxt.setFont(new Font("Arial",Font.BOLD,18));
-        tituloTxt.setForeground(Color.BLACK);
+        JLabel tituloTxt = new JLabel();
+        tituloTxt.setFont(new Font("Arial", Font.BOLD, 18));
         tituloTxt.setHorizontalAlignment(SwingConstants.CENTER);
 
-        String contenido = "";
-
-        if(dia.equalsIgnoreCase("semana"))
-        {
+        String contenido;
+        if (dia.equalsIgnoreCase("semana")) {
             contenido =
                     "Lunes:\n" + ejercicio.getEjercicioLunes() + "\n\n" +
                             "Martes:\n" + ejercicio.getEjercicioMartes() + "\n\n" +
@@ -182,13 +165,10 @@ public class VentanaRutinas extends JFrame implements Ejecutable
                             "Viernes:\n" + ejercicio.getEjercicioViernes() + "\n\n" +
                             "Sábado:\n" + ejercicio.getEjercicioSabado() + "\n\n" +
                             "Domingo:\n" + ejercicio.getEjercicioDomingo();
-            framePlan.setSize(450,400);
+            framePlan.setSize(450, 400);
             tituloTxt.setText("Estos son los ejercicios de la semana:");
-        }
-        else
-        {
-            contenido = switch (dia.toLowerCase())
-            {
+        } else {
+            contenido = switch (dia.toLowerCase()) {
                 case "lunes" -> ejercicio.getEjercicioLunes();
                 case "martes" -> ejercicio.getEjercicioMartes();
                 case "miércoles" -> ejercicio.getEjercicioMiercoles();
@@ -196,42 +176,40 @@ public class VentanaRutinas extends JFrame implements Ejecutable
                 case "viernes" -> ejercicio.getEjercicioViernes();
                 case "sábado" -> ejercicio.getEjercicioSabado();
                 case "domingo" -> ejercicio.getEjercicioDomingo();
-                default -> contenido;
+                default -> "";
             };
-            framePlan.setSize(450,180);
-            tituloTxt.setText("Estos son los ejercicios del día "+dia.toLowerCase()+":");
+            framePlan.setSize(450, 180);
+            tituloTxt.setText("Estos son los ejercicios del día " + dia.toLowerCase() + ":");
         }
-
-        panel.add(tituloTxt,BorderLayout.PAGE_START);
 
         JTextArea text = new JTextArea(contenido);
         text.setEditable(false);
         text.setLineWrap(true);
         text.setWrapStyleWord(true);
-        text.setFont(new Font("Arial",Font.PLAIN,15));
+        text.setFont(new Font("Arial", Font.PLAIN, 15));
 
         JScrollPane scrollPane = new JScrollPane(text);
-        panel.add(scrollPane,BorderLayout.CENTER);
 
         JButton btnVolver = new JButton("Volver");
         btnVolver.addActionListener(e -> framePlan.dispose());
-        panel.add(btnVolver,BorderLayout.PAGE_END);
+
+        panel.add(tituloTxt, BorderLayout.PAGE_START);
+        panel.add(scrollPane, BorderLayout.CENTER);
+        panel.add(btnVolver, BorderLayout.PAGE_END);
 
         framePlan.setVisible(true);
         framePlan.toFront();
         framePlan.requestFocus();
     }
 
-    private void mostrarVideosEjercicios()
-    {
+    private void mostrarVideosEjercicios() {
         JFrame ventanaVideos = new JFrame("Videos de ejercicios");
         ventanaVideos.setSize(600, 400);
         ventanaVideos.setLocationRelativeTo(null);
         ventanaVideos.setResizable(false);
         ventanaVideos.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        JPanel panel = new JPanel();
-        panel.setLayout(new BorderLayout(10, 10));
+        JPanel panel = new JPanel(new BorderLayout(10, 10));
         panel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
 
         JLabel titulo = new JLabel("Videos recomendados para tu rutina");
@@ -239,14 +217,12 @@ public class VentanaRutinas extends JFrame implements Ejecutable
         titulo.setHorizontalAlignment(SwingConstants.CENTER);
         panel.add(titulo, BorderLayout.PAGE_START);
 
-        JTextArea areaVideos = new JTextArea();
+        JTextArea areaVideos = new JTextArea("""
+            - Próximamente verás videos recomendados aquí.
+            - Según tu objetivo, agregaremos contenido útil.
+        """);
         areaVideos.setEditable(false);
         areaVideos.setFont(new Font("Arial", Font.PLAIN, 14));
-        areaVideos.setText("""
-            - ola aun no hay nada pero aqui se agregara todo jejejejejejejejejejej lol 
-            - lol
-            - setso
-            """); // Aquí puedes luego integrar videos según el objetivo del usuario
         JScrollPane scroll = new JScrollPane(areaVideos);
         panel.add(scroll, BorderLayout.CENTER);
 
@@ -259,12 +235,20 @@ public class VentanaRutinas extends JFrame implements Ejecutable
         ventanaVideos.toFront();
     }
 
-
-    @Override
-    public void setFlag(boolean flag)
-    {
-
+    private JPanel crearPanelConFondo(String rutaImagen) {
+        ImageIcon imagenFondo = new ImageIcon(getClass().getResource(rutaImagen));
+        JPanel panel = new JPanel() {
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                g.drawImage(imagenFondo.getImage(), 0, 0, getWidth(), getHeight(), this);
+            }
+        };
+        panel.setOpaque(false);
+        return panel;
     }
 
-
+    @Override
+    public void setFlag(boolean flag) {
+        // No implementado
+    }
 }

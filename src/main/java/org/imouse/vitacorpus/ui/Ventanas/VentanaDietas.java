@@ -15,52 +15,53 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class VentanaDietas extends JFrame implements Ejecutable
-{
+public class VentanaDietas extends JFrame implements Ejecutable {
     private final JFrame frame;
     private static VentanaDietas ventanaDietas;
     private Usuario usuarioActual;
 
-    private VentanaDietas()
-    {
+    private VentanaDietas() {
         frame = new JFrame("Vitacorpus - ¡Dietas para todos!");
         frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        frame.setSize(550,240);
+        frame.setSize(494, 240);
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
     }
 
-    public static VentanaDietas getInstance()
-    {
-        if(ventanaDietas==null)
-        {
+    public static VentanaDietas getInstance() {
+        if (ventanaDietas == null) {
             ventanaDietas = new VentanaDietas();
         }
         return ventanaDietas;
     }
 
     @Override
-    public void run()
-    {
-        SwingUtilities.invokeLater(() ->
-        {
+    public void run() {
+        SwingUtilities.invokeLater(() -> {
             usuarioActual = SessionManager.getUsuarioActual();
 
-            JPanel panel = new JPanel(new GridBagLayout());
-            frame.setContentPane(panel);
+            ImageIcon imagenFondo = new ImageIcon(getClass().getResource("/img/fondo_dietas.jpeg"));
+            JPanel panelConFondo = new JPanel() {
+                protected void paintComponent(Graphics g) {
+                    super.paintComponent(g);
+                    g.drawImage(imagenFondo.getImage(), 0, 0, getWidth(), getHeight(), this);
+                }
+            };
+            panelConFondo.setOpaque(false);
+            panelConFondo.setLayout(new GridBagLayout());
+            frame.setContentPane(panelConFondo);
 
             GridBagConstraints gbc = new GridBagConstraints();
-            gbc.insets = new Insets(5,5,5,5);
+            gbc.insets = new Insets(5, 5, 5, 5);
             gbc.fill = GridBagConstraints.CENTER;
             gbc.gridx = 0;
             gbc.gridy = 0;
             gbc.gridwidth = 2;
 
             JLabel tituloTxt = new JLabel("De acuerdo a tu objetivo, puedes elegir las siguientes dietas:");
-            panel.add(tituloTxt,gbc);
+            panelConFondo.add(tituloTxt, gbc);
 
-            List<Dieta> dietasPosibles = DietaHiberImpl
-                    .getInstance()
+            List<Dieta> dietasPosibles = DietaHiberImpl.getInstance()
                     .findByObjetivoId(usuarioActual.getObjetivo().getId());
 
             int fila = 1;
@@ -68,8 +69,7 @@ public class VentanaDietas extends JFrame implements Ejecutable
             gbc.gridwidth = 1;
             gbc.fill = GridBagConstraints.HORIZONTAL;
 
-            for(Dieta dieta : dietasPosibles)
-            {
+            for (Dieta dieta : dietasPosibles) {
                 JButton boton = new JButton(dieta.getDieta());
                 boton.addActionListener(e -> {
                     frame.dispose();
@@ -79,12 +79,12 @@ public class VentanaDietas extends JFrame implements Ejecutable
                 gbc.gridx = columna;
                 gbc.gridy = fila;
 
-                panel.add(boton, gbc);
+                panelConFondo.add(boton, gbc);
 
-                columna++; // hola esto es para que cada vez el gridx sea uno más grande entonces se mueve la columna lol
-                if (columna > 1) { // hola cuando la columna se vuelve 2 la regresa a 0 para q se apilen otra vez lol
+                columna++;
+                if (columna > 1) {
                     columna = 0;
-                    fila++; // cuando se vuelve a poner la primera columna se baja la fila y ya entonces queda para abajo
+                    fila++;
                 }
             }
 
@@ -95,9 +95,9 @@ public class VentanaDietas extends JFrame implements Ejecutable
             });
 
             gbc.gridx = 0;
-            gbc.gridy = 4;
+            gbc.gridy = fila + 1;
             gbc.gridwidth = 2;
-            panel.add(volver,gbc);
+            panelConFondo.add(volver, gbc);
 
             frame.setVisible(true);
             frame.toFront();
@@ -105,69 +105,57 @@ public class VentanaDietas extends JFrame implements Ejecutable
         });
     }
 
-    private void dietaSeleccionada(Integer idDieta)
-    {
+    private void dietaSeleccionada(Integer idDieta) {
         usuarioActual = SessionManager.getUsuarioActual();
 
         JFrame frameComidas = new JFrame("Vitacorpus - Tu dieta");
         frameComidas.setResizable(false);
         frameComidas.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-        frameComidas.setSize(600,400);
+        frameComidas.setSize(648, 400);
         frameComidas.setLocationRelativeTo(null);
 
-        Comida comidas = DietaComidaHiberImpl
-                .getInstance()
-                .getComidaByDietaId(idDieta);
+        Comida comidas = DietaComidaHiberImpl.getInstance().getComidaByDietaId(idDieta);
 
-        JPanel panel = new JPanel(new GridBagLayout());
-        frameComidas.setContentPane(panel);
+        ImageIcon imagenFondo = new ImageIcon(getClass().getResource("/img/fondo_d_dias.jpeg"));
+        JPanel panelConFondo = new JPanel() {
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                g.drawImage(imagenFondo.getImage(), 0, 0, getWidth(), getHeight(), this);
+            }
+        };
+        panelConFondo.setOpaque(false);
+        panelConFondo.setLayout(new GridBagLayout());
+        frameComidas.setContentPane(panelConFondo);
 
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(5,5,5,5);
+        gbc.insets = new Insets(5, 5, 5, 5);
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.gridwidth = 4;
         JLabel tituloTxt = new JLabel("¿Las comidas de qué días te gustaría observar?");
-        panel.add(tituloTxt,gbc);
+        panelConFondo.add(tituloTxt, gbc);
 
-        JButton btnLunes = new JButton("Lunes");
-        btnLunes.addActionListener(e -> getComidas("Lunes", comidas));
-        JButton btnMartes = new JButton("Martes");
-        btnMartes.addActionListener(e -> getComidas("Martes", comidas));
-        JButton btnMiercoles = new JButton("Miércoles");
-        btnMiercoles.addActionListener(e -> getComidas("Miercoles", comidas));
-        JButton btnJueves = new JButton("Jueves");
-        btnJueves.addActionListener(e -> getComidas("Jueves", comidas));
-        JButton btnViernes = new JButton("Viernes");
-        btnViernes.addActionListener(e -> getComidas("Viernes", comidas));
-        JButton btnSabado = new JButton("Sábado");
-        btnSabado.addActionListener(e -> getComidas("Sabado", comidas));
-        JButton btnDomingo = new JButton("Domingo");
-        btnDomingo.addActionListener(e -> getComidas("Domingo", comidas));
-        JButton btnSemana = new JButton("Quiero ver toda la semana");
-        btnSemana.addActionListener(e -> getComidas("Semana", comidas));
+        JButton[] botonesDias = {
+                crearBotonDia("Lunes", comidas),
+                crearBotonDia("Martes", comidas),
+                crearBotonDia("Miércoles", comidas),
+                crearBotonDia("Jueves", comidas),
+                crearBotonDia("Viernes", comidas),
+                crearBotonDia("Sábado", comidas),
+                crearBotonDia("Domingo", comidas),
+                crearBotonDia("Semana", comidas)
+        };
 
-        gbc.gridx = 0;
         gbc.gridwidth = 1;
-
-        gbc.gridy = 1;
-        panel.add(btnLunes,gbc);
-        gbc.gridy = 2;
-        panel.add(btnMartes,gbc);
-        gbc.gridy = 3;
-        panel.add(btnMiercoles,gbc);
-        gbc.gridy = 4;
-        panel.add(btnJueves,gbc);
-        gbc.gridy = 5;
-        panel.add(btnViernes,gbc);
-        gbc.gridy = 6;
-        panel.add(btnSabado,gbc);
-        gbc.gridy = 7;
-        panel.add(btnDomingo,gbc);
+        gbc.gridx = 0;
+        for (int i = 0; i < 7; i++) {
+            gbc.gridy = i + 1;
+            panelConFondo.add(botonesDias[i], gbc);
+        }
         gbc.gridy = 8;
-        panel.add(btnSemana,gbc);
+        panelConFondo.add(botonesDias[7], gbc); // botón de toda la semana
 
         JButton btnVolver = new JButton("Volver");
         btnVolver.addActionListener(e -> {
@@ -177,25 +165,28 @@ public class VentanaDietas extends JFrame implements Ejecutable
 
         gbc.gridx = 3;
         gbc.gridy = 9;
-        gbc.gridwidth = 1;
-        panel.add(btnVolver,gbc);
+        panelConFondo.add(btnVolver, gbc);
 
-        JPanel restricciones = getRestricciones(comidas,usuarioActual.getId());
-
+        JPanel restricciones = getRestricciones(comidas, usuarioActual.getId());
         gbc.gridx = 1;
         gbc.gridy = 1;
         gbc.gridwidth = 3;
         gbc.gridheight = 8;
         gbc.fill = GridBagConstraints.BOTH;
-        panel.add(restricciones,gbc);
+        panelConFondo.add(restricciones, gbc);
 
         frameComidas.setVisible(true);
         frameComidas.toFront();
         frameComidas.requestFocus();
     }
 
-    private void getComidas(String dia, Comida comida)
-    {
+    private JButton crearBotonDia(String dia, Comida comidas) {
+        JButton boton = new JButton(dia);
+        boton.addActionListener(e -> getComidas(dia, comidas));
+        return boton;
+    }
+
+    private void getComidas(String dia, Comida comida) {
         usuarioActual = SessionManager.getUsuarioActual();
 
         JFrame framePlan = new JFrame("Plan del día");
@@ -206,30 +197,24 @@ public class VentanaDietas extends JFrame implements Ejecutable
         JPanel panel = new JPanel(new BorderLayout());
         framePlan.setContentPane(panel);
 
-        JLabel tituloTxt = new JLabel("");
-        tituloTxt.setFont(new Font("Arial",Font.BOLD,18));
-        tituloTxt.setForeground(Color.BLACK);
+        JLabel tituloTxt = new JLabel();
+        tituloTxt.setFont(new Font("Arial", Font.BOLD, 18));
         tituloTxt.setHorizontalAlignment(SwingConstants.CENTER);
 
-        String contenido = "";
-
-        if(dia.equalsIgnoreCase("semana"))
-        {
+        String contenido;
+        if (dia.equalsIgnoreCase("semana")) {
             contenido =
                     "Lunes:\n" + comida.getComidasLunes() + "\n\n" +
-                    "Martes:\n" + comida.getComidasMartes() + "\n\n" +
-                    "Miércoles:\n" + comida.getComidasMiercoles() + "\n\n" +
-                    "Jueves:\n" + comida.getComidasJueves() + "\n\n" +
-                    "Viernes:\n" + comida.getComidasViernes() + "\n\n" +
-                    "Sábado:\n" + comida.getComidasSabado() + "\n\n" +
-                    "Domingo:\n" + comida.getComidasDomingo();
-            framePlan.setSize(450,400);
+                            "Martes:\n" + comida.getComidasMartes() + "\n\n" +
+                            "Miércoles:\n" + comida.getComidasMiercoles() + "\n\n" +
+                            "Jueves:\n" + comida.getComidasJueves() + "\n\n" +
+                            "Viernes:\n" + comida.getComidasViernes() + "\n\n" +
+                            "Sábado:\n" + comida.getComidasSabado() + "\n\n" +
+                            "Domingo:\n" + comida.getComidasDomingo();
+            framePlan.setSize(450, 400);
             tituloTxt.setText("Estas son las comidas de la semana:");
-        }
-        else
-        {
-            contenido = switch (dia.toLowerCase())
-            {
+        } else {
+            contenido = switch (dia.toLowerCase()) {
                 case "lunes" -> comida.getComidasLunes();
                 case "martes" -> comida.getComidasMartes();
                 case "miercoles" -> comida.getComidasMiercoles();
@@ -237,94 +222,77 @@ public class VentanaDietas extends JFrame implements Ejecutable
                 case "viernes" -> comida.getComidasViernes();
                 case "sabado" -> comida.getComidasSabado();
                 case "domingo" -> comida.getComidasDomingo();
-                default -> contenido;
+                default -> "";
             };
-            framePlan.setSize(450,180);
-            tituloTxt.setText("Estas son las comidas del día "+dia.toLowerCase()+":");
+            framePlan.setSize(450, 180);
+            tituloTxt.setText("Estas son las comidas del día " + dia.toLowerCase() + ":");
         }
-
-        panel.add(tituloTxt,BorderLayout.PAGE_START);
 
         JTextArea text = new JTextArea(contenido);
         text.setEditable(false);
         text.setLineWrap(true);
         text.setWrapStyleWord(true);
-        text.setFont(new Font("Arial",Font.PLAIN,15));
+        text.setFont(new Font("Arial", Font.PLAIN, 15));
 
         JScrollPane scrollPane = new JScrollPane(text);
-        panel.add(scrollPane,BorderLayout.CENTER);
 
         JButton btnVolver = new JButton("Volver");
         btnVolver.addActionListener(e -> framePlan.dispose());
-        panel.add(btnVolver,BorderLayout.PAGE_END);
+
+        panel.add(tituloTxt, BorderLayout.PAGE_START);
+        panel.add(scrollPane, BorderLayout.CENTER);
+        panel.add(btnVolver, BorderLayout.PAGE_END);
 
         framePlan.setVisible(true);
         framePlan.toFront();
         framePlan.requestFocus();
     }
 
-    private JPanel getRestricciones(Comida comidas, Integer idUsuario)
-    {
-        JPanel panel = new JPanel(new BorderLayout(5,5));
+    private JPanel getRestricciones(Comida comidas, Integer idUsuario) {
+        JPanel panel = new JPanel(new BorderLayout(5, 5));
 
-        Set<Integer> restriccionesUsuario  = UsuarioRestriccionHiberImpl
-                .getInstance()
+        Set<Integer> restriccionesUsuario = UsuarioRestriccionHiberImpl.getInstance()
                 .findByUsuarioId(idUsuario)
                 .stream()
                 .map(ur -> ur.getRestriccion().getId())
                 .collect(Collectors.toSet());
 
-        // Esto obtiene las restricciones de estas comidas en particular (las del lunes, las del martes, etc.)
-        List<ComidaRestriccion> todasLasRestricciones = ComidaRestriccionHiberImpl
-                .getInstance()
+        List<ComidaRestriccion> todasLasRestricciones = ComidaRestriccionHiberImpl.getInstance()
                 .findByComidaId(comidas.getId());
 
-        // Se filtran las que estén en el set del usuario :D
-        List<ComidaRestriccion> restriccionesAplicables = todasLasRestricciones
-                .stream()
+        List<ComidaRestriccion> restriccionesAplicables = todasLasRestricciones.stream()
                 .filter(cr -> restriccionesUsuario.contains(cr.getRestriccion().getId()))
                 .toList();
 
-        // Tabla vacía por si no hay restricciones :p
-        if (restriccionesAplicables.isEmpty())
-        {
+        if (restriccionesAplicables.isEmpty()) {
             JLabel label = new JLabel("¡Esta dieta no contiene alimentos restringidos por ti! 🥳");
-            panel.add(label,BorderLayout.CENTER);
+            panel.add(label, BorderLayout.CENTER);
             return panel;
         }
 
-        String[] columnas = {
-                "Alimento restringido",
-                "Sustituto 1",
-                "Sustituto 2"
-        };
+        String[] columnas = {"Alimento restringido", "Sustituto 1", "Sustituto 2"};
         String[][] datos = new String[restriccionesAplicables.size()][3];
 
-        for(int i=0;i<restriccionesAplicables.size();i++)
-        {
+        for (int i = 0; i < restriccionesAplicables.size(); i++) {
             Restriccion restriccion = restriccionesAplicables.get(i).getRestriccion();
             datos[i][0] = restriccion.getAlimento();
             datos[i][1] = restriccion.getSustituto1();
             datos[i][2] = restriccion.getSustituto2();
         }
 
-        JTable tabla = new JTable(datos,columnas);
-        tabla.setPreferredScrollableViewportSize(new Dimension(400,250));
-
+        JTable tabla = new JTable(datos, columnas);
+        tabla.setPreferredScrollableViewportSize(new Dimension(400, 250));
         JScrollPane scrollPane = new JScrollPane(tabla);
-        scrollPane.setPreferredSize(new Dimension(400, 250));
 
         JLabel label = new JLabel("Esta dieta contiene los siguientes alimentos restringidos por ti:");
 
-        panel.add(label,BorderLayout.NORTH);
-        panel.add(scrollPane,BorderLayout.CENTER);
-
+        panel.add(label, BorderLayout.NORTH);
+        panel.add(scrollPane, BorderLayout.CENTER);
         return panel;
     }
 
     @Override
-    public void setFlag(boolean flag)
-    {
-
+    public void setFlag(boolean flag) {
+        // No implementado
     }
 }

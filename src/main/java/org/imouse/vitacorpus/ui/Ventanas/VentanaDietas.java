@@ -180,7 +180,8 @@ public class VentanaDietas extends JFrame implements Ejecutable {
         frameComidas.requestFocus();
     }
 
-    private JButton crearBotonDia(String dia, Comida comidas) {
+    private JButton crearBotonDia(String dia, Comida comidas)
+    {
         JButton boton = new JButton(dia);
         boton.addActionListener(e -> getComidas(dia, comidas));
         return boton;
@@ -217,10 +218,10 @@ public class VentanaDietas extends JFrame implements Ejecutable {
             contenido = switch (dia.toLowerCase()) {
                 case "lunes" -> comida.getComidasLunes();
                 case "martes" -> comida.getComidasMartes();
-                case "miercoles" -> comida.getComidasMiercoles();
+                case "miércoles" -> comida.getComidasMiercoles();
                 case "jueves" -> comida.getComidasJueves();
                 case "viernes" -> comida.getComidasViernes();
-                case "sabado" -> comida.getComidasSabado();
+                case "sábado" -> comida.getComidasSabado();
                 case "domingo" -> comida.getComidasDomingo();
                 default -> "";
             };
@@ -248,7 +249,7 @@ public class VentanaDietas extends JFrame implements Ejecutable {
         framePlan.requestFocus();
     }
 
-    private JPanel getRestricciones(Comida comidas, Integer idUsuario) {
+    private JPanel getRestricciones(Comida comidas, Integer idUsuario){
         JPanel panel = new JPanel(new BorderLayout(5, 5));
 
         Set<Integer> restriccionesUsuario = UsuarioRestriccionHiberImpl.getInstance()

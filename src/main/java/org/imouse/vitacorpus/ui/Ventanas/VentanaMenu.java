@@ -14,6 +14,7 @@ public class VentanaMenu extends JFrame implements Ejecutable {
     private boolean flag = true;
     private JFrame frame;
     private JPanel fondoPanel;
+    private JLabel saludoUsuario;
 
     private VentanaMenu() {
         frame = new JFrame("Vitacorpus - ¡Bienvenido!");
@@ -59,12 +60,19 @@ public class VentanaMenu extends JFrame implements Ejecutable {
             gbc.gridy = 0;
             fondoPanel.add(saludo, gbc);
 
-            JLabel saludo2 = new JLabel("¿Qué vamos a hacer hoy, "+usuarioActual.getUsuario()+"?");
-            saludo2.setFont(new Font("Arial", Font.ITALIC, 16));
-            saludo2.setHorizontalAlignment(SwingConstants.CENTER);
-            saludo2.setForeground(Color.BLACK);
-            gbc.gridy = 1;
-            fondoPanel.add(saludo2, gbc);
+            if(saludoUsuario == null)
+            {
+                // El saludo del usuario solo se tiene que crear una vez aunque la ventana se reuse :)
+                saludoUsuario = new JLabel();
+                saludoUsuario.setFont(new Font("Arial", Font.ITALIC, 16));
+                saludoUsuario.setHorizontalAlignment(SwingConstants.CENTER);
+                saludoUsuario.setForeground(Color.BLACK);
+
+                gbc.gridy = 1;
+                fondoPanel.add(saludoUsuario, gbc);
+            }
+            // Saluda al usuario :D
+            saludoUsuario.setText("¿Qué vamos a hacer hoy, "+usuarioActual.getUsuario()+"?");
 
             JButton btnRegistro = new JButton("Registrar mis datos");
             gbc.gridy = 2;

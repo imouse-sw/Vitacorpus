@@ -40,9 +40,7 @@ public class HistorialDatosVentana extends JFrame {
         panelConFondo.setOpaque(false);
         setContentPane(panelConFondo);
 
-        String[] columnas = {
-                "#", "ID del registro", "Fecha", "Edad", "Peso", "Estatura", "IMC"
-        };
+        String[] columnas = {"#", "ID del registro", "Fecha", "Edad", "Peso", "Estatura", "IMC"};
 
         modeloTabla = new DefaultTableModel(columnas, 0) {
             @Override

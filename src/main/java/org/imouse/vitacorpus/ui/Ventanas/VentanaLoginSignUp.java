@@ -10,7 +10,8 @@ import java.awt.*;
 import java.util.List;
 
 @NoArgsConstructor
-public class VentanaLoginSignUp extends JFrame {
+public class VentanaLoginSignUp extends JFrame
+{
     private static VentanaLoginSignUp ventanaLoginSignUp;
     private JTextField emailField;
     private JPasswordField passwordField;
@@ -168,7 +169,7 @@ public class VentanaLoginSignUp extends JFrame {
     }
 
     private void mostrarMensaje(String mensaje, boolean autoCerrar) {
-        JDialog dialog = new JDialog(this, "Mensaje", true);
+        JDialog dialog = new JDialog(this, "Bienvenida", true);
         dialog.setSize(600, 125);
         dialog.setLocationRelativeTo(this);
         dialog.setLayout(new BorderLayout());

@@ -230,13 +230,11 @@ public class VentanaRegistroDatos extends JFrame implements Ejecutable {
                         JOptionPane.showMessageDialog(frameRegistro, "Edad inválida. No debe ser mayor a 120, ni menor a 0.");
                         return;
                     }
-
                     double peso = Double.parseDouble(pesoTxt);
                     if (peso <= 20 || peso >= 300) {
                         JOptionPane.showMessageDialog(frameRegistro, "Peso inválido. No debe ser menor de 20 ni mayor a 300.");
                         return;
                     }
-
                     double estatura = Double.parseDouble(estaturaTxt);
                     if (estatura >= 2.2 || estatura <= 1.2) {
                         JOptionPane.showMessageDialog(frameRegistro, "Estatura inválida. No debe ser menor a 1.2m ni mayor a 2.2m.");

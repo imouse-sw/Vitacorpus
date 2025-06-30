@@ -49,9 +49,8 @@ public class VentanaObjetivo extends JFrame implements Ejecutable {
             gbc.insets = new Insets(5, 5, 5, 5);
 
             Objetivo objetivoActual = usuarioActual.getObjetivo();
-            objetivoTxt = (objetivoActual == null)
-                    ? "¡No tienes un objetivo asignado!"
-                    : objetivoActual.getDescripcion();
+            if (objetivoActual == null) { objetivoTxt = "¡No tienes un objetivo asignado!"; }
+            else { objetivoTxt = objetivoActual.getDescripcion(); }
 
             gbc.gridx = 0;
             gbc.gridy = 0;
@@ -124,12 +123,8 @@ public class VentanaObjetivo extends JFrame implements Ejecutable {
         txt.setForeground(Color.BLACK);
         panel.add(txt);
 
-        String[] opciones = {
-                "Bajar grasa",
-                "Subir masa muscular",
-                "Definición corporal",
-                "Mejorar resistencia",
-                "Ejercicio por salud"
+        String[] opciones = { "Bajar grasa", "Subir masa muscular",
+                "Definición corporal", "Mejorar resistencia", "Ejercicio por salud"
         };
 
         for (int i = 0; i < opciones.length; i++) {

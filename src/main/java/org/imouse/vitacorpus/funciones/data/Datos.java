@@ -69,11 +69,11 @@ public class Datos extends ManejoMenus
             System.out.print("> Ingresa tu edad: ");
             edad = ReadUtil.readInt();
 
-            if(edad<=0 || edad>=120)
+            if(edad<=12 || edad>=120)
             {
                 System.out.println("❌ Introduce una edad válida.");
             }
-        }while(edad<=0 || edad>=120);
+        }while(edad<=12 || edad>=120);
         registroDatos.setEdad(ReadUtil.readInt());
 
         do
@@ -93,11 +93,11 @@ public class Datos extends ManejoMenus
             System.out.print("> Ingresa tu estatura (m): ");
             estatura = ReadUtil.readDouble();
 
-            if(estatura>=2.2||estatura<=1.2)
+            if(estatura>=2.5||estatura<=1.2)
             {
                 System.out.println("❌ Introduce una estatura válida.");
             }
-        } while(estatura>=2.2||estatura<=1.2);
+        } while(estatura>=2.5||estatura<=1.2);
         registroDatos.setEstatura(estatura);
 
         RegistroHiberImpl.getInstance().save(registroDatos);
